@@ -1,0 +1,25 @@
+include header
+
+include header-nav-panel
+
+div(class="container")
+      form(class='row g-3 needs-validation' novalidate)
+            div(class='col-md-12')
+                  label(for='name' class='form-label') Имя
+                  input(type='text' class='form-control' id='name'  placeholder='Имя' required)
+                  div(class="invalid-feedback") Пожалуйста, укажите корректно имя!
+            div(class='col-md-12')
+                  label(for='name' class='form-label') Фамилия
+                  input(type='text' class='form-control' id='surname'  placeholder='Фамилия' required)
+                  div(class="invalid-feedback") Пожалуйста, укажите корректно фамилию!      
+            div(class="col-md-12")
+                  label(for="phoneNumber" class="form-label") Номер телефона
+                  input(type="tel" minlength='11' id='phoneNumber' class="form-control" placeholder='38(000)000-00-00' required)
+                  div(class="invalid-feedback") Пожалуйста, укажите корректно номер телефона!     
+            div(class="col-12")
+                  button(class="btn btn-primary" type="submit") Submit form
+
+
+
+      script(src="js/callbackForm.js")
+//- include footer

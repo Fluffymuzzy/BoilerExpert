@@ -1,0 +1,24 @@
+include header
+
+div(class="container")
+    a(class="btn btn-dark"  href="/btn-reset" type="reset") RESET
+    table(class="table table-striped")
+        thead
+            tr
+                th(scope="col") ID
+                th(scope="col") NAME
+                th(scope="col") SURNAME
+                th(scope="col") NUMBER
+                th(scope="col") DATE
+        tbody
+            each val, index in callbacks    
+                tr 
+                    th= val["id"]
+                    td= val["username"]
+                    td= val["surname"]
+                    td
+                        a(href="tel:"+val["number"])= val["number"]
+                    td= val["unix_timestamp"]              
+        
+        
+    
