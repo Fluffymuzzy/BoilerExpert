@@ -1,31 +1,44 @@
+// Connect EXPRESS
 const express = require("express");
-const mySql = require("mysql");
 const app = express();
+
+// Connect DATABASE
+const mySql = require("mysql");
+
+// HOST
 const port = 3000;
 const hostname = "127.0.0.1";
 
 app.listen(port, () => {
-  console.log(`Server workin on http://${hostname}:${port}`);
+  console.log(`Server started on http://${hostname}:${port}`);
 });
 
+// create connection to db
 const connect = mySql.createConnection({
   host: "localhost",
   user: "sqluser",
   password: "password",
   database: "data_base",
 });
-
+// adding middleware function for parsing requset body
 app.use(express.urlencoded());
+// reading json
 app.use(express.json());
 
+// adding static files to server
+// app.use(express.static(__dirname, +"/public"));
+// app.use('/static', express.static(path.join(__dirname, '/public')))
+app.use(express.static('public'))
+
+
+// adding pug
 app.set("view engine", "pug");
 
-app.use(express.static(__dirname + "/public"));
+
 // MAIN PAGE
 app.get("/", (req, res) => {
   res.render("main");
 });
-
 
 // CALLBACK FORM
 app.get("/callbackForm", (req, res) => {
@@ -76,12 +89,12 @@ app.get("/btn-reset", (req, res) => {
 
 // PRICE LIST
 
-app.get("/priceList", (req, res) => {
-  res.render("priceList");
-});
+// app.get("/priceList", (req, res) => {
+//   res.render("priceList");
+// });
 
 // PORTFOLIO
 
-app.get("/portfolio", (req, res) => {
-  res.render("portfolio");
-});
+// app.get("/portfolio", (req, res) => {
+//   res.render("portfolio");
+// });

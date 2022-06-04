@@ -6,13 +6,6 @@ let slidePage = new fullpage("#fullpage", {
   responsiveWidth: 950,
 });
 
-// PARALLAX
-
-fullpage_api.parallax.setOption("type", "cover");
-
-fullpage_api.parallax.setOption("percentage", "62");
-
-fullpage_api.parallax.init();
 
 // HEADER STICKY
 window.onscroll = function () {
@@ -32,3 +25,6 @@ function myFunction() {
     header.classList.remove("sticky");
   }
 }
+
+// 
+
