@@ -1,70 +1,21 @@
 include header
 
-header(class="header layout-header")
-    div(class="header-top")
-        a(class="masthead-brand" href='/') BoilerExpert
-        div(class="menu" id="menu-header")
-            a(class="nav-link active" href="#") Главная 
-            a(class="nav-link" href="#") Наши преимущества 
-            a(class="nav-link" href="#") Каталог 
-            a(class="nav-link" href="#") Контакты 
-        a(class="callback" href='/callbackForm') Нужен ремонт? 
-    
-    div(id="fullpage") 
+include header-nav-panel
+div(id="fullpage")
+    div(class="section" id="main")
         div(class="main-page")
-            div(class="section" id="main")
-                div(class="main-content")
-                    div(class="page-title")
-                        h1 BOILEREXPERT!       
-                        h2 MY NAMES IS BETON! I'M HERE TO FIX YOUR MUTHUFUCKIN BOYLER!
+            div(class="main-content")
+                div(class="page-title")
+                    h1 BOILEREXPERT!       
+                    h2 MY NAMES IS BETON! I'M HERE TO FIX YOUR MUTHUFUCKIN BOYLER!
                 div(class="main-btns")    
                     div(class="btns")
                         a(class="buy" href='/') ПОКУПКА
                         a(class="fix" href='/') РЕМОНТ
-            div(class="image-fp")
-                img(src="https://boileryzapchasty.com.ua/img/content/product/742f7256139ff345e82fb11616e21a94.png")           
-        div(class="section" id="excellence")
-            div(class="service-page")
-                div(class="service-content")
-                    div(class="service-title")
-                        h2 НАШИ УСЛУГИ
-                    div(class="container-service")  
-                        div(class="service-item") РЕМОНТ
-                        div(class="service-item") УСТАНОВКА
-                        div(class="service-item") ОБСЛУЖИВАНИЕ
-                        div(class="service-item") ПРОДАЖА
-                div(class="excellence-content")
-                    div(class="excellence-title")
-                        h2 ПОЧЕМУ НАШИ КЛИЕНТЫ ДОВОЛЬНЫ? 
-                    div(class="container-excellence")
-                        div(class="excellence-item") ПОТОМУ ЧТО 
-                        div(class="excellence-item") ПОТОМУ ЧТО 
-                        div(class="excellence-item") ПОТОМУ ЧТО 
-                        div(class="excellence-item") ПОТОМУ ЧТО 
-                        div(class="excellence-item") ПОТОМУ ЧТО 
-                        div(class="excellence-item") ПОТОМУ ЧТО 
-        div(class="section" id="catalog")
-            H2 КАТАЛОГ
-        div(class="section" id="contacts")
-            H2 КОНТАКТЫ
+        div(class="image-fp")
+            img(src="https://boileryzapchasty.com.ua/img/content/product/742f7256139ff345e82fb11616e21a94.png")           
+    include service
+      
 
-
- 
-   
-   
-   
-   
-   
-   
     
-    script(src="https://unpkg.com/fullpage.js@4.0.9/dist/fullpage.min.js")
-    script(src="js/main.js")
-//- include priceList
-//- include footer                
-    
-    
-
-
-
-
-   
+      

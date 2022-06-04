@@ -14,7 +14,7 @@ app.listen(port, () => {
 });
 
 // create connection to db
-const connect = mySql.createConnection({
+const conn = mySql.createConnection({
   host: "localhost",
   user: "sqluser",
   password: "password",
@@ -26,19 +26,22 @@ app.use(express.urlencoded());
 app.use(express.json());
 
 // adding static files to server
-// app.use(express.static(__dirname, +"/public"));
-// app.use('/static', express.static(path.join(__dirname, '/public')))
-app.use(express.static('public'))
-
+app.use(express.static("public"));
 
 // adding pug
 app.set("view engine", "pug");
-
 
 // MAIN PAGE
 app.get("/", (req, res) => {
   res.render("main");
 });
+
+// EXCELLENCE PAGE
+app.get("/service", (req, res) => {
+  res.render("service")
+});
+
+// CATALOG PAGE 
 
 // CALLBACK FORM
 app.get("/callbackForm", (req, res) => {
@@ -59,7 +62,7 @@ app.post("/finish-callback", function (req, res) {
 });
 
 app.get("/admin-callbacks", (req, res) => {
-  connect.query(
+  conn.query(
     `SELECT id,username,surname,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
      FROM callback
      ORDER BY id DESC
@@ -76,8 +79,8 @@ app.get("/admin-callbacks", (req, res) => {
 // BTN
 
 app.get("/btn-reset", (req, res) => {
-  connect.query(
-    `
+  conn.query(
+  `
   TRUNCATE TABLE callback
   `,
     function (err, result) {
@@ -86,15 +89,3 @@ app.get("/btn-reset", (req, res) => {
     }
   );
 });
-
-// PRICE LIST
-
-// app.get("/priceList", (req, res) => {
-//   res.render("priceList");
-// });
-
-// PORTFOLIO
-
-// app.get("/portfolio", (req, res) => {
-//   res.render("portfolio");
-// });

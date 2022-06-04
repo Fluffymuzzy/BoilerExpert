@@ -1,11 +1,14 @@
 // Fullpage.js INITIALIZATION
 
 let slidePage = new fullpage("#fullpage", {
+  // all options here
+  
+
+  anchors: ["main", "service", "catalog", "contacts"],
   scrollingSpeed: 800,
   verticalCentered: false,
   responsiveWidth: 950,
 });
-
 
 // HEADER STICKY
 window.onscroll = function () {
@@ -26,5 +29,4 @@ function myFunction() {
   }
 }
 
-// 
-
+//
