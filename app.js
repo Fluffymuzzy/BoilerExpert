@@ -1,6 +1,7 @@
 // Connect EXPRESS
 const express = require("express");
 const app = express();
+// const router = express.Router();
 
 // Connect DATABASE
 const mySql = require("mysql");
@@ -9,7 +10,13 @@ const mySql = require("mysql");
 const port = 3000;
 const hostname = "127.0.0.1";
 
-app.listen(port, () => {
+// module.exports = router;
+
+app.listen(port, (err) => {
+  if (err) {
+    console.log("there was a problem", err);
+    return;
+  }
   console.log(`Server started on http://${hostname}:${port}`);
 });
 
@@ -33,15 +40,24 @@ app.set("view engine", "pug");
 
 // MAIN PAGE
 app.get("/", (req, res) => {
-  res.render("main");
+  let goods = new Promise((resolve, reject) => {
+    conn.query("SELECT * FROM goods ORDER BY id DESC LIMIT 3", (err, result) => {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+  Promise.all([goods]).then((value) => {
+    console.log(value[0]);
+    res.render("main", {
+      goods: value[0],
+    });
+  });
 });
 
-// EXCELLENCE PAGE
-app.get("/service", (req, res) => {
-  res.render("service")
+// CATALOG PAGE
+app.get("/catalogPage", (req, res) => {
+  res.send("<h1>PIZDA<h1/>");
 });
-
-// CATALOG PAGE 
 
 // CALLBACK FORM
 app.get("/callbackForm", (req, res) => {
@@ -63,10 +79,11 @@ app.post("/finish-callback", function (req, res) {
 
 app.get("/admin-callbacks", (req, res) => {
   conn.query(
-    `SELECT id,username,surname,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
-     FROM callback
-     ORDER BY id DESC
-  `,
+    `
+    SELECT id,username,surname,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
+    FROM callback
+    ORDER BY id DESC
+    `,
     function (err, result) {
       if (err) throw err;
       res.render("adminTable", {
@@ -76,11 +93,11 @@ app.get("/admin-callbacks", (req, res) => {
   );
 });
 
-// BTN
+// BTNS
 
 app.get("/btn-reset", (req, res) => {
   conn.query(
-  `
+    `
   TRUNCATE TABLE callback
   `,
     function (err, result) {
@@ -89,3 +106,7 @@ app.get("/btn-reset", (req, res) => {
     }
   );
 });
+
+app.get("");
+
+// ****************************************************************

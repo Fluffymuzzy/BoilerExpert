@@ -1,5 +1,7 @@
-div(class="section" id="catalog")
-            H2 КАТАЛОГ 
-include contacts                
-                 
-
+each value, index in goods
+        div(class="card text-white bg-dark mb-3" style="max-width: 18rem;")
+            div(class="card-header")= value["goods_name"] 
+            div(class="card-body")
+                img(src="/img/"+value["goods_image"] class="img-card")
+                h5(class="card-title")= value["goods_cost"] 
+                p(class="card-text")= value["goods_description"]      

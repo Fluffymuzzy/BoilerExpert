@@ -1,21 +1,22 @@
 include header
-
 include header-nav-panel
 div(id="fullpage")
-    div(class="section" id="main")
-        div(class="main-page")
-            div(class="main-content")
-                div(class="page-title")
-                    h1 BOILEREXPERT!       
-                    h2 MY NAMES IS BETON! I'M HERE TO FIX YOUR MUTHUFUCKIN BOYLER!
-                div(class="main-btns")    
-                    div(class="btns")
-                        a(class="buy" href='/') ПОКУПКА
-                        a(class="fix" href='/') РЕМОНТ
-        div(class="image-fp")
-            img(src="https://boileryzapchasty.com.ua/img/content/product/742f7256139ff345e82fb11616e21a94.png")           
-    include service
-      
-
-    
-      
+    div(class="section home" id="homePage") 
+        div(class="container-fluid")
+            div(class="home-content")
+                h1 BoilerExpert
+                h3 I'm here to fix your muthufuckin boyler!
+                p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                div(class="btns")
+                    button(class="callback-btn" href="") РЕМОНТ
+                    button(class="btn-buy" href="") КУПИТЬ
+            div(class="home-img")
+                img(src="https://boileryzapchasty.com.ua/img/content/product/742f7256139ff345e82fb11616e21a94.png")        
+    div(class="section services" id="servicesPage")
+        include services
+    div(class="section excellence" div="excellencePage")
+        include excellence
+    div(class="section catalog" id="catalog")
+        div(class="container-fluid container-catalog")
+           include catalog
+        include footer	 

@@ -1,11 +1,11 @@
 include header
-
-header(class="header layout-header")
-    div(class="header-top")
-        a(class="masthead-brand" href='/') BoilerExpert
-        div(class="menu" id="menu-header")
-            a(class="nav-link active" href="/") Главная 
-            a(class="nav-link" href="#") Наши преимущества 
-            a(class="nav-link" href="#") Каталог 
-            a(class="nav-link" href="#") Контакты 
-        a(class="callback" href='/callbackForm') Нужен ремонт?     
+nav(id="main-nav")
+    li(data-menuanchor="home" class="active")
+        a(href="#home") Главная
+    li(data-menuanchor="services")    
+        a(href="#services") Наши услуги  
+    li(data-menuanchor="excellence")    
+        a(href="#excellence") Наши преимущества
+    li(data-menuanchor="catalog")    
+        a(href="#catalog") Наши товары  
+    a(class="callback" href="") БРЯКНИ           
