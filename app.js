@@ -41,10 +41,13 @@ app.set("view engine", "pug");
 // MAIN PAGE
 app.get("/", (req, res) => {
   let goods = new Promise((resolve, reject) => {
-    conn.query("SELECT * FROM goods ORDER BY id DESC LIMIT 3", (err, result) => {
-      if (err) reject(err);
-      resolve(result);
-    });
+    conn.query(
+      "SELECT * FROM goods ORDER BY id DESC LIMIT 3",
+      (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      }
+    );
   });
   Promise.all([goods]).then((value) => {
     console.log(value[0]);
@@ -60,16 +63,12 @@ app.get("/catalogPage", (req, res) => {
 });
 
 // CALLBACK FORM
-app.get("/callbackForm", (req, res) => {
-  res.render("callbackForm");
-});
-
 app.post("/finish-callback", function (req, res) {
   let data = req.body;
   let nowDate = Math.trunc(Date.now() / 1000);
-  connect.query(
+  conn.query(
     `
-    INSERT INTO callback (username, surname, number, date) VALUES ("${data.name}", "${data.surname}", ${data.number}, ${nowDate})
+    INSERT INTO callback (username, number, date) VALUES ("${data.name}", ${data.number}, ${nowDate})
   `,
     function (err, result) {
       if (err) throw err;
@@ -80,7 +79,7 @@ app.post("/finish-callback", function (req, res) {
 app.get("/admin-callbacks", (req, res) => {
   conn.query(
     `
-    SELECT id,username,surname,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
+    SELECT id,username,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
     FROM callback
     ORDER BY id DESC
     `,
@@ -107,6 +106,6 @@ app.get("/btn-reset", (req, res) => {
   );
 });
 
-app.get("");
+// app.get("");
 
 // ****************************************************************

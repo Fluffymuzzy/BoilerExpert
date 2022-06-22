@@ -1,7 +1,9 @@
-each value, index in goods
-        div(class="card text-white bg-dark mb-3" style="max-width: 18rem;")
-            div(class="card-header")= value["goods_name"] 
-            div(class="card-body")
-                img(src="/img/"+value["goods_image"] class="img-card")
-                h5(class="card-title")= value["goods_cost"] 
-                p(class="card-text")= value["goods_description"]      
+div(class="catalog_title")
+    h2(class="title_custom") Случайные товары
+    each value, index in goods
+        div(class="catalog_item")
+            div(class="item_name")= value["goods_name"]
+            div(class="item_content")
+                img(class="item_img" src="/img/"+value["goods_image"])
+                h5(class="item_price")= value["goods_cost"]
+                p(class="item_desc")= value["goods_description"]

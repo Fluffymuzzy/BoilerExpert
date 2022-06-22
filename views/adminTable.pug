@@ -7,7 +7,6 @@ div(class="container")
             tr
                 th(scope="col") ID
                 th(scope="col") NAME
-                th(scope="col") SURNAME
                 th(scope="col") NUMBER
                 th(scope="col") DATE
         tbody
@@ -15,7 +14,6 @@ div(class="container")
                 tr 
                     th= val["id"]
                     td= val["username"]
-                    td= val["surname"]
                     td
                         a(href="tel:"+val["number"])= val["number"]
                     td= val["unix_timestamp"]              

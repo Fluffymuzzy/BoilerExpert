@@ -1,22 +1,33 @@
 include header
-include header-nav-panel
-div(id="fullpage")
-    div(class="section home" id="homePage") 
-        div(class="container-fluid")
-            div(class="home-content")
-                h1 BoilerExpert
-                h3 I'm here to fix your muthufuckin boyler!
+header(class="header")
+    div(class="container")
+        div(class="header_nav")
+            a(href="#" class="logo") BoilerExpert!
+            nav(class="navigation") 
+                ul(class="navigation_list")
+                    li(class="navigation_item")
+                        a(href="#" class="navigation_link active") Главная
+                    li(class="navigation_item")
+                        a(href="#" class="navigation_link") Наши услуги
+                    li(class="navigation_item")
+                        a(href="#" class="navigation_link") Каталог
+                    li(class="navigation_item")
+                        a(href="#" class="navigation_link") Контакты  
+        div(class="main_row")
+            div(class="main_content")
+                h1(class="main_title") BoilerExpert! 
                 p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                div(class="btns")
-                    button(class="callback-btn" href="") РЕМОНТ
-                    button(class="btn-buy" href="") КУПИТЬ
-            div(class="home-img")
-                img(src="https://boileryzapchasty.com.ua/img/content/product/742f7256139ff345e82fb11616e21a94.png")        
-    div(class="section services" id="servicesPage")
+                div(class="btns")    
+                    a(class="btn btn-danger") Купить!
+                    button(class="callback_btn") Брякни           
+            div(class="main_img")
+                img(src="https://boileryzapchasty.com.ua/img/content/product/742f7256139ff345e82fb11616e21a94.png" alt="Product")     
+section(class="services" id="servicesPage")
+    div(class="container") 
         include services
-    div(class="section excellence" div="excellencePage")
-        include excellence
-    div(class="section catalog" id="catalog")
-        div(class="container-fluid container-catalog")
-           include catalog
-        include footer	 
+section(class="catalog" id="catalog")
+    div(class="container")
+        include catalog	
+footer(class="footer" id="footer")
+    div(class="container")
+        include footer         
