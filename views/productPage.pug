@@ -2,18 +2,19 @@ include header
 include header-nav-panel
 
 section(class="product_page_detail")
-    div(class="container prod_page")
-        div(class="imagery")    
-            img(src="" alt="" class="product_page_img")
-        div(class="detail")  
-            h1 LOL
-            h2 Характеристики  
-            div(class="product_page_options")    
-                div(class="options_wrap")
-                    h3 Гарантия
-                    h3 Мощность тена
-                    h3 Нагревательный елем
-                    h3 Габариты
-            div(class="product_page_links")
-                a(href='#')
-                    i(class="fas fa-shopping-cart submit")        
+    each value, index in product
+        div(class="container prod_page")
+            div(class="imagery")    
+                img(src="/img/"+value["product_image"] alt="" class="product_page_img")
+            div(class="detail")  
+                h1= value["product_model"]
+                h2 Характеристики  
+                div(class="product_page_options")    
+                    div(class="options_wrap")
+                        h3= value["product_warranty"]
+                        h3= value["product_heatingPower"]
+                        h3= value["product_heatingType"]
+                        h3= value["product_dimensions"]
+                div(class="product_page_links")
+                    a(href='#')
+                        i(class="fas fa-shopping-cart submit")        

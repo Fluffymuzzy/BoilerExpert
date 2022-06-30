@@ -8,6 +8,7 @@ const responseHelper = require("express-response-helper").helper();
 
 // Connect DATABASE
 const mySql = require("mysql");
+const { log } = require("console");
 
 // HOST
 const port = 3000;
@@ -80,40 +81,26 @@ app.get("/catalogPage", (req, res) => {
   });
 });
 
-// PRODUCT PAGE
+// Product Page
 app.get("/productPage/:id", (req, res) => {
-  let id = req.params.id;
-  console.log(id);
-  conn.query(
-    `
-    SELECT * FROM product WHERE id = ${id}
-    `,
-    (err, result) => {
-      try {
-        console.log(result);
-        res.status(200).render("productPage");
-      } catch (err) {
-        console.log(err);
-        res.fail("Not Found", 404);
-      }
-    }
-  );
+  let productId = req.params.id;
+  let productData = new Promise((resolve, reject) => {
+    conn.query("SELECT * FROM product WHERE id=" + productId, function (
+      err,
+      result,
+    ) {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+  Promise.all([productData, productId]).then((value) => {
+    console.log(value[0]);
+    console.log(value[1]);
+    res.render("productPage", {
+      product: value[0],
+    });
+  });
 });
-
-// app.get("/productPage/:id", (req, res) => {
-//   let product = new Promise((resolve, reject) => {
-//     conn.query("SELECT * FROM product ORDER BY id = ${id}", (err, result) => {
-//       if (err) reject(err);
-//       resolve(result);
-//     });
-//   });
-//   Promise.all([product]).then((value) => {
-//     console.log(value[0]);
-//     res.render("productPage/:id", {
-//       product: value[0],
-//     });
-//   });
-// });
 
 // CALLBACK FORM
 app.post("/finish-callback", function (req, res) {
