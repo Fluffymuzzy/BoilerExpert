@@ -1,1 +1,29 @@
-include header    
+include header
+include header-nav-panel
+section(class="catalogPage_content")
+    div(class="container")
+        div(class="header") 
+        div(class="row")
+            each value, index in goods
+                div(class="col-lg-3 col-sm-6")
+                    a(href="/productPage/"+ value["id"])
+                        div(class="product-card")
+                            div(class="product-thumb")
+                                img(src="/img/"+value["goods_image"] class="card-img-top")
+                            div(class="product-details")
+                                h4= value["goods_name"]
+                                a(href="#")
+                                p(class="product-desc")= value["goods_description"]
+                            div(class="product-footer d-flex justify-content-between")
+                                div(class="product-price")= value["goods_cost"] 
+                                div(class="product-links")
+                                    a(href='#')
+                                        i(class="fas fa-shopping-cart")
+                                    a(href='#')
+                                        i(class="far fa-heart")
+
+
+
+
+    
+

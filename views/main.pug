@@ -1,33 +1,22 @@
 include header
-header(class="header")
-    div(class="container")
-        div(class="header_nav")
-            a(href="#" class="logo") BoilerExpert!
-            nav(class="navigation") 
-                ul(class="navigation_list")
-                    li(class="navigation_item")
-                        a(href="#" class="navigation_link active") Главная
-                    li(class="navigation_item")
-                        a(href="#" class="navigation_link") Наши услуги
-                    li(class="navigation_item")
-                        a(href="#" class="navigation_link") Каталог
-                    li(class="navigation_item")
-                        a(href="#" class="navigation_link") Контакты  
+include header-nav-panel 
+section(class="main" id="home")   
+    div(class="container main")
         div(class="main_row")
             div(class="main_content")
                 h1(class="main_title") BoilerExpert! 
                 p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                 div(class="btns")    
-                    a(class="btn btn-danger") Купить!
+                    a(class="btn btn-danger" href="/catalogPage") Купить!
                     button(class="callback_btn") Брякни           
             div(class="main_img")
                 img(src="https://boileryzapchasty.com.ua/img/content/product/742f7256139ff345e82fb11616e21a94.png" alt="Product")     
 section(class="services" id="servicesPage")
-    div(class="container") 
+    div(class="container service") 
         include services
 section(class="catalog" id="catalog")
     div(class="container")
         include catalog	
-footer(class="footer" id="footer")
+section(class="footer" id="footer")
     div(class="container")
         include footer         

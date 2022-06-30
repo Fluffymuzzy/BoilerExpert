@@ -1,137 +1,75 @@
-const name = document.querySelector("#name");
-const number = document.querySelector("#phoneNumber");
-const div = document.createElement("div");
-const form = document.querySelector(".needs-validation");
-div.classList.add("show_form");
-console.log(div.className);
+const openCallbackFormButton = document.querySelectorAll(".callback_btn");
+const form = `<div class='b'><p>Имя</p></div><input id='firstName' class='swal2-input' required/><div class='b'><p>Номер телефона</p></div><input id='phoneNumber' class='swal2-input' type='tel' minlength='12' placeholder='+38(000)000-00-00' >`;
 
-div.innerHTML = `
-<div class="popup-container">
-  <div class="popup-wrapper">
-    form(class='col needs-validation' novalidate)
-      <div class="col-md-12">
-        <label class="form-label" for="name">Имя</label>
-        <input class="form-control" type="text" id="name" placeholder="Имя" required="required"/>
-        <div class="invalid-feedback">Пожалуйста, укажите корректно имя!</div>
-      </div>
-      <div class="col-md-12">
-        <label class="form-label" for="phoneNumber">Номер телефона</label>
-        <input class="form-control" type="tel" minlength="11" id="phoneNumber" placeholder="+38(000)000-00-00" required="required"/>
-        <div class="invalid-feedback">Пожалуйста, укажите корректно номер телефона!</div>
-      </div>
-  </div>
-</div>
-`;
-
-// function bindEvent(callback, eventType, targets) {
-//   targets.forEach(function (target) {
-//     target.addEventListener(eventType, callback);
-//   });
-// }
-
-// const firstButton = document.querySelectorAll(".callback_btn");
-// const secondButton = document.querySelectorAll(".callback_btn_two");
-
-// bindEvent(
-//   function () {
-//     Swal.fire("Any fool can use a computer");
-//   },
-//   "click",
-//   firstButton,
-// );
-
-// bindEvent(
-//   function () {
-//     Swal.fire("Any fool can use a computer");
-//   },
-//   "click",
-//   secondButton
-// );
-
-document.querySelectorAll(".callback_btn").forEach((el) => {
-  el.onclick = () => el.classList.toggle("show");
-  Swal.fire({
-    title: "Вам брякнуть?",
-    icon: "question",
-    html: div,
-    showCloseButton: true,
-    showCancelButton: true,
-    showClass: {
-      popup: 'animate__animated animate__fadeInDown'
-    },
-    hideClass: {
-      popup: 'animate__animated animate__fadeOutUp'
-    }
+function bindEvent(callback, eventType, targets) {
+  targets.forEach(function (target) {
+    target.addEventListener(eventType, callback);
   });
-});
+}
+bindEvent(
+  function openForm() {
+    Swal.fire({
+      title: "Хотите оставить заявку на ремонт?",
+      icon: "question",
+      timerProgressBar: true,
+      showCloseButton: true,
+      confirmButtonText: "Да",
+      showClass: {
+        popup: "animate__animated animate__fadeInDown",
+      },
+      hideClass: {
+        popup: "animate__animated animate__fadeOutUp",
+      },
+    }).then((result) => {
+      console.log("result.value", result.value);
 
-// const openCallbackForm = document.querySelector(".callback_btn");
-// openCallbackForm.addEventListener("click", () => {
-//   Swal.fire({
-//     title: "Вам брякнуть?",
-//     icon: "question",
-//     html: div,
-//     showCloseButton: true,
-//     showCancelButton: true,
-//     showClass: {
-//       popup: 'animate__animated animate__fadeInDown'
-//     },
-//     hideClass: {
-//       popup: 'animate__animated animate__fadeOutUp'
-//     }
-//   });
-// });
-
-// div.addEventListener("submit", (event) => {
-//   event.preventDefault();
-//   if (!div.checkValidity()) {
-//     event.stopPropagation();
-//     div.classList.add("was-validated");
-//   } else {
-//     fetch("/finish-callback", {
-//       method: "POST",
-//       body: JSON.stringify({
-//         name: firstName.value.trim(),
-//         surname: surname.value.trim(),
-//         number: Number(number.value),
-//       }),
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//       },
-//     }).then(function (response) {
-//       return response.text();
-//     }).then(function(body){
-//         if(body==='1'){
-//             console.log('done');
-//         }
-//     })
-//   }
-// });
-
-// function sendDataToServer() {
-//   const form = document.querySelector(".needs-validation");
-//   if (!form.checkValidity()) {
-//     form.classList.add("was-validated");
-//   } else {
-//     fetch("/finish-callback", {
-//       method: "POST",
-//       body: JSON.stringify({
-//         name: firstName.value.trim(),
-//         number: Number(phoneNumber.value),
-//       }),
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//       },
-//     })
-//       .then(function (response) {
-//         return response.text();
-//       })
-//       .then(function (body) {
-//         if (body === "1") {
-//           console.log("done");
-//         }
-//       });
-//   }
-// }
+      if (result.value) {
+        Swal.fire({
+          title: "Представьтесь и оставьте ваш номер телефона",
+          icon: "question",
+          showCloseButton: true,
+          html: form,
+          confirmButtonText: "Оставить заявку",
+          preConfirm: () => {
+            if (
+              document.getElementById("firstName").value &&
+              document.getElementById("phoneNumber").value
+            ) {
+              return [
+                document.getElementById("phoneNumber").value,
+                document.getElementById("firstName").value,
+              ];
+            } else {
+              Swal.showValidationMessage("Пожалуйста заполните все поля");
+            }
+          },
+        })
+          .then((result) => {
+            if (result) {
+              fetch("/finish-callback", {
+                method: "POST",
+                body: JSON.stringify({
+                  name: firstName.value.trim(),
+                  number: Number(phoneNumber.value),
+                }),
+                headers: {
+                  Accept: "application/json",
+                  "Content-Type": "application/json",
+                },
+              });
+            }
+          })
+          .then(() => {
+            if (firstName.value && phoneNumber.value) {
+              Swal.fire({
+                icon: "success",
+                title: "Ожидайте звонка",
+              });
+            }
+          });
+      }
+    });
+  },
+  "click",
+  openCallbackFormButton
+);

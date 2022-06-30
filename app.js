@@ -1,7 +1,10 @@
-// Connect EXPRESS
+// Connect EXPRESSw
 const express = require("express");
 const app = express();
-// const router = express.Router();
+const router = express.Router();
+const path = require("path");
+
+const responseHelper = require("express-response-helper").helper();
 
 // Connect DATABASE
 const mySql = require("mysql");
@@ -29,11 +32,15 @@ const conn = mySql.createConnection({
 });
 // adding middleware function for parsing requset body
 app.use(express.urlencoded());
+
+app.use("/app", router);
+
 // reading json
 app.use(express.json());
 
 // adding static files to server
-app.use(express.static("public"));
+// app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // adding pug
 app.set("view engine", "pug");
@@ -59,8 +66,54 @@ app.get("/", (req, res) => {
 
 // CATALOG PAGE
 app.get("/catalogPage", (req, res) => {
-  res.send("<h1>PIZDA<h1/>");
+  let goods = new Promise((resolve, reject) => {
+    conn.query("SELECT * FROM goods ORDER BY id", (err, result) => {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+  Promise.all([goods]).then((value) => {
+    console.log(value[0]);
+    res.render("catalogPage", {
+      goods: value[0],
+    });
+  });
 });
+
+// PRODUCT PAGE
+app.get("/productPage/:id", (req, res) => {
+  let id = req.params.id;
+  console.log(id);
+  conn.query(
+    `
+    SELECT * FROM product WHERE id = ${id}
+    `,
+    (err, result) => {
+      try {
+        console.log(result);
+        res.status(200).render("productPage");
+      } catch (err) {
+        console.log(err);
+        res.fail("Not Found", 404);
+      }
+    }
+  );
+});
+
+// app.get("/productPage/:id", (req, res) => {
+//   let product = new Promise((resolve, reject) => {
+//     conn.query("SELECT * FROM product ORDER BY id = ${id}", (err, result) => {
+//       if (err) reject(err);
+//       resolve(result);
+//     });
+//   });
+//   Promise.all([product]).then((value) => {
+//     console.log(value[0]);
+//     res.render("productPage/:id", {
+//       product: value[0],
+//     });
+//   });
+// });
 
 // CALLBACK FORM
 app.post("/finish-callback", function (req, res) {
