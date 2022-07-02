@@ -40,7 +40,6 @@ app.use("/app", router);
 app.use(express.json());
 
 // adding static files to server
-// app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // adding pug
@@ -67,13 +66,13 @@ app.get("/", (req, res) => {
 
 // CATALOG PAGE
 app.get("/catalogPage", (req, res) => {
-  let goods = new Promise((resolve, reject) => {
-    conn.query("SELECT * FROM goods ORDER BY id", (err, result) => {
+  let allGoods = new Promise((resolve, reject) => {
+    conn.query(`SELECT * FROM goods ORDER BY id`, (err, result) => {
       if (err) reject(err);
       resolve(result);
     });
   });
-  Promise.all([goods]).then((value) => {
+  Promise.all([allGoods]).then((value) => {
     console.log(value[0]);
     res.render("catalogPage", {
       goods: value[0],
@@ -81,13 +80,13 @@ app.get("/catalogPage", (req, res) => {
   });
 });
 
-// Product Page
+// PRODUCT PAGE
 app.get("/productPage/:id", (req, res) => {
   let productId = req.params.id;
   let productData = new Promise((resolve, reject) => {
     conn.query("SELECT * FROM product WHERE id=" + productId, function (
       err,
-      result,
+      result
     ) {
       if (err) reject(err);
       resolve(result);
@@ -116,7 +115,17 @@ app.post("/finish-callback", function (req, res) {
   );
 });
 
-app.get("/admin-callbacks", (req, res) => {
+// ADMIN PANEL
+
+app.get("/login", (req, res) => {
+  res.render("loginPage")
+});
+
+app.get("/adminStartPage", (req, res) => {
+   res.send()
+});
+
+app.get("/adminStartPage/admin-callbacks", (req, res) => {
   conn.query(
     `
     SELECT id,username,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
@@ -132,7 +141,7 @@ app.get("/admin-callbacks", (req, res) => {
   );
 });
 
-// BTNS
+// BTNS admin
 
 app.get("/btn-reset", (req, res) => {
   conn.query(
@@ -141,11 +150,9 @@ app.get("/btn-reset", (req, res) => {
   `,
     function (err, result) {
       if (err) throw err;
-      res.redirect("/admin-callbacks");
+      res.redirect("/adminStartPage/admin-callbacks");
     }
   );
 });
-
-// app.get("");
 
 // ****************************************************************
