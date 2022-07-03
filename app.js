@@ -6,6 +6,8 @@ const path = require("path");
 
 const responseHelper = require("express-response-helper").helper();
 
+const main = require("./routes/mainRoutes");
+
 // Connect DATABASE
 const mySql = require("mysql");
 const { log } = require("console");
@@ -14,7 +16,7 @@ const { log } = require("console");
 const port = 3000;
 const hostname = "127.0.0.1";
 
-// module.exports = router;
+module.exports = router;
 
 app.listen(port, (err) => {
   if (err) {
@@ -116,16 +118,19 @@ app.post("/finish-callback", function (req, res) {
 });
 
 // ADMIN PANEL
-
-app.get("/login", (req, res) => {
-  res.render("loginPage")
+app.route("/login").get((req, res) => {
+  res.render("loginPage");
 });
 
-app.get("/adminStartPage", (req, res) => {
-   res.send()
+app.post("/login", function (req, res) {
+  updateLoginHash(req, res);
 });
 
-app.get("/adminStartPage/admin-callbacks", (req, res) => {
+app.get("/admin", (req, res) => {
+  res.render("adminStartPage");
+});
+
+app.get("/admin/admin-callbacks", (req, res) => {
   conn.query(
     `
     SELECT id,username,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
