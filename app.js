@@ -160,4 +160,8 @@ app.get("/btn-reset", (req, res) => {
   );
 });
 
-// ****************************************************************
+// shoppin cart
+
+app.get("/shoppingCart", (req, res) => {
+  res.render("shoppingCart");
+});

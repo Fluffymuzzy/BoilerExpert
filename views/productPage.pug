@@ -7,6 +7,7 @@ section(class="product_page_detail")
                 img(src="/img/"+value["product_image"] alt="" class="product_page_img")
             div(class="detail")    
                 h1= value["product_model"]
+                h2= value["goods_cost"] 
                 h2 Характеристики  
                 div(class="product_page_options")    
                     div(class="options_wrap")
@@ -17,7 +18,8 @@ section(class="product_page_detail")
                         div Тип нагревательного елемента    
                             h3= value["product_heatingType"]
                         div Габариты
-                            h3= value["product_dimensions"]
-                div(class="product_page_links")
-                    a(href='#')
-                        i(class="fas fa-shopping-cart submit")        
+                            h3= value["product_dimensions"]    
+                div(class="product-links")
+                    //- i(class="bi bi-dash-lg remove-from-cart")
+                    //- div(class="product-quantity" data-id= value["id"]) 0
+                    //- i(class="bi bi-plus-lg add-to-cart")
