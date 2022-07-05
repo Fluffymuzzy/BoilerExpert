@@ -106,6 +106,28 @@ app.get("/productPage/:id", (req, res) => {
 });
 
 
+app.post("/cartTest", (req, res) => {
+  if (req.body.key != "undefined" && req.body.key.length != 0) {
+    conn.query(
+      "SELECT id, goods_name, goods_cost, goods_image FROM goods WHERE id IN (" +
+        req.body.key.join(",") +
+        ")",
+      function (err, result, fileds) {
+        if (err) throw err;
+        let goods = {};
+        for (let i = 0; i < result.length; i++) {
+          goods[result[i]["id"]] = result[i];
+        }
+        res.json(goods);
+      }
+    );
+  } else {
+    res.send("0");
+  }
+});
+
+
+
 
 // CALLBACK FORM
 app.post("/finish-callback", function (req, res) {

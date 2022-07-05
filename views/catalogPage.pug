@@ -10,10 +10,8 @@ section(class="catalogPage_content")
                         div(class="product-card")
                             div(class="product-thumb")
                                 img(src="/img/"+value["goods_image"] class="card-img-top")
-                            div(class="product-details")
                                 h4= value["goods_name"]
                             div(class="product-footer d-flex justify-content-between")
                                 h3(class="product-price")= value["goods_cost"] 
                                 div(class="product-links")
-                                    i(class="bi bi-dash-lg remove-from-cart" data-id= value["id"])
-                                    i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
+                                    button(class="btn btn-primary add-to-cart" data-goods_id= value["id"])

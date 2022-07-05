@@ -1,4 +1,4 @@
-async function fetchingData(url, settings) {
+async function fetchData(url, settings) {
   try {
     let response = await fetch(url, settings);
     let data = await response.json();
@@ -8,4 +8,4 @@ async function fetchingData(url, settings) {
   }
 }
 
-export { fetchingData };
+export { fetchData };

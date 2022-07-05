@@ -1,23 +1,42 @@
-const cart = {};
+import {fetchData} from "./fetch.js";
+let cart = {};
 
 document.addEventListener("click", (event) => {
   if (event.target.classList.contains("add-to-cart")) {
-    addToCart(event.target.dataset.id);
+    addToCart(event.target);
   } else if (event.target.classList.contains("remove-from-cart")) {
   }
 });
-let productId = this.dataset.id;
-function addToCart() {
-  cart[productId]++;
-  renderCart();
+
+if (localStorage.getItem("cart")) {
+  cart = JSON.parse(localStorage.getItem("cart"));
+  ajaxGetGoodsInfo();
 }
 
-function removeFromCart() {
-  cart[productId]--;
-  renderCart();
+function addToCart(item) {
+  let dataId = item.dataset.id;
+  if (cart[dataId]) {
+    cart[dataId]++;
+  } else {
+    cart[dataId] = 1;
+  }
+  ajaxGetGoodsInfo();
 }
 
-function renderCart() {
-  console.log(cart);
+function ajaxGetGoodsInfo() {
+  cartUpdateLocalStorage();
+  fetchData("/cartTest", {
+    method: "POST",
+    body: JSON.stringify({ key: Object.keys(cart) }),
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  }).then((data) => {
+    console.log(data);
+  });
 }
-renderCart();
+
+function cartUpdateLocalStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
