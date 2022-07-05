@@ -310,3 +310,7 @@ body {
   color: red;
   padding: 3px;
 }
+
+i {
+  cursor: pointer;
+}

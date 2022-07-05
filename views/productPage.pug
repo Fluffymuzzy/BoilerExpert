@@ -1,25 +1,24 @@
 include header
-include header-nav-panel
+include navShoppingCart
 section(class="product_page_detail")
-    each value, index in product
+    each value, index in goods
         div(class="container prod_page")
             div(class="imagery")    
-                img(src="/img/"+value["product_image"] alt="" class="product_page_img")
+                img(src="/img/"+value["goods_image"] alt="" class="product_page_img")
             div(class="detail")    
-                h1= value["product_model"]
+                h1= value["goods_name"]
                 h2= value["goods_cost"] 
                 h2 Характеристики  
                 div(class="product_page_options")    
                     div(class="options_wrap")
                         div Гарантия
-                            h3= value["product_warranty"]
+                            h3= value["goods_warranty"]
                         div Мощность нагревательного елемента    
-                            h3= value["product_heatingPower"]
+                            h3= value["goods_heatingPower"]
                         div Тип нагревательного елемента    
-                            h3= value["product_heatingType"]
+                            h3= value["goods_heatingType"]
                         div Габариты
-                            h3= value["product_dimensions"]    
-                div(class="product-links")
-                    //- i(class="bi bi-dash-lg remove-from-cart")
-                    //- div(class="product-quantity" data-id= value["id"]) 0
-                    //- i(class="bi bi-plus-lg add-to-cart")
+                            h3= value["goods_dimensions"]    
+                //- div(class="product-links")
+                //-     i(class="bi bi-dash-lg remove-from-cart"  data-id= value["id"])
+                //-     i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])

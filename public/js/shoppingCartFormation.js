@@ -1,29 +1,23 @@
-let cart = {};
+const cart = {};
 
-document.querySelector(".add-to-cart").forEach((element) => {
-  element.onclick = addToCart;
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("add-to-cart")) {
+    addToCart(event.target.dataset.id);
+  } else if (event.target.classList.contains("remove-from-cart")) {
+  }
 });
-
+let productId = this.dataset.id;
 function addToCart() {
-  // let goodsId = this.dataset.id;
-  console.log("1");
+  cart[productId]++;
+  renderCart();
 }
 
-// if (localStorage.getItem("cart")) {
-//   cart = JSON.parse(localStorage.getItem("cart"));
-//   ajaxGetGoodsInfo();
-// }
+function removeFromCart() {
+  cart[productId]--;
+  renderCart();
+}
 
-// function addToCart() {
-//   let goodsId = this.dataset.id;
-
-//   if (cart[goodsId]) {
-//     cart[goodsId]++;
-//   } else {
-//     cart[goodsId] = 1;
-//   }
-//   console.log("1");
-//   ajaxGetGoodsInfo();
-
-// }
-
+function renderCart() {
+  console.log(cart);
+}
+renderCart();

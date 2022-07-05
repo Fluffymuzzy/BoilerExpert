@@ -1,5 +1,4 @@
 include header
-//- include header-nav-panel
 include navShoppingCart
 section(class="catalogPage_content")
     div(class="container")
@@ -13,18 +12,8 @@ section(class="catalogPage_content")
                                 img(src="/img/"+value["goods_image"] class="card-img-top")
                             div(class="product-details")
                                 h4= value["goods_name"]
-                                a(href="#")
-                                p(class="product-desc")= value["goods_description"]
                             div(class="product-footer d-flex justify-content-between")
                                 h3(class="product-price")= value["goods_cost"] 
                                 div(class="product-links")
-                                    i(class="bi bi-dash-lg remove-from-cart")
-                                    div(class="product-quantity" data-id= value["id"]) 0
-                                    i(class="bi bi-plus-lg add-to-cart")
-                                    
-
-
-
-
-    
-
+                                    i(class="bi bi-dash-lg remove-from-cart" data-id= value["id"])
+                                    i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])

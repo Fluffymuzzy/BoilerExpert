@@ -69,10 +69,13 @@ app.get("/", (req, res) => {
 // CATALOG PAGE
 app.get("/catalogPage", (req, res) => {
   let allGoods = new Promise((resolve, reject) => {
-    conn.query(`SELECT * FROM goods ORDER BY id`, (err, result) => {
-      if (err) reject(err);
-      resolve(result);
-    });
+    conn.query(
+      `SELECT id, goods_name, goods_image, goods_cost FROM goods ORDER BY id`,
+      (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      }
+    );
   });
   Promise.all([allGoods]).then((value) => {
     console.log(value[0]);
@@ -84,9 +87,9 @@ app.get("/catalogPage", (req, res) => {
 
 // PRODUCT PAGE
 app.get("/productPage/:id", (req, res) => {
-  let productId = req.params.id;
-  let productData = new Promise((resolve, reject) => {
-    conn.query("SELECT * FROM product WHERE id=" + productId, function (
+  let goodsId = req.params.id;
+  let goodsData = new Promise((resolve, reject) => {
+    conn.query(`SELECT * FROM goods WHERE id=` + goodsId, function (
       err,
       result
     ) {
@@ -94,14 +97,15 @@ app.get("/productPage/:id", (req, res) => {
       resolve(result);
     });
   });
-  Promise.all([productData, productId]).then((value) => {
-    console.log(value[0]);
-    console.log(value[1]);
+  Promise.all([goodsData]).then((value) => {
+    console.log([goodsData]);
     res.render("productPage", {
-      product: value[0],
+      goods: value[0],
     });
   });
 });
+
+
 
 // CALLBACK FORM
 app.post("/finish-callback", function (req, res) {
@@ -122,9 +126,9 @@ app.route("/login").get((req, res) => {
   res.render("loginPage");
 });
 
-app.post("/login", function (req, res) {
-  updateLoginHash(req, res);
-});
+// app.post("/login", function (req, res) {
+//   updateLoginHash(req, res);
+// });
 
 app.get("/admin", (req, res) => {
   res.render("adminStartPage");
@@ -164,4 +168,8 @@ app.get("/btn-reset", (req, res) => {
 
 app.get("/shoppingCart", (req, res) => {
   res.render("shoppingCart");
+});
+
+app.post("catalogPage/shoppingCartInfo", (req, res) => {
+  showShoppingCart(req, res);
 });
