@@ -5,13 +5,13 @@ section(class="catalogPage_content")
         div(class="header") 
         div(class="row catalog_row")
             each value, index in goods
-                div(class="col-lg-3 col-sm-6")
-                    a(href="/productPage/"+ value["id"])
-                        div(class="product-card")
-                            div(class="product-thumb")
-                                img(src="/img/"+value["goods_image"] class="card-img-top")
-                                h4= value["goods_name"]
-                            div(class="product-footer d-flex justify-content-between")
-                                h3(class="product-price")= value["goods_cost"] 
-                                div(class="product-links")
-                                    button(class="btn btn-primary add-to-cart" data-goods_id= value["id"])
+                div(class="col-lg-3 col-sm-6")         
+                    div(class="product-card")
+                        div(class="product-thumb")
+                            img(src="/img/"+value["goods_image"] class="card-img-top")
+                            h4= value["goods_name"]
+                                a(href="/productPage/"+ value["id"])
+                        div(class="product-footer d-flex justify-content-between")
+                            h3(class="product-price")= value["goods_cost"] 
+                            div(class="product-links")
+                                i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
