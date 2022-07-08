@@ -1,4 +1,4 @@
-// Connect EXPRESSw
+// Connect EXPRESS
 const express = require("express");
 const app = express();
 const router = express.Router();
@@ -173,6 +173,7 @@ app.get("/btn-reset", (req, res) => {
 app.get("/shoppingCart", (req, res) => {
   res.render("shoppingCart");
 });
+
 
 app.post("/cartTest", (req, res) => {
   if (req.body.key != "undefined" && req.body.key.length != 0) {
