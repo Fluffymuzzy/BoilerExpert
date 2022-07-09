@@ -105,30 +105,10 @@ app.get("/productPage/:id", (req, res) => {
   });
 });
 
-
-
-
-
-
-
-// CALLBACK FORM
-app.post("/finish-callback", function (req, res) {
-  let data = req.body;
-  let nowDate = Math.trunc(Date.now() / 1000);
-  conn.query(
-    `
-    INSERT INTO callback (username, number, date) VALUES ("${data.name}", ${data.number}, ${nowDate})
-  `,
-    function (err, result) {
-      if (err) throw err;
-    }
-  );
-});
-
 // ADMIN PANEL
-app.route("/login").get((req, res) => {
-  res.render("loginPage");
-});
+// app.route("/login").get((req, res) => {
+//   res.render("loginPage");
+// });
 
 // app.post("/login", function (req, res) {
 //   updateLoginHash(req, res);
@@ -137,6 +117,8 @@ app.route("/login").get((req, res) => {
 app.get("/admin", (req, res) => {
   res.render("adminStartPage");
 });
+
+// rendering callback page
 
 app.get("/admin/admin-callbacks", (req, res) => {
   conn.query(
@@ -154,6 +136,21 @@ app.get("/admin/admin-callbacks", (req, res) => {
   );
 });
 
+// saving callback from client to db
+
+app.post("/finish-callback", (req, res) => {
+  let data = req.body;
+  let nowDate = Math.trunc(Date.now() / 1000);
+  conn.query(
+    `
+    INSERT INTO callback (username, number, date) VALUES ("${data.name}", ${data.number}, ${nowDate})
+  `,
+    function (err, result) {
+      if (err) throw err;
+    }
+  );
+});
+
 // BTNS admin
 
 app.get("/btn-reset", (req, res) => {
@@ -163,7 +160,7 @@ app.get("/btn-reset", (req, res) => {
   `,
     function (err, result) {
       if (err) throw err;
-      res.redirect("/adminStartPage/admin-callbacks");
+      res.redirect("/admin/admin-callbacks");
     }
   );
 });
@@ -174,6 +171,61 @@ app.get("/shoppingCart", (req, res) => {
   res.render("shoppingCart");
 });
 
+// rendering order table
+
+app.get("/admin/orderPage", (req, res) => {
+  conn.query(
+    `SELECT
+          orders.id as id,
+          orders.goods_name as goods_name,
+          orders.goods_cost as goods_cost,
+          orders.goods_amount as goods_amount,
+          orders.total as total,
+          from_unixtime(date, '%D %M %Y %H:%i:%s') as unix_timestapm,
+          users.user_name as user,
+          users.user_phone as phone,
+          users.adress as adress
+          FROM 
+            orders
+          LEFT JOIN	
+            users
+            ON orders.user_id = orders.id ORDER BY id DESC
+    `,
+    function (err, result) {
+      if (err) throw err;
+      res.render("adminOrderPage", {
+        orders: JSON.parse(JSON.stringify(result)),
+      });
+    }
+  );
+});
+
+// saving order to db
+
+app.post("/finish-order", (data, res) => {
+  let sqlReq;
+
+  sqlReq = `INSERT INTO users (user_name, user_email, user_phone, adress) VALUES ('${data.userName}','${data.email}','${data.phoneNumber}','${data.adress}')`;
+
+  conn.query(sqlReq, (err, result) => {
+    if (err) throw err;
+    let userId = result.insertId;
+    let nowDate = Math.trunc(Date.now() / 1000);
+    for (let i = 0; i < res.length; i++) {
+      sqlReq = `INSERT INTO orders (date,user_id,goods_id,goods_cost,goods_amount,total) 
+     VALUES ('${nowDate}, ${userId}, ${res[i]["id"]}, ${
+        res[i]["goods_cost"]
+      }, ${data.key[res[i]["id"]]}, ${
+        data.key[res[i]["id"]] * res[i]["goods_cost"]
+      }')`;
+      conn.query(sqlReq, (err, result) => {
+        if (err) throw err;
+      });
+    }
+  });
+});
+
+// showin data from db in cart
 
 app.post("/cartTest", (req, res) => {
   if (req.body.key != "undefined" && req.body.key.length != 0) {

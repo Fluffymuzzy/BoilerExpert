@@ -170,10 +170,10 @@ body {
 
 .footer {
   padding: 90px 0;
-  text-align: center;
+  
 }
 
-.contacts_title {
+/* .contacts_title {
   margin-bottom: 40px;
 }
 
@@ -201,7 +201,7 @@ body {
 
 .show {
   visibility: visible;
-}
+} */
 
 /* Catalog Page */
 

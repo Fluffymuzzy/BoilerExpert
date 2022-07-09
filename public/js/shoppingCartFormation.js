@@ -1,4 +1,3 @@
-
 import { fetchData } from "./fetch.js";
 // window.onload = () => {
 let cart = {};
@@ -69,24 +68,26 @@ function ajaxGetGoodsInfo() {
     showCart(data);
   });
 }
-
 /**
- * It takes a JSON object and builds a string of HTML.
- * @param data - {
+ * If the cartBody and check variables are not null, then create a cardBody variable and a checkBody
+ * variable, and then create a totalItemCart variable and a totalCart variable, and then for each key
+ * in the cart object, add the key's value to the cardBody variable and the checkBody variable, and
+ * then add the key's value to the totalCart variable and the totalItemCart variable, and then set the
+ * cartBody's innerHTML to the cardBody variable and the check's innerHTML to the checkBody variable.
+ * @param data - the data that is returned from the server
+ * @returns the value of the variable cardBody.
  */
-
 
 function showCart(data) {
   let cartBody = document.querySelector(".cart-cards");
   let check = document.querySelector(".cart-check");
+  let totalAmount = document.querySelector(".amount_cart");
 
-  
-  if( cartBody == null && check == null )  {
+  if (cartBody == null && check == null) {
     return false;
   } else {
-
     let cardBody = ``;
-      let checkBody = `
+    let checkBody = `
         <div class="check-card">
           <div class="check-header">
             <h3>
@@ -97,11 +98,11 @@ function showCart(data) {
           <div class="check-body">
           `;
 
-      // let totalItemCart = 0;
-      let totalCart = 0;
+    let totalItemCart = 0;
+    let totalCart = 0;
 
-      for (let key in cart) {
-        cardBody += `
+    for (let key in cart) {
+      cardBody += `
       <div class="cart-card">
       <div class="cart-img">
           <img class="responsive-img rounded" src="/img/${
@@ -138,7 +139,7 @@ function showCart(data) {
   </div>
         `;
 
-        checkBody += `
+      checkBody += `
             <div class="check-description">
               <span>
                 ${data[key]["goods_name"]}
@@ -149,11 +150,11 @@ function showCart(data) {
             </div>
               `;
 
-        totalCart += cart[key] * data[key]["goods_cost"];
-        totalItemCart += cart[key];
-      }
+      totalCart += cart[key] * data[key]["goods_cost"];
+      totalItemCart += cart[key];
+    }
 
-      checkBody += `
+    checkBody += `
           </div>
           <hr>
           <div class="check-footer">
@@ -161,17 +162,17 @@ function showCart(data) {
             <p>
               <b>${totalCart}</b>
             </p>
+            <p>
+              <b>${totalItemCart}</b>
+            </p>
           </div>
       `;
 
-  document.querySelector(".amount_cart").innerHTML = totalCart;
-  // document.querySelector(".total-items").innerHTML = totalItemCart;
-  cartBody.innerHTML = cardBody;
-  check.innerHTML = checkBody;
     
-  }       
+    cartBody.innerHTML = cardBody;
+    check.innerHTML = checkBody;
+  }
 }
-
 
 /**
  * It takes the cart array and converts it to a string, then stores it in local storage.
@@ -179,4 +180,4 @@ function showCart(data) {
 function cartUpdateLocalStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
-
+// }
