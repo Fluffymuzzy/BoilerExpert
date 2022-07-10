@@ -11,6 +11,7 @@ const main = require("./routes/mainRoutes");
 // Connect DATABASE
 const mySql = require("mysql");
 const { log } = require("console");
+// const { log } = require("console");
 
 // HOST
 const port = 3000;
@@ -33,6 +34,9 @@ const conn = mySql.createConnection({
   password: "password",
   database: "data_base",
 });
+
+app.use(responseHelper);
+
 // adding middleware function for parsing requset body
 app.use(express.urlencoded());
 
@@ -48,6 +52,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "pug");
 
 // MAIN PAGE
+
 app.get("/", (req, res) => {
   let goods = new Promise((resolve, reject) => {
     conn.query(
@@ -67,6 +72,7 @@ app.get("/", (req, res) => {
 });
 
 // CATALOG PAGE
+
 app.get("/catalogPage", (req, res) => {
   let allGoods = new Promise((resolve, reject) => {
     conn.query(
@@ -86,6 +92,7 @@ app.get("/catalogPage", (req, res) => {
 });
 
 // PRODUCT PAGE
+
 app.get("/productPage/:id", (req, res) => {
   let goodsId = req.params.id;
   let goodsData = new Promise((resolve, reject) => {
@@ -116,6 +123,26 @@ app.get("/productPage/:id", (req, res) => {
 
 app.get("/admin", (req, res) => {
   res.render("adminStartPage");
+});
+
+// сreate product
+
+app.post("/createProduct", (req, res) => {
+  try {
+    console.log(req.body);
+    conn.query(
+      `
+    INSERT into goods (goods_name, goods_cost, goods_article, goods_image, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
+    VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.image}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
+    `,
+      (err, result) => {
+        if (err) throw err;
+        res.status(201).json(result);
+      }
+    );
+  } catch (err) {
+    res.status(400).json({ message: "err" });
+  }
 });
 
 // rendering callback page
@@ -165,7 +192,7 @@ app.get("/btn-reset", (req, res) => {
   );
 });
 
-// shoppin cart
+// SHOPPIN CART
 
 app.get("/shoppingCart", (req, res) => {
   res.render("shoppingCart");
@@ -173,7 +200,7 @@ app.get("/shoppingCart", (req, res) => {
 
 // rendering order table
 
-app.get("/admin/orderPage", (req, res) => {
+function orderPage(req, res, renderingPage) {
   conn.query(
     `SELECT
           orders.id as id,
@@ -189,41 +216,16 @@ app.get("/admin/orderPage", (req, res) => {
             orders
           LEFT JOIN	
             users
-            ON orders.user_id = orders.id ORDER BY id DESC
+            ON orders.user_id = users.id ORDER BY id DESC
     `,
     function (err, result) {
       if (err) throw err;
-      res.render("adminOrderPage", {
+      res.render(renderingPage, {
         orders: JSON.parse(JSON.stringify(result)),
       });
     }
   );
-});
-
-// saving order to db
-
-app.post("/finish-order", (data, res) => {
-  let sqlReq;
-
-  sqlReq = `INSERT INTO users (user_name, user_email, user_phone, adress) VALUES ('${data.userName}','${data.email}','${data.phoneNumber}','${data.adress}')`;
-
-  conn.query(sqlReq, (err, result) => {
-    if (err) throw err;
-    let userId = result.insertId;
-    let nowDate = Math.trunc(Date.now() / 1000);
-    for (let i = 0; i < res.length; i++) {
-      sqlReq = `INSERT INTO orders (date,user_id,goods_id,goods_cost,goods_amount,total) 
-     VALUES ('${nowDate}, ${userId}, ${res[i]["id"]}, ${
-        res[i]["goods_cost"]
-      }, ${data.key[res[i]["id"]]}, ${
-        data.key[res[i]["id"]] * res[i]["goods_cost"]
-      }')`;
-      conn.query(sqlReq, (err, result) => {
-        if (err) throw err;
-      });
-    }
-  });
-});
+}
 
 // showin data from db in cart
 
@@ -245,4 +247,60 @@ app.post("/cartTest", (req, res) => {
   } else {
     res.send("0");
   }
+});
+
+// saving order to db
+
+function saveOrder(data, res) {
+  let sqlReq;
+
+  sqlReq = `INSERT INTO users ( user_name, user_email, user_phone, adress) VALUES ('${data.userName}','${data.email}','${data.phoneNumber}','${data.adress}')`;
+
+  conn.query(sqlReq, (err, result) => {
+    if (err) throw err;
+    let userId = result.insertId;
+    let nowDate = Math.trunc(Date.now() / 1000);
+    for (let i = 0; i < res.length; i++) {
+      sqlReq = `INSERT INTO orders (date,user_id,goods_id,goods_cost,goods_amount,total) 
+     VALUES ('${nowDate}, ${userId}, ${res[i]["id"]}, ${
+        res[i]["goods_cost"]
+      }, ${data.key[res[i]["id"]]}, ${
+        data.key[res[i]["id"]] * res[i]["goods_cost"]
+      }')`;
+      conn.query(sqlReq, (err, result) => {
+        if (err) throw err;
+      });
+    }
+  });
+}
+
+// save data from cart
+
+function saveDataFromOrder(req, res) {
+  let keys;
+  if (req.body.key != null) {
+    keys = Object.keys(req.body.key);
+  } else {
+    keys = {};
+  }
+  console.log(keys);
+  if (keys.length > 0) {
+    conn.query(
+      "SELECT id, goods_name, goods_cost FROM goods WHERE id IN (" +
+        keys.join(",") +
+        ")",
+      (err, result, fields) => {
+        if (err) throw err;
+        saveOrder(req.body, result);
+        res.respond(200);
+      }
+    );
+  } else if (keys.length == 0 || keys.length == undefined) {
+    res.fail();
+  }
+}
+
+app.post("/endOfOrder", (req, res) => {
+  // saveDataFromCart(req, res);
+  console.log(saveDataFromOrder(req, res));
 });
