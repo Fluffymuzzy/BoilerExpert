@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 const path = require("path");
-
+const cloudinary = require("cloudinary").v2;
 const responseHelper = require("express-response-helper").helper();
 
 const main = require("./routes/mainRoutes");
@@ -11,7 +11,9 @@ const main = require("./routes/mainRoutes");
 // Connect DATABASE
 const mySql = require("mysql");
 const { log } = require("console");
-// const { log } = require("console");
+
+
+require("dotenv").config();
 
 // HOST
 const port = 3000;
@@ -64,7 +66,7 @@ app.get("/", (req, res) => {
     );
   });
   Promise.all([goods]).then((value) => {
-    console.log(value[0]);
+    // console.log(value[0]);
     res.render("main", {
       goods: value[0],
     });
@@ -84,7 +86,7 @@ app.get("/catalogPage", (req, res) => {
     );
   });
   Promise.all([allGoods]).then((value) => {
-    console.log(value[0]);
+    // console.log(value[0]);
     res.render("catalogPage", {
       goods: value[0],
     });
@@ -105,7 +107,7 @@ app.get("/productPage/:id", (req, res) => {
     });
   });
   Promise.all([goodsData]).then((value) => {
-    console.log([goodsData]);
+    // console.log([goodsData]);
     res.render("productPage", {
       goods: value[0],
     });
@@ -113,22 +115,18 @@ app.get("/productPage/:id", (req, res) => {
 });
 
 // ADMIN PANEL
-// app.route("/login").get((req, res) => {
-//   res.render("loginPage");
-// });
-
-// app.post("/login", function (req, res) {
-//   updateLoginHash(req, res);
-// });
-
 app.get("/admin", (req, res) => {
   res.render("adminStartPage");
 });
 
+app.get("/admin/addingProducts", (req, res) => {
+  res.render("adminAddingProductsPage");
+})
+
 // сreate product
 
-app.post("/createProduct", (req, res) => {
-  try {
+app.post("/admin/addingProducts/addNewProduct", (req, res) => {
+  // try {
     console.log(req.body);
     conn.query(
       `
@@ -137,12 +135,13 @@ app.post("/createProduct", (req, res) => {
     `,
       (err, result) => {
         if (err) throw err;
-        res.status(201).json(result);
+        res.status(201);
+        res.redirect("/admin");
       }
     );
-  } catch (err) {
-    res.status(400).json({ message: "err" });
-  }
+  // } catch (err) {
+    // res.status(400).json({ message: "err" });
+  // }
 });
 
 // rendering callback page
@@ -192,6 +191,18 @@ app.get("/btn-reset", (req, res) => {
   );
 });
 
+app.get("/btn-reset-orders", (req, res) => {
+  conn.query(
+    `
+  TRUNCATE TABLE orders
+  `,
+    function (err, result) {
+      if (err) throw err;
+      res.redirect("/admin/orderPage");
+    }
+  );
+});
+
 // SHOPPIN CART
 
 app.get("/shoppingCart", (req, res) => {
@@ -200,11 +211,12 @@ app.get("/shoppingCart", (req, res) => {
 
 // rendering order table
 
-function orderPage(req, res, renderingPage) {
+app.get("/admin/orderPage", (req, res) => {
   conn.query(
     `SELECT
           orders.id as id,
-          orders.goods_name as goods_name,
+          orders.user_id as user_id,
+          orders.goods_id as goods_id,
           orders.goods_cost as goods_cost,
           orders.goods_amount as goods_amount,
           orders.total as total,
@@ -218,14 +230,15 @@ function orderPage(req, res, renderingPage) {
             users
             ON orders.user_id = users.id ORDER BY id DESC
     `,
-    function (err, result) {
+    function (err, result, fields) {
+      // console.log(result);
       if (err) throw err;
-      res.render(renderingPage, {
+      res.render("adminOrderPage", {
         orders: JSON.parse(JSON.stringify(result)),
       });
     }
   );
-}
+});
 
 // showin data from db in cart
 
@@ -261,12 +274,10 @@ function saveOrder(data, res) {
     let userId = result.insertId;
     let nowDate = Math.trunc(Date.now() / 1000);
     for (let i = 0; i < res.length; i++) {
-      sqlReq = `INSERT INTO orders (date,user_id,goods_id,goods_cost,goods_amount,total) 
-     VALUES ('${nowDate}, ${userId}, ${res[i]["id"]}, ${
-        res[i]["goods_cost"]
-      }, ${data.key[res[i]["id"]]}, ${
-        data.key[res[i]["id"]] * res[i]["goods_cost"]
-      }')`;
+      sqlReq = `INSERT INTO orders (date,user_id,goods_id, goods_cost,goods_amount,total) 
+     VALUES (${nowDate}, ${userId}, ${res[i]["id"]}, ${res[i]["goods_cost"]}, ${
+        data.key[res[i]["id"]]
+      }, ${data.key[res[i]["id"]] * res[i]["goods_cost"]})`;
       conn.query(sqlReq, (err, result) => {
         if (err) throw err;
       });
@@ -283,7 +294,7 @@ function saveDataFromOrder(req, res) {
   } else {
     keys = {};
   }
-  console.log(keys);
+
   if (keys.length > 0) {
     conn.query(
       "SELECT id, goods_name, goods_cost FROM goods WHERE id IN (" +
@@ -293,6 +304,7 @@ function saveDataFromOrder(req, res) {
         if (err) throw err;
         saveOrder(req.body, result);
         res.respond(200);
+        return result;
       }
     );
   } else if (keys.length == 0 || keys.length == undefined) {
@@ -301,6 +313,6 @@ function saveDataFromOrder(req, res) {
 }
 
 app.post("/endOfOrder", (req, res) => {
-  // saveDataFromCart(req, res);
-  console.log(saveDataFromOrder(req, res));
+  saveDataFromOrder(req, res);
+  // console.log(saveDataFromOrder(req, res));
 });

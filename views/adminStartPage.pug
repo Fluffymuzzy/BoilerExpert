@@ -4,8 +4,12 @@ div(class='container')
     h1() ADMIN PANEL
     ul
         li
-            a(href='/' target='_blank') Перейти в магазин
+            a(href='/') Перейти в магазин
         li  
-            a(href='') Заказы
+            a(href='/admin/orderPage') Заказы
         li
-            a(href='') Товары
+            a(href='/admin/admin-callbacks') Заявки на ремонт
+        li
+            a(href='/admin/addingProducts') Товары
+    
+    include footer 

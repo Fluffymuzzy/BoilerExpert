@@ -1,0 +1,40 @@
+include header
+
+div(class='container')
+    h1 ADMIN PANEL/ORDERS_PAGE
+    div(class='admin-btns')
+        a(href="/admin" class='btn btn-primary') Come_back_to_reality 
+        a(class="btn btn-dark"  href="/btn-reset-orders" type="reset") Reset
+    h3 ИНФОРМАЦИЯ О ЗАКАЗЕ
+    table(class='table admin-table table-striped table-bordered')
+        thead
+            tr  
+                th(scope='col') id
+                th(scope='col') Дата
+                th(scope='col') ID пользователя
+                th(scope='col') ID товара
+                th(scope='col') Стоимость
+                th(scope='col') Кол-во
+                th(scope='col') Пользователь
+                th(scope='col') Телефон
+                th(scope='col') Адрес
+                th(scope='col') Общая сумма
+        tbody
+            tr
+                each value, index in orders 
+                    th(scope='col')= value['id']
+                    td= value['unix_timestapm']
+                    td= value['user_id'] 
+                    td= value['goods_id']
+                    td= value['goods_cost']
+                    td= value['goods_amount']
+                    td= value['user']
+                    td
+                        a(href='tel:'+value['phone'])= value['phone']
+                    td= value['adress'] 
+                    td= value['total']
+
+
+
+
+

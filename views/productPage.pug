@@ -4,7 +4,7 @@ section(class="product_page_detail")
     each value, index in goods
         div(class="container prod_page")
             div(class="imagery")    
-                img(src="/img/"+value["goods_image"] alt="" class="product_page_img")
+                img(src= value["goods_image"] alt="" class="product_page_img")
             div(class="detail")    
                 h1= value["goods_name"]
                 h2= value["goods_cost"] 
