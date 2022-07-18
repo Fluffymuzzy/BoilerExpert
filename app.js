@@ -12,7 +12,6 @@ const main = require("./routes/mainRoutes");
 const mySql = require("mysql");
 const { log } = require("console");
 
-
 require("dotenv").config();
 
 // HOST
@@ -119,30 +118,57 @@ app.get("/admin", (req, res) => {
   res.render("adminStartPage");
 });
 
-app.get("/admin/addingProducts", (req, res) => {
+app.get("/admin/adminProducts", (req, res) => {
+  res.render("adminProducts");
+});
+
+app.get("/admin/adminProducts/addingProducts", (req, res) => {
   res.render("adminAddingProductsPage");
-})
+});
+
+app.get("/admin/adminProducts/editProducts/:id", (req, res) => {
+  let dataId = req.params.id;
+  let allData = new Promise((resolve, reject) => {
+    conn.query(`SELECT * FROM goods WHERE id` + dataId, (err, result) => {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+  Promise.all([allData]).then((value) => {
+    res.render("adminEditProductsPage", {
+      goods: value[0],
+    });
+  });
+});
 
 // сreate product
 
-app.post("/admin/addingProducts/addNewProduct", (req, res) => {
+app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
   // try {
-    console.log(req.body);
-    conn.query(
-      `
+  console.log(req.body);
+  conn.query(
+    `
     INSERT into goods (goods_name, goods_cost, goods_article, goods_image, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
     VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.image}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
     `,
-      (err, result) => {
-        if (err) throw err;
-        res.status(201);
-        res.redirect("/admin");
-      }
-    );
+    (err, result) => {
+      if (err) throw err;
+      res.status(201);
+      res.redirect("/admin");
+    }
+  );
   // } catch (err) {
-    // res.status(400).json({ message: "err" });
+  // res.status(400).json({ message: "err" });
   // }
 });
+
+// update product
+app.post(
+  "/admin/adminProducts/editProducts/editExistingProduct",
+  (req, res) => {
+    console.log(req.body);
+  }
+);
 
 // rendering callback page
 
@@ -217,6 +243,7 @@ app.get("/admin/orderPage", (req, res) => {
           orders.id as id,
           orders.user_id as user_id,
           orders.goods_id as goods_id,
+          orders.goods_article as goods_article,
           orders.goods_cost as goods_cost,
           orders.goods_amount as goods_amount,
           orders.total as total,
@@ -231,7 +258,6 @@ app.get("/admin/orderPage", (req, res) => {
             ON orders.user_id = users.id ORDER BY id DESC
     `,
     function (err, result, fields) {
-      // console.log(result);
       if (err) throw err;
       res.render("adminOrderPage", {
         orders: JSON.parse(JSON.stringify(result)),
@@ -245,7 +271,7 @@ app.get("/admin/orderPage", (req, res) => {
 app.post("/cartTest", (req, res) => {
   if (req.body.key != "undefined" && req.body.key.length != 0) {
     conn.query(
-      "SELECT id, goods_name, goods_cost, goods_image FROM goods WHERE id IN (" +
+      "SELECT id, goods_name, goods_cost, goods_article, goods_image FROM goods WHERE id IN (" +
         req.body.key.join(",") +
         ")",
       function (err, result, fields) {
@@ -274,7 +300,7 @@ function saveOrder(data, res) {
     let userId = result.insertId;
     let nowDate = Math.trunc(Date.now() / 1000);
     for (let i = 0; i < res.length; i++) {
-      sqlReq = `INSERT INTO orders (date,user_id,goods_id, goods_cost,goods_amount,total) 
+      sqlReq = `INSERT INTO orders (date,user_id, goods_id, goods_cost,goods_amount,total) 
      VALUES (${nowDate}, ${userId}, ${res[i]["id"]}, ${res[i]["goods_cost"]}, ${
         data.key[res[i]["id"]]
       }, ${data.key[res[i]["id"]] * res[i]["goods_cost"]})`;
@@ -297,7 +323,7 @@ function saveDataFromOrder(req, res) {
 
   if (keys.length > 0) {
     conn.query(
-      "SELECT id, goods_name, goods_cost FROM goods WHERE id IN (" +
+      "SELECT id, goods_name, goods_cost, goods_article FROM goods WHERE id IN (" +
         keys.join(",") +
         ")",
       (err, result, fields) => {
@@ -314,5 +340,4 @@ function saveDataFromOrder(req, res) {
 
 app.post("/endOfOrder", (req, res) => {
   saveDataFromOrder(req, res);
-  // console.log(saveDataFromOrder(req, res));
 });

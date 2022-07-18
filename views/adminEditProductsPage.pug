@@ -1,0 +1,49 @@
+include header
+
+div(class="container")    
+    h1 ADMIN PANEL/PRODUCTS_PAGE/EDIT_PRODUCTS_PAGE
+    div(class='admin-btns')
+        a(href="/admin" class='btn btn-primary') Come_back_to_reality 
+        a(class="btn btn-dark"  href="" type="reset") RESET
+    h2 Editing_Control    
+    form(class="update-form needs-validation") 
+        div(class="card_holder")
+            div(class='card_content')   
+                div(class='card_description') 
+                    each value, index in goods
+                        div 
+                            label Add image from cloudinary  
+                            br
+                            input(class="upd_img_input" type="text" title="Text" name="image"  )
+                        div
+                            label(for='item_name') Model
+                            br
+                            input(name='item_name' id='upd_item_name' type="text" value=value["goods_name"] required )
+                        div
+                            label(for='item_cost') Price
+                            br
+                            input(name='item_cost' id='upd_item_cost' type="number" required)
+                            small &nbsp; uah
+                        div
+                            label(for='item_article') Article
+                            br
+                            input(name='item_article' id='upd_item_article' type="text" required)
+                        div
+                            label(for='item_warranty') Warranty
+                            br
+                            input(name='item_warranty' id='upd_item_warranty' type="number" required)
+                        div
+                            label(for='item_dimensions') Dimensions
+                            br
+                            input(name='item_dimensions' id='upd_item_dimensions' type="text" required)
+                        div
+                            label(for='item_heatingPower') HeatingPower
+                            br
+                            input(name='item_heatingPower' id='upd_item_heatingPower' type="text" required)
+                        div
+                            label(for='item_heatingType') HeatingType
+                            br
+                            input(name='item_heatingType' id='upd_item_heatingType' type="text" required)                  
+                        div
+                        button(type="submit" class='btn btn-success') UPDATE 
+    include footer                    

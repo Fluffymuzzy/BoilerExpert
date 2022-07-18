@@ -1,6 +1,5 @@
 const addForm = document.querySelector(".add_form");
 const addImg = document.querySelector(".add_img_input");
-// const btnAddImg = document.querySelector(".upload ");
 const cardWrapper = document.querySelector(".card_img");
 const productName = document.querySelector("#item_name");
 const productPrice = document.querySelector("#item_cost");
@@ -11,13 +10,8 @@ const productPower = document.querySelector("#item_heatingPower");
 const productType = document.querySelector("#item_heatingType");
 
 
-
-
-
-
-
 addForm.addEventListener("submit", () => {
-  fetch("/admin/addingProducts/addNewProduct", {
+  fetch("/admin/adminProducts/addingProducts/addNewProduct", {
     method: "POST",
     body: JSON.stringify({
       name: productName.value.trim(),

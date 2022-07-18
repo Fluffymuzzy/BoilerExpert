@@ -13,6 +13,7 @@ div(class='container')
                 th(scope='col') Дата
                 th(scope='col') ID пользователя
                 th(scope='col') ID товара
+                th(scope='col') Артикул
                 th(scope='col') Стоимость
                 th(scope='col') Кол-во
                 th(scope='col') Пользователь
@@ -25,7 +26,8 @@ div(class='container')
                     th(scope='col')= value['id']
                     td= value['unix_timestapm']
                     td= value['user_id'] 
-                    td= value['goods_id']
+                    td= value['goods_id'] 
+                    td= value['goods_article']
                     td= value['goods_cost']
                     td= value['goods_amount']
                     td= value['user']

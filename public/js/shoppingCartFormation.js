@@ -1,5 +1,5 @@
 import { fetchData } from "./fetch.js";
-// window.onload = () => {
+
 let cart = {};
 
 document.addEventListener("click", (event) => {
@@ -87,7 +87,7 @@ function showCart(data) {
       cardBody += `
       <div class="cart-card">
       <div class="cart-img">
-          <img class="responsive-img rounded" src="/img/${
+          <img class="responsive-img rounded" src="${
             data[key]["goods_image"]
           }" />
       </div>
@@ -97,6 +97,9 @@ function showCart(data) {
                   ${data[key]["goods_name"]}
               </a>
           </h4>
+          <h5>
+           ${data[key]["goods_article"]}
+          </h5>
           <div class="cart-total">
               <p class="cart-item-quantity">
                   <span>
