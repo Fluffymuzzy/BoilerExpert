@@ -9,8 +9,8 @@ section(class="catalogPage_content")
                     div(class="product-card")
                         div(class="product-thumb")
                             img(src= value["goods_image"] class="card-img-top")
+                            a(href="/productPage/"+ value["id"])
                             h4= value["goods_name"]
-                                a(href="/productPage/"+ value["id"])
                         div(class="product-footer d-flex justify-content-between")
                             h3(class="product-price")= value["goods_cost"] 
                             div(class="product-links")

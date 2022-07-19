@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 const path = require("path");
-const cloudinary = require("cloudinary").v2;
 const responseHelper = require("express-response-helper").helper();
 
 const main = require("./routes/mainRoutes");
@@ -11,8 +10,6 @@ const main = require("./routes/mainRoutes");
 // Connect DATABASE
 const mySql = require("mysql");
 const { log } = require("console");
-
-require("dotenv").config();
 
 // HOST
 const port = 3000;
@@ -106,7 +103,6 @@ app.get("/productPage/:id", (req, res) => {
     });
   });
   Promise.all([goodsData]).then((value) => {
-    // console.log([goodsData]);
     res.render("productPage", {
       goods: value[0],
     });
@@ -126,19 +122,47 @@ app.get("/admin/adminProducts/addingProducts", (req, res) => {
   res.render("adminAddingProductsPage");
 });
 
+app.post("/admin/adminProducts/editProducts", (req, res) => {
+
+})
+
+
 app.get("/admin/adminProducts/editProducts/:id", (req, res) => {
-  let dataId = req.params.id;
-  let allData = new Promise((resolve, reject) => {
-    conn.query(`SELECT * FROM goods WHERE id` + dataId, (err, result) => {
+  let prodId = req.params.id;
+  let prodData = new Promise((resolve, reject) => {
+    conn.query(`SELECT * FROM goods WHERE id =` + prodId, (err, result) => {
       if (err) reject(err);
       resolve(result);
     });
   });
-  Promise.all([allData]).then((value) => {
+  Promise.all([prodData]).then((value) => {
     res.render("adminEditProductsPage", {
-      goods: value[0],
+      product: value[0],
     });
   });
+});
+
+// update product
+
+app.post("/admin/adminProducts/editProducts/:id", (req, res) => {
+  conn.query(
+    `
+    UPDATE goods
+    SET goods_name = '${req.body.name}',
+        goods_image = '${req.body.image}',
+        goods_cost = '${req.body.cost}',
+        goods_article = '${req.body.article}',
+        goods_warranty = '${req.body.warranty}',
+        goods_dimensions = '${req.body.dimensions}',
+        goods_heatingPower = '${req.body.heatingPower}',
+        goods_heatingType = '${req.body.heatingType}'
+    WHERE id = '${req.body.id}',    
+    `,
+    (err, result) => {
+      if (err) throw err;
+      
+    }
+  );
 });
 
 // сreate product
@@ -161,14 +185,6 @@ app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
   // res.status(400).json({ message: "err" });
   // }
 });
-
-// update product
-app.post(
-  "/admin/adminProducts/editProducts/editExistingProduct",
-  (req, res) => {
-    console.log(req.body);
-  }
-);
 
 // rendering callback page
 

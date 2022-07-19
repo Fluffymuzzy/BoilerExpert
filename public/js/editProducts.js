@@ -9,10 +9,10 @@ const updProductWarranty = document.querySelector("#upd_item_warranty");
 const updProductDimensions = document.querySelector("#upd_item_dimensions");
 const updProductPower = document.querySelector("#upd_item_heatingPower");
 const updProductType = document.querySelector("#upd_item_heatingType");
-
+const idOfProduct = document.querySelector(".id");
 
 updateForm.addEventListener("submit", ()=> {
-    fetchData("/admin/adminProducts/editProducts/:id/editExistingProduct", {
+    fetchData("/admin/adminProducts/editProducts", {
         method: "POST",
         body: JSON.stringify({
             name: updProductName.value.trim(),
@@ -23,6 +23,7 @@ updateForm.addEventListener("submit", ()=> {
             dimensions: updProductDimensions.value.trim(),
             heatingPower: updProductPower.value.trim(),
             heatingType: updProductType.value.trim(),
+            id: Number(idOfProduct.innerHTML),
         }),
         headers: {
             Accept: "application/json",
