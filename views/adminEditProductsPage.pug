@@ -4,50 +4,23 @@ div(class="container")
     h1 ADMIN PANEL/PRODUCTS_PAGE/EDIT_PRODUCTS_PAGE
     div(class='admin-btns')
         a(href="/admin" class='btn btn-primary') Come_back_to_reality 
-        a(class="btn btn-dark"  href="" type="reset") RESET
-    h2 Editing_Control 
-        each value, index in goods   
-            form(class="update-form needs-validation")  
-                div(class="card_holder")
-                    div(class='card_content')   
-                        div(class='card_description') 
+        a(class="btn btn-dark"  href="" type="reset") RESET 
+    div(class='card_content container')
+        div(class="row catalog_row")   
+            each value, index in goods 
+                div(class="col-lg-3 col-sm-6")
+                    div(class="product-card")
+                        div(class="product-thumb") 
                             div
-                                label ID  
-                                br
-                                input(class="id_input" type="hidden" title="Text" name="id" value=value["id"])
+                                label ID:  
+                                p= value["id"]
+                            div
+                                img(src= value["goods_image"] class="img_admin_edit") 
                             div 
-                                label Add image from cloudinary  
-                                br
-                                input(class="upd_img_input" type="text" title="Text" name="image")
-                                input(class="prev_img_input" type="text" title="Text" name="image" value=value["goods_image"])
-                            div
-                                label(for='item_name') Model
-                                br
-                                input(name='item_name' id='upd_item_name' type="text" value=value["goods_name"] required )
-                            div
-                                label(for='item_cost') Price
-                                br
-                                input(name='item_cost' id='upd_item_cost' type="number" value=value["goods_cost"] required)
-                                small &nbsp; uah
-                            div
-                                label(for='item_article') Article
-                                br
-                                input(name='item_article' id='upd_item_article' type="text" value=value["goods_article"] required)
-                            div
-                                label(for='item_warranty') Warranty
-                                br
-                                input(name='item_warranty' id='upd_item_warranty' type="number" value=value["goods_warranty"] required)
-                            div
-                                label(for='item_dimensions') Dimensions
-                                br
-                                input(name='item_dimensions' id='upd_item_dimensions' type="text" value=value["goods_dimensions"] required)
-                            div
-                                label(for='item_heatingPower') HeatingPower
-                                br
-                                input(name='item_heatingPower' id='upd_item_heatingPower' type="text" value=value["goods_heatingPower"] required)
-                            div
-                                label(for='item_heatingType') HeatingType
-                                br
-                                input(name='item_heatingType' id='upd_item_heatingType' type="text" value=value["goods_heatingType"] required)                  
-                            button(type="submit" class='btn btn-success') UPDATE 
+                                label MODEL
+                                p= value["goods_name"] 
+                            div 
+                                label ARTICLE
+                                p= value["goods_article"]          
+                            a(href="/admin/adminProducts/editProducts/"+ value["id"] class='btn btn-primary') EDIT 
     include footer                    

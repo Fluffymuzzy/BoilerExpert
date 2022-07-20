@@ -15,6 +15,11 @@ body {
   gap: 8;
 }
 
+.img_admin_edit {
+  height: 200px;
+  width: auto;
+}
+
 /* Header */
 
 .header {

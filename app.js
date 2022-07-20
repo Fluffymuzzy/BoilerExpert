@@ -122,48 +122,60 @@ app.get("/admin/adminProducts/addingProducts", (req, res) => {
   res.render("adminAddingProductsPage");
 });
 
-app.post("/admin/adminProducts/editProducts", (req, res) => {
-
-})
-
-
-app.get("/admin/adminProducts/editProducts/:id", (req, res) => {
-  let prodId = req.params.id;
-  let prodData = new Promise((resolve, reject) => {
-    conn.query(`SELECT * FROM goods WHERE id =` + prodId, (err, result) => {
+app.get("/admin/adminProducts/editProducts", (req, res) => {
+  let allGoods = new Promise((resolve, reject) => {
+    conn.query(`SELECT * FROM goods ORDER BY id`, (err, result) => {
       if (err) reject(err);
       resolve(result);
     });
   });
-  Promise.all([prodData]).then((value) => {
+  Promise.all([allGoods]).then((value) => {
     res.render("adminEditProductsPage", {
-      product: value[0],
+      goods: value[0],
+    });
+  });
+});
+
+app.get("/admin/adminProducts/editProducts/:id", (req, res) => {
+  let goodsId = req.params.id;
+  let goodsData = new Promise((resolve, reject) => {
+    conn.query(`SELECT * FROM goods WHERE id=` + goodsId, function (
+      err,
+      result
+    ) {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+  Promise.all([goodsData]).then((value) => {
+    res.render("adminEditProduct", {
+      goods: value[0],
     });
   });
 });
 
 // update product
 
-app.post("/admin/adminProducts/editProducts/:id", (req, res) => {
-  conn.query(
-    `
-    UPDATE goods
-    SET goods_name = '${req.body.name}',
-        goods_image = '${req.body.image}',
-        goods_cost = '${req.body.cost}',
-        goods_article = '${req.body.article}',
-        goods_warranty = '${req.body.warranty}',
-        goods_dimensions = '${req.body.dimensions}',
-        goods_heatingPower = '${req.body.heatingPower}',
-        goods_heatingType = '${req.body.heatingType}'
-    WHERE id = '${req.body.id}',    
-    `,
-    (err, result) => {
-      if (err) throw err;
-      
-    }
-  );
-});
+// app.post("/admin/adminProducts/editProducts/:id", (req, res) => {
+//   conn.query(
+//     `
+//     UPDATE goods
+//     SET goods_name = '${req.body.name}',
+//         goods_image = '${req.body.image}',
+//         goods_cost = '${req.body.cost}',
+//         goods_article = '${req.body.article}',
+//         goods_warranty = '${req.body.warranty}',
+//         goods_dimensions = '${req.body.dimensions}',
+//         goods_heatingPower = '${req.body.heatingPower}',
+//         goods_heatingType = '${req.body.heatingType}'
+//     WHERE id = '${req.body.id}',
+//     `,
+//     (err, result) => {
+//       if (err) throw err;
+
+//     }
+//   );
+// });
 
 // сreate product
 

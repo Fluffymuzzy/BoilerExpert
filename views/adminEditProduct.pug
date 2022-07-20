@@ -1,0 +1,52 @@
+include header
+
+div(class="container")    
+    h1 ADMIN PANEL/PRODUCTS_PAGE/EDIT_PRODUCTS_PAGE/EDIT
+    div(class='admin-btns')
+        a(href="/admin" class='btn btn-primary') Come_back_to_reality 
+        a(class="btn btn-dark"  href="" type="reset") RESET
+    div(class="container prod_page")
+        each value, index in goods
+            div(class="imagery")    
+                img(src= value["goods_image"] alt="" class="product_page_img")
+            div(class="detail")
+                form(class="update-form needs-validation")   
+                    div 
+                        label Add image from cloudinary  
+                        br
+                        input(class="upd_img_input" type="text" title="Text" name="image")
+                        input(class="prev_img_input" type="text" title="Text" name="image" value=value["goods_image"])  
+                    div
+                        label(for='item_name') Model
+                        br
+                        input(name='item_name' id='upd_item_name' type="text" value=value["goods_name"] required )
+                    div
+                        label(for='item_cost') Price
+                        br
+                        input(name='item_cost' id='upd_item_cost' type="number" value=value["goods_cost"] required)
+                        small &nbsp; uah
+                    div
+                        label(for='item_article') Article
+                        br
+                        input(name='item_article' id='upd_item_article' type="text" value=value["goods_article"] required)
+                    h2 Характеристики  
+                    div(class="product_page_options")    
+                        div(class="options_wrap")
+                            div
+                                label(for='item_warranty') Warranty
+                                br
+                                input(name='item_warranty' id='upd_item_warranty' type="number" value=value["goods_warranty"] required)
+                            div
+                                label(for='item_dimensions') Dimensions
+                                br
+                                input(name='item_dimensions' id='upd_item_dimensions' type="text" value=value["goods_dimensions"] required)
+                            div
+                                label(for='item_heatingPower') HeatingPower
+                                br
+                                input(name='item_heatingPower' id='upd_item_heatingPower' type="text" value=value["goods_heatingPower"] required)
+                            div
+                                label(for='item_heatingType') HeatingType
+                                br
+                                input(name='item_heatingType' id='upd_item_heatingType' type="text" value=value["goods_heatingType"] required)   
+                    button(type="submit" class='btn btn-success') UPDATE
+    include footer                
