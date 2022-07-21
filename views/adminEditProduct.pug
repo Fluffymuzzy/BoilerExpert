@@ -11,11 +11,11 @@ div(class="container")
                 img(src= value["goods_image"] alt="" class="product_page_img")
             div(class="detail")
                 form(class="update-form needs-validation")   
+                    div(class="id")= value["id"]
                     div 
                         label Add image from cloudinary  
                         br
-                        input(class="upd_img_input" type="text" title="Text" name="image")
-                        input(class="prev_img_input" type="text" title="Text" name="image" value=value["goods_image"])  
+                        input(class="upd_img_input" type="text" title="Text" name="image" value=value["goods_image"]) 
                     div
                         label(for='item_name') Model
                         br
@@ -49,4 +49,8 @@ div(class="container")
                                 br
                                 input(name='item_heatingType' id='upd_item_heatingType' type="text" value=value["goods_heatingType"] required)   
                     button(type="submit" class='btn btn-success') UPDATE
+                    a(href="/deleteProduct/" + value["id"] class='btn btn-danger') DELETE
+
+    script(type="module" src="/js/editProducts.js")
+
     include footer                

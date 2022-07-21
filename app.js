@@ -154,33 +154,44 @@ app.get("/admin/adminProducts/editProducts/:id", (req, res) => {
   });
 });
 
+app.get("/deleteProduct/:id", (req, res) => {
+  let Id = req.params.id;
+  conn.query(
+    `
+    DELETE FROM goods WHERE id=` + Id,
+    (err, result) => {
+      if (err) throw err;
+      res.redirect("/admin/adminProducts/editProducts");
+    }
+  );
+});
+
 // update product
 
-// app.post("/admin/adminProducts/editProducts/:id", (req, res) => {
-//   conn.query(
-//     `
-//     UPDATE goods
-//     SET goods_name = '${req.body.name}',
-//         goods_image = '${req.body.image}',
-//         goods_cost = '${req.body.cost}',
-//         goods_article = '${req.body.article}',
-//         goods_warranty = '${req.body.warranty}',
-//         goods_dimensions = '${req.body.dimensions}',
-//         goods_heatingPower = '${req.body.heatingPower}',
-//         goods_heatingType = '${req.body.heatingType}'
-//     WHERE id = '${req.body.id}',
-//     `,
-//     (err, result) => {
-//       if (err) throw err;
-
-//     }
-//   );
-// });
+app.post("/admin/adminProducts/editProducts/editThisProduct", (req, res) => {
+  conn.query(
+    `
+    UPDATE goods
+    SET goods_name = '${req.body.name}',
+        goods_image = '${req.body.image}',
+        goods_cost = '${req.body.cost}',
+        goods_article = '${req.body.article}',
+        goods_warranty = '${req.body.warranty}',
+        goods_dimensions = '${req.body.dimensions}',
+        goods_heatingPower = '${req.body.heatingPower}',
+        goods_heatingType = '${req.body.heatingType}'
+    WHERE id = ${req.body.id}
+    `,
+    (err, result) => {
+      if (err) throw err;
+      res.status(201);
+    }
+  );
+});
 
 // сreate product
 
 app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
-  // try {
   console.log(req.body);
   conn.query(
     `
@@ -193,9 +204,6 @@ app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
       res.redirect("/admin");
     }
   );
-  // } catch (err) {
-  // res.status(400).json({ message: "err" });
-  // }
 });
 
 // rendering callback page
