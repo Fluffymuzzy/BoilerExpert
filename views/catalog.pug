@@ -4,6 +4,6 @@ div(class="catalog_title")
         div(class="catalog_item")
             div(class="item_name")= value["goods_name"]
             div(class="item_content")
-                img(class="item_img" src="/img/"+value["goods_image"])
+                img(class="item_img" src= value["goods_image"])
                 h5(class="item_price")= value["goods_cost"]
                 p(class="item_desc")= value["goods_description"]

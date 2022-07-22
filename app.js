@@ -4,6 +4,10 @@ const app = express();
 const router = express.Router();
 const path = require("path");
 const responseHelper = require("express-response-helper").helper();
+const cookie = require("cookie-parser");
+// const jwt = require("jsonwebtoken");
+// const bcrypt = require("bcryptjs");
+// require(".dotenv").config();
 
 const main = require("./routes/mainRoutes");
 
@@ -110,6 +114,7 @@ app.get("/productPage/:id", (req, res) => {
 });
 
 // ADMIN PANEL
+
 app.get("/admin", (req, res) => {
   res.render("adminStartPage");
 });
@@ -118,9 +123,51 @@ app.get("/admin/adminProducts", (req, res) => {
   res.render("adminProducts");
 });
 
-app.get("/admin/adminProducts/addingProducts", (req, res) => {
-  res.render("adminAddingProductsPage");
+// login
+
+app.get("/login", (req, res) => {
+  res.render("adminLoginPage");
 });
+
+function generateHash(length) {
+  let res = "";
+  let char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let charLength = char.length;
+  for (let i = 0; i < length; i++) {
+    res += char.charAt(Math.floor(Math.random() * charLength));
+  }
+  console.log(res);
+}
+
+app.post("/login", (req, res, next) => {
+  conn.query(
+    `SELECT * FROM admin WHERE login = '${req.body.login}' and password = '${req.body.password}'`,
+    (err, result) => {
+      if (err) throw err;
+
+      if (result.length == 0 || result == null) {
+        res.redirect("/login");
+        // console.log(result);
+      } else {
+        result = JSON.parse(JSON.stringify(result));
+        let hash = generateHash(32);
+        res.cookie("hash", hash);
+        res.cookie("id", result[0]["id"]);
+        let sqlReq = `UPDATE admin SET hash = '${hash}' WHERE id = '${result[0]["id"]}'`;
+        
+        conn.query(sqlReq, (err, result) => {
+          if (err) throw err;
+          // res.redirect("/login");
+          console.log(result);
+          res.send(200);
+        });
+
+      }
+    }
+  );
+});
+
+// edit product
 
 app.get("/admin/adminProducts/editProducts", (req, res) => {
   let allGoods = new Promise((resolve, reject) => {
@@ -166,8 +213,6 @@ app.get("/deleteProduct/:id", (req, res) => {
   );
 });
 
-// update product
-
 app.post("/admin/adminProducts/editProducts/editThisProduct", (req, res) => {
   conn.query(
     `
@@ -190,6 +235,10 @@ app.post("/admin/adminProducts/editProducts/editThisProduct", (req, res) => {
 });
 
 // сreate product
+
+app.get("/admin/adminProducts/addingProducts", (req, res) => {
+  res.render("adminAddingProductsPage");
+});
 
 app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
   console.log(req.body);
