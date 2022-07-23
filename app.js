@@ -66,7 +66,6 @@ app.get("/", (req, res) => {
     );
   });
   Promise.all([goods]).then((value) => {
-    // console.log(value[0]);
     res.render("main", {
       goods: value[0],
     });
@@ -86,7 +85,6 @@ app.get("/catalogPage", (req, res) => {
     );
   });
   Promise.all([allGoods]).then((value) => {
-    // console.log(value[0]);
     res.render("catalogPage", {
       goods: value[0],
     });
@@ -139,7 +137,7 @@ function generateHash(length) {
   console.log(res);
 }
 
-app.post("/login", (req, res, next) => {
+app.post("/login", (req, res) => {
   conn.query(
     `SELECT * FROM admin WHERE login = '${req.body.login}' and password = '${req.body.password}'`,
     (err, result) => {
@@ -154,18 +152,34 @@ app.post("/login", (req, res, next) => {
         res.cookie("hash", hash);
         res.cookie("id", result[0]["id"]);
         let sqlReq = `UPDATE admin SET hash = '${hash}' WHERE id = '${result[0]["id"]}'`;
-        
+
         conn.query(sqlReq, (err, result) => {
           if (err) throw err;
           // res.redirect("/login");
           console.log(result);
           res.send(200);
         });
-
       }
     }
   );
 });
+
+function hashValidation(req, res, next) {
+  if (req.cookies.id === undefined || req.cookies.hash === undefined) {
+    return;
+  }
+  conn.query(
+    `SELECT * FROM admin WHERE id=${req.cookies.id} and hash='${req.cookies.hash}'`,
+    (err, result) => {
+      if (err) throw err;
+      if (result.length === 0) {
+        res.redirect("/login");
+      } else {
+        next();
+      }
+    }
+  );
+}
 
 // edit product
 
