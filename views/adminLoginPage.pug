@@ -3,12 +3,12 @@ include header
 div(class="container")
     h1 ADMIN PANEL/LOGIN
         form(action='/login' method='POST' id='form' class='mb-3')
-        div
-            label(for='login' class='form-label') login
-            input(class="form-control" name='login' id="login")
-        div
-            label(for='password' class='form-label') password
-            input(type='password' name='password' class="form-control" id="password")
-        button(type="submit" class="btn btn-dark") Submit 
+            div
+                label(for='login' class='form-label') login
+                input(class="form-control" name='login' id="login")
+            div
+                label(for='password' class='form-label') password
+                input(type='password' name='password' class="form-control" id="password")
+            button(type="submit" class="btn btn-dark") Submit 
     
 include footer                

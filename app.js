@@ -4,7 +4,7 @@ const app = express();
 const router = express.Router();
 const path = require("path");
 const responseHelper = require("express-response-helper").helper();
-const cookie = require("cookie-parser");
+const cookieParser = require("cookie-parser");
 // const jwt = require("jsonwebtoken");
 // const bcrypt = require("bcryptjs");
 // require(".dotenv").config();
@@ -37,21 +37,30 @@ const conn = mySql.createConnection({
   database: "data_base",
 });
 
-app.use(responseHelper);
+app
+  .use("/app", router)
+  .use(responseHelper)
+  .use(express.urlencoded())
+  .use(express.json())
+  .use(cookieParser())
+  .use(express.static(path.join(__dirname, "public")))
+  .use((req, res, next) => {
+    if (
+      req.originalUrl === "/admin" ||
+      req.originalUrl === "/admin/orderPage" ||
+      req.originalUrl === "/admin/admin-callbacks" ||
+      req.originalUrl === "/admin/adminProducts" ||
+      req.originalUrl === "/admin/adminProducts/addingProducts" ||
+      req.originalUrl === "/admin/adminProducts/editProducts/" ||
+      req.originalUrl === "/admin/adminProducts/editProducts/:id"
+    ) {
+      hashValidation(req, res, next);
+    } else {
+      next();
+    }
+  })
 
-// adding middleware function for parsing requset body
-app.use(express.urlencoded());
-
-app.use("/app", router);
-
-// reading json
-app.use(express.json());
-
-// adding static files to server
-app.use(express.static(path.join(__dirname, "public")));
-
-// adding pug
-app.set("view engine", "pug");
+  .set("view engine", "pug");
 
 // MAIN PAGE
 
@@ -134,38 +143,12 @@ function generateHash(length) {
   for (let i = 0; i < length; i++) {
     res += char.charAt(Math.floor(Math.random() * charLength));
   }
-  console.log(res);
+  return res;
 }
-
-app.post("/login", (req, res) => {
-  conn.query(
-    `SELECT * FROM admin WHERE login = '${req.body.login}' and password = '${req.body.password}'`,
-    (err, result) => {
-      if (err) throw err;
-
-      if (result.length == 0 || result == null) {
-        res.redirect("/login");
-        // console.log(result);
-      } else {
-        result = JSON.parse(JSON.stringify(result));
-        let hash = generateHash(32);
-        res.cookie("hash", hash);
-        res.cookie("id", result[0]["id"]);
-        let sqlReq = `UPDATE admin SET hash = '${hash}' WHERE id = '${result[0]["id"]}'`;
-
-        conn.query(sqlReq, (err, result) => {
-          if (err) throw err;
-          // res.redirect("/login");
-          console.log(result);
-          res.send(200);
-        });
-      }
-    }
-  );
-});
 
 function hashValidation(req, res, next) {
   if (req.cookies.id === undefined || req.cookies.hash === undefined) {
+    res.redirect("/login");
     return;
   }
   conn.query(
@@ -180,6 +163,50 @@ function hashValidation(req, res, next) {
     }
   );
 }
+
+// app.use((req, res, next) => {
+//   if (
+//     req.originalUrl === "/admin" ||
+//     req.originalUrl === "/admin/orderPage" ||
+//     req.originalUrl === "/admin/admin-callbacks" ||
+//     req.originalUrl === "/admin/adminProducts" ||
+//     req.originalUrl === "/admin/adminProducts/addingProducts" ||
+//     req.originalUrl === "/admin/adminProducts/editProducts/" ||
+//     req.originalUrl === "/admin/adminProducts/editProducts/:id"
+//   ) {
+//     hashValidation(req, res, next);
+//   } else {
+//     next();
+//   }
+// })
+
+function updateLoginHash(req, res) {
+  conn.query(
+    `SELECT * FROM admin WHERE login = '${req.body.login}' and password = '${req.body.password}'`,
+    (err, result) => {
+      if (err) throw err;
+      if (result.length == 0 || result == null) {
+        res.redirect("/login");
+      } else {
+        result = JSON.parse(JSON.stringify(result));
+        let hash = generateHash(32);
+        let id = result[0]["id"];
+        res.cookie("hash", hash);
+        res.cookie("id", id);
+        let sqlReq = `UPDATE admin SET hash = '${hash}' WHERE id = '${id}'`;
+
+        conn.query(sqlReq, (err, result) => {
+          if (err) throw err;
+          res.redirect("/admin");
+        });
+      }
+    }
+  );
+}
+
+app.post("/login", (req, res) => {
+  updateLoginHash(req, res);
+});
 
 // edit product
 
@@ -399,8 +426,8 @@ function saveOrder(data, res) {
     let userId = result.insertId;
     let nowDate = Math.trunc(Date.now() / 1000);
     for (let i = 0; i < res.length; i++) {
-      sqlReq = `INSERT INTO orders (date,user_id, goods_id, goods_cost,goods_amount,total) 
-     VALUES (${nowDate}, ${userId}, ${res[i]["id"]}, ${res[i]["goods_cost"]}, ${
+      sqlReq = `INSERT INTO orders (date,user_id, goods_id, goods_article, goods_cost,goods_amount,total) 
+     VALUES (${nowDate}, ${userId}, ${res[i]["id"]}, '${res[i]["goods_article"]}', ${res[i]["goods_cost"]}, ${
         data.key[res[i]["id"]]
       }, ${data.key[res[i]["id"]] * res[i]["goods_cost"]})`;
       conn.query(sqlReq, (err, result) => {
@@ -429,7 +456,7 @@ function saveDataFromOrder(req, res) {
         if (err) throw err;
         saveOrder(req.body, result);
         res.respond(200);
-        return result;
+        // return result;
       }
     );
   } else if (keys.length == 0 || keys.length == undefined) {
@@ -438,5 +465,5 @@ function saveDataFromOrder(req, res) {
 }
 
 app.post("/endOfOrder", (req, res) => {
-  saveDataFromOrder(req, res);
+  saveDataFromOrder(req,res);
 });
