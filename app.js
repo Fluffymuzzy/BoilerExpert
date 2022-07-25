@@ -260,6 +260,8 @@ app.post("/admin/adminProducts/editProducts/editThisProduct", (req, res) => {
     UPDATE goods
     SET goods_name = '${req.body.name}',
         goods_image = '${req.body.image}',
+        goods_image2 = '${req.body.image2}',
+        goods_image3 = '${req.body.image3}',
         goods_cost = '${req.body.cost}',
         goods_article = '${req.body.article}',
         goods_warranty = '${req.body.warranty}',
@@ -285,8 +287,8 @@ app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
   console.log(req.body);
   conn.query(
     `
-    INSERT into goods (goods_name, goods_cost, goods_article, goods_image, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
-    VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.image}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
+    INSERT into goods (goods_name, goods_cost, goods_article, goods_image, goods_image2, goods_image3, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
+    VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.image}', '${req.body.image2}', '${req.body.image3}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
     `,
     (err, result) => {
       if (err) throw err;
@@ -427,7 +429,7 @@ function saveOrder(data, res) {
     let nowDate = Math.trunc(Date.now() / 1000);
     for (let i = 0; i < res.length; i++) {
       sqlReq = `INSERT INTO orders (date,user_id, goods_id, goods_article, goods_cost,goods_amount,total) 
-     VALUES (${nowDate}, ${userId}, ${res[i]["id"]}, '${res[i]["goods_article"]}', ${res[i]["goods_cost"]}, ${
+     VALUES (${nowDate}, ${userId}, '${res[i]["id"]}', '${res[i]["goods_article"]}', '${res[i]["goods_cost"]}', ${
         data.key[res[i]["id"]]
       }, ${data.key[res[i]["id"]] * res[i]["goods_cost"]})`;
       conn.query(sqlReq, (err, result) => {

@@ -85,6 +85,12 @@ body {
 .main {
   padding: 90px 0;
 }
+
+.main_title_img {
+  height: 500px; 
+  width: auto;
+}
+
 .main_row {
   display: flex;
   justify-content: space-between;
@@ -255,6 +261,11 @@ body {
   width: 60%;
   padding: 50px 100px;
   background-color: #212529;
+}
+
+.profile-img {
+  display: flex;
+  
 }
 
 .product_page_img {

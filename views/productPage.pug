@@ -3,8 +3,13 @@ include navShoppingCart
 section(class="product_page_detail")
     each value, index in goods
         div(class="container prod_page")
-            div(class="imagery")    
+            div(class="imagery container")    
                 img(src= value["goods_image"] alt="" class="product_page_img")
+                div(class='profile-img')
+                    a(data-fancybox="gallery" href= value["goods_image2"])
+                        img(class="rounded float-start" src= value["goods_image2"])
+                    a(data-fancybox="gallery" href= value["goods_image3"])    
+                        img(class="rounded float-end" src= value["goods_image3"])        
             div(class="detail")    
                 h1= value["goods_name"]
                 h2= value["goods_article"]
@@ -23,33 +28,7 @@ section(class="product_page_detail")
                 div(class="product-links")
                     i(class="bi bi-dash-lg remove-from-cart"  data-id= value["id"])
                     i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
-    include footer                
+    
+    script(src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js")
+include footer      
 
-//- div(class="container-fluid product_page_detail")
-//-     div(class="row")
-//-         div(class="col-md-10 col-12 mx-auto")
-//-             div(class="row mt-5 gx-3") 
-//-                 each value, index in goods
-//-                     div(class="col-md-12 col-lg-8 col-11 mx-auto main_cart mb-lg-0 mb-5 shadow") 
-//-                         div(class="card p-4") PRODUCT
-//-                             h2(class="py-4 font-weight-bold") 
-//-                             div(class="row") 
-//-                                 div(class="col-md-5 col-11 mx-auto bg-light d-flex justify-content-center align-items-center shadow product_img") 
-//-                                     img(src="/img/"+value["goods_image"] class="img-fluid" alt="water-heater") 
-//-                                 div(class="col-md-7 col-11 mx-auto px-4 mt-2")
-//-                                     div(class="row")
-//-                                         div(class="col-6 card-title")
-//-                                             h1(class="mb-4 product_model")= value["goods_name"] 
-//-                                             p(class="mb-2")= value["goods_heatingPower"]  
-//-                                             p(class="mb-2")= value["goods_heatingType"]
-//-                                             p(class="mb-2")= value["goods_dimensions"]
-//-                                             p(class="mb-2")= value["goods_warranty"] 
-//-                                     div(class="row")                       
-//-                                         div(class="col-4 d-flex justify-content-end card_amount")
-//-                                             h3(class="") $
-//-                                                 span(id="itemval")= value["goods_cost"]
-//-                                         div(class="col-8 d-flex justify-content-between")        
-//-                                         ul(class="pagination card-pag justify-content-end set_quantity")
-//-                                             i(class="bi bi-dash-lg remove-from-cart" data-id= value["id"])
-//-                                             i(class="bi bi-plus-lg add-to-cart" data-id= value["id"]) 
-    include footer
