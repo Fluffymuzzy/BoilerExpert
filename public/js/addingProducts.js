@@ -10,6 +10,7 @@ const productWarranty = document.querySelector("#item_warranty");
 const productDimensions = document.querySelector("#item_dimensions");
 const productPower = document.querySelector("#item_heatingPower");
 const productType = document.querySelector("#item_heatingType");
+const productLiter = document.querySelector("#item_liter")
 
 
 addForm.addEventListener("submit", () => {
@@ -22,6 +23,7 @@ addForm.addEventListener("submit", () => {
       image2: addSecImg.value.trim(),
       image3: addThirdImg.value.trim(),
       article: productArticle.value.trim(),
+      liter: productLiter.value.trim(),
       warranty: productWarranty.value.trim(),
       dimensions: productDimensions.value.trim(),
       heatingPower: productPower.value.trim(),

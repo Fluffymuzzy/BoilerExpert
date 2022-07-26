@@ -9,6 +9,7 @@ const updProductWarranty = document.querySelector("#upd_item_warranty");
 const updProductDimensions = document.querySelector("#upd_item_dimensions");
 const updProductPower = document.querySelector("#upd_item_heatingPower");
 const updProductType = document.querySelector("#upd_item_heatingType");
+const updProductLiteral = document.querySelector("#upd_item_liter");
 const idOfProduct = document.querySelector(".id").innerHTML;
 
 updateForm.addEventListener("submit", (event) => {
@@ -20,6 +21,7 @@ updateForm.addEventListener("submit", (event) => {
       image: updateImg.value.trim(),
       cost: updProductPrice.value.trim(),
       article: updProductArticle.value.trim(),
+      liter: productLiter.value.trim(),
       warranty: updProductWarranty.value.trim(),
       dimensions: updProductDimensions.value.trim(),
       heatingPower: updProductPower.value.trim(),

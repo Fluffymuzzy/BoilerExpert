@@ -164,21 +164,6 @@ function hashValidation(req, res, next) {
   );
 }
 
-// app.use((req, res, next) => {
-//   if (
-//     req.originalUrl === "/admin" ||
-//     req.originalUrl === "/admin/orderPage" ||
-//     req.originalUrl === "/admin/admin-callbacks" ||
-//     req.originalUrl === "/admin/adminProducts" ||
-//     req.originalUrl === "/admin/adminProducts/addingProducts" ||
-//     req.originalUrl === "/admin/adminProducts/editProducts/" ||
-//     req.originalUrl === "/admin/adminProducts/editProducts/:id"
-//   ) {
-//     hashValidation(req, res, next);
-//   } else {
-//     next();
-//   }
-// })
 
 function updateLoginHash(req, res) {
   conn.query(
@@ -264,6 +249,7 @@ app.post("/admin/adminProducts/editProducts/editThisProduct", (req, res) => {
         goods_image3 = '${req.body.image3}',
         goods_cost = '${req.body.cost}',
         goods_article = '${req.body.article}',
+        goods_liter = '${req.body.liter}',
         goods_warranty = '${req.body.warranty}',
         goods_dimensions = '${req.body.dimensions}',
         goods_heatingPower = '${req.body.heatingPower}',
@@ -287,8 +273,8 @@ app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
   console.log(req.body);
   conn.query(
     `
-    INSERT into goods (goods_name, goods_cost, goods_article, goods_image, goods_image2, goods_image3, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
-    VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.image}', '${req.body.image2}', '${req.body.image3}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
+    INSERT into goods (goods_name, goods_cost, goods_article, goods_liter, goods_image, goods_image2, goods_image3, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
+    VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.liter}', '${req.body.image}', '${req.body.image2}', '${req.body.image3}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
     `,
     (err, result) => {
       if (err) throw err;
