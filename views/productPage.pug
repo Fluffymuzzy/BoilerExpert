@@ -1,34 +1,77 @@
 include header
 include navShoppingCart
-section(class="product_page_detail")
-    each value, index in goods
-        div(class="container prod_page")
-            div(class="imagery container")    
-                img(src= value["goods_image"] alt="" class="product_page_img")
-                div(class='profile-img')
-                    a(data-fancybox="gallery" href= value["goods_image2"])
-                        img(class="rounded float-start" src= value["goods_image2"])
-                    a(data-fancybox="gallery" href= value["goods_image3"])    
-                        img(class="rounded float-end" src= value["goods_image3"])        
-            div(class="detail")    
-                h1= value["goods_name"]
-                h2= value["goods_article"]
-                h2= value["goods_cost"] 
-                h2 Характеристики  
-                div(class="product_page_options")    
-                    div(class="options_wrap")
-                        div Гарантия
-                            h3= value["goods_warranty"]
-                        div Мощность нагревательного елемента    
-                            h3= value["goods_heatingPower"]
-                        div Тип нагревательного елемента    
-                            h3= value["goods_heatingType"]
-                        div Габариты
-                            h3= value["goods_dimensions"]    
-                div(class="product-links")
-                    i(class="bi bi-dash-lg remove-from-cart"  data-id= value["id"])
-                    i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
+//- section(class="product_page_detail")
+//-     each value, index in goods
+//-         div(class="container prod_page")
+//-             div(class="imagery container")    
+//-                 img(src= value["goods_image"] alt="" class="product_page_img")
+//-                 div(class='profile-img')
+//-                     a(data-fancybox="gallery" href= value["goods_image2"])
+//-                         img(class="rounded float-start" src= value["goods_image2"])
+//-                     a(data-fancybox="gallery" href= value["goods_image3"])    
+//-                         img(class="rounded float-end" src= value["goods_image3"])        
+//-             div(class="detail")    
+//-                 h1= value["goods_name"]
+//-                 h2= value["goods_article"]
+//-                 h2= value["goods_cost"] 
+//-                 h2 Характеристики  
+//-                 div(class="product_page_options")    
+//-                     div(class="options_wrap")
+//-                         div Гарантия
+//-                             h3= value["goods_warranty"]
+//-                         div Мощность нагревательного елемента    
+//-                             h3= value["goods_heatingPower"]
+//-                         div Тип нагревательного елемента    
+//-                             h3= value["goods_heatingType"]
+//-                         div Габариты
+//-                             h3= value["goods_dimensions"]    
+//-                 div(class="product-links")
+//-                     i(class="bi bi-dash-lg remove-from-cart"  data-id= value["id"])
+//-                     i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
     
-    script(src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js")
-include footer      
+//-     script(src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js")
+//- include footer      
 
+div(class="container-fluid product-container")
+    div(class="row no-gutters")
+        each value, index in goods
+            div(class="col-xl-7")
+                div(class="content-product")
+                    div(class="container-img container")        
+                        div(class="col-xl-9 img-main")
+                            a(data-fancybox="gallery" href= value["goods_image"])
+                                img(src= value["goods_image"] class="img-fluid" alt="" width="550") 
+                        div(class="col-xl-3 img-additional")
+                            a(data-fancybox="gallery" href= value["goods_image2"])
+                                img(src= value["goods_image2"] width="60" class="img1" alt="")
+                            a(data-fancybox="gallery" href= value["goods_image3"])
+                                img(src= value["goods_image3"] width="60" class="img1" alt="")            
+            div(class="col-xl-5")     
+                div(class="product-title-detail") 
+                    h1(class="product-title")= value["goods_name"] 
+                    p(class="product-article")= value["goods_article"]
+                div(class="product-price")
+                    span= value["goods_cost"]                                            
+                    div(class="product-links")
+                    i(class="bi bi-dash-lg remove-from-cart"  data-id= value["id"])
+                    i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])     
+                div(class="product-characteristics") 
+                    h5 Об'єм
+                    span
+                    h5 Номінальна потужність
+                    span= value["goods_heatingPower"] 
+                    h5 Тип ТЕНа
+                    span= value["goods_heatingType"] 
+                    h5 Габарити (ВхШхГ)
+                    span= value["goods_dimensions"] 
+                    h5 Гарантійний термін
+                    span= value["goods_warranty"] 
+                //- div(class="product-price")
+                //-     span= value["goods_cost"]                                            
+                //- div(class="product-links")
+                //-     i(class="bi bi-dash-lg remove-from-cart"  data-id= value["id"])
+                //-     i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
+
+
+script(src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js")
+include footer 
