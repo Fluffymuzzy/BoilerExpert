@@ -1,8 +1,14 @@
 import { fetchData } from "./fetch.js";
-
+import IMask from 'imask';
 const shoppingForm = document.querySelector(".needs-validation");
 
 const inputs = document.querySelector("#form-shopping-cart").elements;
+
+let maskOptions = {
+  mask: "+{38} (000) 000-00-00",
+};
+let mask = IMask(inputs[2], maskOptions);
+
 
 const clearLocalStorage = () => {
   localStorage.removeItem("cart");
@@ -24,8 +30,8 @@ shoppingForm.addEventListener("submit", (event) => {
     body: JSON.stringify({
       userName: inputs[0].value.trim(),
       email: inputs[1].value.trim(),
-      phoneNumber: inputs[2].value.trim(),
-      adress: inputs[3].value.trim(),
+      phoneNumber: inputs[2].value,
+      adress: String(inputs[3].value.trim()),
       key: JSON.parse(localStorage.getItem("cart")),
     }),
     headers: {

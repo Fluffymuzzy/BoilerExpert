@@ -5,9 +5,7 @@ const router = express.Router();
 const path = require("path");
 const responseHelper = require("express-response-helper").helper();
 const cookieParser = require("cookie-parser");
-// const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcryptjs");
-// require(".dotenv").config();
+const nodemailer = require("nodemailer");
 
 const main = require("./routes/mainRoutes");
 
@@ -20,7 +18,6 @@ const port = 3000;
 const hostname = "127.0.0.1";
 
 module.exports = router;
-
 app.listen(port, (err) => {
   if (err) {
     console.log("there was a problem", err);
@@ -77,6 +74,7 @@ app.get("/", (req, res) => {
   Promise.all([goods]).then((value) => {
     res.render("main", {
       goods: value[0],
+      
     });
   });
 });
@@ -124,10 +122,12 @@ app.get("/productPage/:id", (req, res) => {
 
 app.get("/admin", (req, res) => {
   res.render("adminStartPage");
+  
 });
 
 app.get("/admin/adminProducts", (req, res) => {
   res.render("adminProducts");
+  pageOfCategories(req, res)
 });
 
 // login
@@ -163,7 +163,6 @@ function hashValidation(req, res, next) {
     }
   );
 }
-
 
 function updateLoginHash(req, res) {
   conn.query(
@@ -415,9 +414,11 @@ function saveOrder(data, res) {
     let nowDate = Math.trunc(Date.now() / 1000);
     for (let i = 0; i < res.length; i++) {
       sqlReq = `INSERT INTO orders (date,user_id, goods_id, goods_article, goods_cost,goods_amount,total) 
-     VALUES (${nowDate}, ${userId}, '${res[i]["id"]}', '${res[i]["goods_article"]}', '${res[i]["goods_cost"]}', ${
-        data.key[res[i]["id"]]
-      }, ${data.key[res[i]["id"]] * res[i]["goods_cost"]})`;
+     VALUES (${nowDate}, ${userId}, '${res[i]["id"]}', '${
+        res[i]["goods_article"]
+      }', '${res[i]["goods_cost"]}', ${data.key[res[i]["id"]]}, ${
+        data.key[res[i]["id"]] * res[i]["goods_cost"]
+      })`;
       conn.query(sqlReq, (err, result) => {
         if (err) throw err;
       });
@@ -444,7 +445,6 @@ function saveDataFromOrder(req, res) {
         if (err) throw err;
         saveOrder(req.body, result);
         res.respond(200);
-        // return result;
       }
     );
   } else if (keys.length == 0 || keys.length == undefined) {
@@ -453,5 +453,55 @@ function saveDataFromOrder(req, res) {
 }
 
 app.post("/endOfOrder", (req, res) => {
-  saveDataFromOrder(req,res);
+  saveDataFromOrder(req, res);
 });
+
+// get category
+
+function getCategories(req, res) {
+  conn.query(
+    `SELECT id, category FROM category`, 
+    (err, result, fields) => {
+      if (err) throw err;
+      res.json(result);
+    }
+  )
+}
+
+// pagination
+
+// const resultsPerPage = 9;
+
+// function pageOfCategories(req, res, renderingPage) {
+//   let categoryId = req.query["id"];
+
+//   let category = new Promise((resolve, reject) => {
+//     conn.query(
+//       `SELECT * FROM category WHERE id=` + categoryId,
+//       (err, result) => {
+//         if (err) throw err;
+//         resolve(result);
+//         console.log(result);
+//       }
+//     );
+//   });
+
+//   let goods = new Promise((resolve, reject) => {
+//     conn.query(
+//       `SELECT * FROM goods WHERE category=` + categoryId, 
+//       (err, result) => {
+//         if (err) reject(err);
+//         const numOfResults = result.length;
+//         const numberOfPages = Math.ceil(numOfResults / resultsPerPage);
+//         let page = req.query.page ? Number(req.query.page) : 1;
+//         if(page > numberOfPages) {
+//           res.redirect(
+
+//           )
+
+//         }
+
+//       }
+//     )
+//   })
+// }
