@@ -2,10 +2,10 @@ include header
 include navShoppingCart
 section(class="catalogPage_content")
     div(class="container")
-        div(class="header") 
+        include pagination
         div(class="row catalog_row")
             each value, index in goods
-                div(class="col-lg-3 col-sm-6")         
+                div(class="col-lg-3 col-sm-6 card-box " + value["goods_type"] )         
                     div(class="product-card")
                         div(class="product-thumb")
                             img(src= value["goods_image"] class="card-img-top")
@@ -15,4 +15,5 @@ section(class="catalogPage_content")
                             h3(class="product-price")= value["goods_cost"] 
                             div(class="product-links")
                                 i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
+    script(src="/js/productFilter.js")
     include footer                            

@@ -20,6 +20,24 @@ body {
   width: auto;
 }
 
+.hide {
+  opacity: 1;
+  animation-name: a1; 
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes a1 {
+  to {
+    opacity: 0;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+}
+
 /* Header */
 
 .header {
@@ -213,6 +231,20 @@ body {
   visibility: visible;
 } */
 
+
+/* types */
+
+.filters-side {
+  padding: 100px;
+}
+
+.filtration-li {
+  display: inline-block;
+  padding: 10px 40px 10px 0;
+  cursor: pointer;
+}
+
+
 /* Catalog Page */
 
 .product-card {
@@ -246,7 +278,7 @@ body {
 }
 
 .catalog_row {
-  padding: 250px 0;
+  padding: 50px 0;
 }
 
 /* Product Page */
