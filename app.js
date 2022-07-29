@@ -79,6 +79,7 @@ app.get("/", (req, res) => {
 });
 
 // CATALOG PAGE
+const resPerPage = 9;
 
 app.get("/catalogPage", (req, res) => {
   let allGoods = new Promise((resolve, reject) => {
@@ -86,16 +87,47 @@ app.get("/catalogPage", (req, res) => {
       `SELECT id, goods_name, goods_image, goods_cost, goods_type FROM goods ORDER BY id`,
       (err, result) => {
         if (err) reject(err);
+        const numOfResults = result.length;
+        const numberOfPages = Math.ceil(numOfResults / resPerPage);
+        let page = req.query.page ? Number(req.query.page) : 1;
+        if (page > numberOfPages) {
+          res.redirect(
+            `/catalogPage?page=` + encodeURIComponent(numberOfPages)
+          );
+        } else if (page < 1) {
+          res.redirect(`/catalogPage?page=` + encodeURIComponent("1"));
+        }
+
+        const startingLimit = (page - 1) * resPerPage;
+
+        conn.query(
+          `SELECT id, goods_name, goods_image, goods_cost, goods_type LIMIT ${startingLimit}, ${resPerPage}`,
+          (err, result) => {
+            if (err) reject(err);
+            let iterator = page - 5 < 1 ? 1 : page - 5;
+            let endingLink =
+              iterator + 9 <= numberOfPages
+                ? iterator + 9
+                : page + (numberOfPages - page);
+            if (endingLink < page + 4) {
+              iterator -= page + 4 - numberOfPages;
+            }
+            console.log(iterator);
+          }
+        );
         resolve(result);
       }
     );
   });
 
   let types = new Promise((resolve, reject) => {
-    conn.query(`SELECT DISTINCT goods_type FROM goods ORDER BY id`, (err, result) => {
-      if (err) reject(err);
-      resolve(result);
-    });
+    conn.query(
+      `SELECT DISTINCT goods_type FROM goods ORDER BY id`,
+      (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      }
+    );
   });
 
   Promise.all([allGoods, types]).then((value) => {
@@ -464,52 +496,4 @@ app.post("/endOfOrder", (req, res) => {
   saveDataFromOrder(req, res);
 });
 
-// get category
-
-// function getCategories(req, res) {
-//   conn.query(
-//     `SELECT id, category FROM category`,
-//     (err, result, fields) => {
-//       if (err) throw err;
-//       res.json(result);
-//     }
-//   )
-// }
-
 // pagination
-
-// const resultsPerPage = 9;
-
-// function pageOfCategories(req, res, renderingPage) {
-//   let categoryId = req.query["id"];
-
-//   let category = new Promise((resolve, reject) => {
-//     conn.query(
-//       `SELECT * FROM category WHERE id=` + categoryId,
-//       (err, result) => {
-//         if (err) throw err;
-//         resolve(result);
-//         console.log(result);
-//       }
-//     );
-//   });
-
-//   let goods = new Promise((resolve, reject) => {
-//     conn.query(
-//       `SELECT * FROM goods WHERE category=` + categoryId,
-//       (err, result) => {
-//         if (err) reject(err);
-//         const numOfResults = result.length;
-//         const numberOfPages = Math.ceil(numOfResults / resultsPerPage);
-//         let page = req.query.page ? Number(req.query.page) : 1;
-//         if(page > numberOfPages) {
-//           res.redirect(
-
-//           )
-
-//         }
-
-//       }
-//     )
-//   })
-// }
