@@ -1,3 +1,4 @@
+
 const filterBox = document.querySelectorAll(".card-box");
 const filterBtns = document.querySelectorAll(".filtration-li");
 
@@ -9,7 +10,7 @@ document.querySelector(".filtration-nav").addEventListener("click", (event) => {
     if (elem.classList.contains("selected")) elem.classList.remove("selected");
 });
     event.target.classList.add("selected");
-    
+
     console.log(filterBox);
     filterBox.forEach((elem) => {
         elem.classList.remove("hide");

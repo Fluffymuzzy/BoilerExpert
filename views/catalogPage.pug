@@ -1,19 +1,18 @@
-include header
 include navShoppingCart
 section(class="catalogPage_content")
     div(class="container")
         include pagination
         div(class="row catalog_row")
-            each value, index in goods
-                div(class="col-lg-3 col-sm-6 card-box " + value["goods_type"] )         
-                    div(class="product-card")
-                        div(class="product-thumb")
-                            img(src= value["goods_image"] class="card-img-top")
-                            a(href="/productPage/"+ value["id"])
-                            h4= value["goods_name"]
-                        div(class="product-footer d-flex justify-content-between")
-                            h3(class="product-price")= value["goods_cost"] 
-                            div(class="product-links")
-                                i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
+        each value in types
+            div(class="col-lg-3 col-sm-6 card-box " + value["goods_type"]  ) 
+                each value, index in goods
+                    a(href="/productPage/"+ value["id"])        
+                        div(class="product-card")
+                            div(class="product-thumb")
+                                img(src= value["goods_image"] class="card-img-top")
+                                h1= value["goods_name"] 
+                                h3(class="product-price")= value["goods_cost"] 
+                    div(class="product-links")
+                        i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
     script(src="/js/productFilter.js")
-    include footer                            
+    include footer                             

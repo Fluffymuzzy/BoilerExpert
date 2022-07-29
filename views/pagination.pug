@@ -2,7 +2,5 @@ div(class="filters-side")
     nav(class='filtration-nav')
         ul
             li(class='filtration-li selected' data-filter='all') All
-                each value, index in goods
-                    li(class='filtration-li' data-filter= value['goods_type'])= value['goods_type'] 
-            
-
+                each value in types
+                    li(class='filtration-li' data-filter= value["goods_type"])= value["goods_type"] 

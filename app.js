@@ -74,7 +74,6 @@ app.get("/", (req, res) => {
   Promise.all([goods]).then((value) => {
     res.render("main", {
       goods: value[0],
-      
     });
   });
 });
@@ -91,9 +90,18 @@ app.get("/catalogPage", (req, res) => {
       }
     );
   });
-  Promise.all([allGoods]).then((value) => {
+
+  let types = new Promise((resolve, reject) => {
+    conn.query(`SELECT DISTINCT goods_type FROM goods ORDER BY id`, (err, result) => {
+      if (err) reject(err);
+      resolve(result);
+    });
+  });
+
+  Promise.all([allGoods, types]).then((value) => {
     res.render("catalogPage", {
       goods: value[0],
+      types: value[1],
     });
   });
 });
@@ -122,12 +130,11 @@ app.get("/productPage/:id", (req, res) => {
 
 app.get("/admin", (req, res) => {
   res.render("adminStartPage");
-  
 });
 
 app.get("/admin/adminProducts", (req, res) => {
   res.render("adminProducts");
-  pageOfCategories(req, res)
+  pageOfCategories(req, res);
 });
 
 // login
@@ -248,6 +255,7 @@ app.post("/admin/adminProducts/editProducts/editThisProduct", (req, res) => {
         goods_image3 = '${req.body.image3}',
         goods_cost = '${req.body.cost}',
         goods_article = '${req.body.article}',
+        goods_type = '${req.body.type}',
         goods_liter = '${req.body.liter}',
         goods_warranty = '${req.body.warranty}',
         goods_dimensions = '${req.body.dimensions}',
@@ -272,8 +280,8 @@ app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
   console.log(req.body);
   conn.query(
     `
-    INSERT into goods (goods_name, goods_cost, goods_article, goods_liter, goods_image, goods_image2, goods_image3, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
-    VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.liter}', '${req.body.image}', '${req.body.image2}', '${req.body.image3}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
+    INSERT into goods (goods_name, goods_cost, goods_article, goods_type, goods_liter, goods_image, goods_image2, goods_image3, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
+    VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.type}', '${req.body.liter}', '${req.body.image}', '${req.body.image2}', '${req.body.image3}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
     `,
     (err, result) => {
       if (err) throw err;
@@ -458,15 +466,15 @@ app.post("/endOfOrder", (req, res) => {
 
 // get category
 
-function getCategories(req, res) {
-  conn.query(
-    `SELECT id, category FROM category`, 
-    (err, result, fields) => {
-      if (err) throw err;
-      res.json(result);
-    }
-  )
-}
+// function getCategories(req, res) {
+//   conn.query(
+//     `SELECT id, category FROM category`,
+//     (err, result, fields) => {
+//       if (err) throw err;
+//       res.json(result);
+//     }
+//   )
+// }
 
 // pagination
 
@@ -488,7 +496,7 @@ function getCategories(req, res) {
 
 //   let goods = new Promise((resolve, reject) => {
 //     conn.query(
-//       `SELECT * FROM goods WHERE category=` + categoryId, 
+//       `SELECT * FROM goods WHERE category=` + categoryId,
 //       (err, result) => {
 //         if (err) reject(err);
 //         const numOfResults = result.length;
