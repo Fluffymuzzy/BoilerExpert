@@ -83,7 +83,7 @@ app.get("/", (req, res) => {
 app.get("/catalogPage", (req, res) => {
   let allGoods = new Promise((resolve, reject) => {
     conn.query(
-      `SELECT id, goods_name, goods_image, goods_cost FROM goods ORDER BY id`,
+      `SELECT id, goods_name, goods_image, goods_cost, goods_type FROM goods ORDER BY id`,
       (err, result) => {
         if (err) reject(err);
         resolve(result);
