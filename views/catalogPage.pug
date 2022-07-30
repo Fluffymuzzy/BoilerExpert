@@ -1,9 +1,9 @@
 include navShoppingCart
 section(class="catalogPage_content")
     div(class="container")
-        include pagination
+        include productFilter
         div(class="catalog_row")
-            each value, index in goods
+            each value, index in goods[0]
                 div(class="col-lg-3 col-sm-6 card-box " + value["goods_type"]  ) 
                     a(href="/productPage/"+ value["id"])        
                         div(class="product-card")
@@ -13,5 +13,8 @@ section(class="catalogPage_content")
                                 h3(class="product-price")= value["goods_cost"] 
                     div(class="product-links")
                         i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
+        div(class="catalog-pagination")
+            each value,index in goods[1]
+                include pagination                
     script(src="/js/productFilter.js")
     include footer                             
