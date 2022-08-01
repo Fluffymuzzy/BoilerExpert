@@ -2,12 +2,12 @@
 const express = require("express");
 const app = express();
 const router = express.Router();
-const path = require("path");
+// const path = require("path");
 const responseHelper = require("express-response-helper").helper();
 const cookieParser = require("cookie-parser");
-const nodemailer = require("nodemailer");
 
 const main = require("./routes/mainRoutes");
+const admin = require("./routes/adminRoutes");
 
 // Connect DATABASE
 const mySql = require("mysql");
@@ -17,7 +17,7 @@ const { log } = require("console");
 const port = 3000;
 const hostname = "127.0.0.1";
 
-module.exports = router;
+
 app.listen(port, (err) => {
   if (err) {
     console.log("there was a problem", err);
@@ -26,13 +26,6 @@ app.listen(port, (err) => {
   console.log(`Server started on http://${hostname}:${port}`);
 });
 
-// create connection to db
-const conn = mySql.createConnection({
-  host: "localhost",
-  user: "sqluser",
-  password: "password",
-  database: "data_base",
-});
 
 app
   .use("/app", router)
@@ -40,7 +33,8 @@ app
   .use(express.urlencoded())
   .use(express.json())
   .use(cookieParser())
-  .use(express.static(path.join(__dirname, "public")))
+  .use(express.static(__dirname + "/src"))
+  .use("/login", require("./routes/adminRoutes"))
   .use((req, res, next) => {
     if (
       req.originalUrl === "/admin" ||
@@ -56,115 +50,116 @@ app
       next();
     }
   })
-
+  .use("/", main)
+  .use("/", admin)
   .set("view engine", "pug");
-
+  module.exports = router;
 // MAIN PAGE
 
-app.get("/", (req, res) => {
-  let goods = new Promise((resolve, reject) => {
-    conn.query(
-      "SELECT * FROM goods ORDER BY id DESC LIMIT 3",
-      (err, result) => {
-        if (err) reject(err);
-        resolve(result);
-      }
-    );
-  });
-  Promise.all([goods]).then((value) => {
-    res.render("main", {
-      goods: value[0],
-    });
-  });
-});
+// app.get("/", (req, res) => {
+//   let goods = new Promise((resolve, reject) => {
+//     conn.query(
+//       "SELECT * FROM goods ORDER BY id DESC LIMIT 3",
+//       (err, result) => {
+//         if (err) reject(err);
+//         resolve(result);
+//       }
+//     );
+//   });
+//   Promise.all([goods]).then((value) => {
+//     res.render("main", {
+//       goods: value[0],
+//     });
+//   });
+// });
 
 // CATALOG PAGE
-const resPerPage = 4;
+// const resPerPage = 4;
 
-app.get("/catalogPage", (req, res) => {
-  let allGoods = new Promise((resolve, reject) => {
-    conn.query(`SELECT * FROM goods ORDER BY id `, (err, result) => {
-      if (err) reject(err);
-      const numOfResults = result.length;
-      const numberOfPages = Math.ceil(numOfResults / resPerPage);
-      let page = req.query.page ? Number(req.query.page) : 1;
-      if (page > numberOfPages) {
-        res.redirect(`/catalogPage?page=` + encodeURIComponent(numberOfPages));
-      } else if (page < 1) {
-        res.redirect(`/catalogPage?page=` + encodeURIComponent("1"));
-      }
+// app.get("/catalogPage", (req, res) => {
+//   let allGoods = new Promise((resolve, reject) => {
+//     conn.query(`SELECT * FROM goods ORDER BY id `, (err, result) => {
+//       if (err) reject(err);
+//       const numOfResults = result.length;
+//       const numberOfPages = Math.ceil(numOfResults / resPerPage);
+//       let page = req.query.page ? Number(req.query.page) : 1;
+//       if (page > numberOfPages) {
+//         res.redirect(`/catalogPage?page=` + encodeURIComponent(numberOfPages));
+//       } else if (page < 1) {
+//         res.redirect(`/catalogPage?page=` + encodeURIComponent("1"));
+//       }
 
-      const startingLimit = (page - 1) * resPerPage;
-      console.log(resPerPage);
+//       const startingLimit = (page - 1) * resPerPage;
+//       console.log(resPerPage);
 
-      conn.query(
-        `SELECT * FROM goods ORDER BY id LIMIT ${startingLimit}, ${resPerPage}`,
+//       conn.query(
+//         `SELECT * FROM goods ORDER BY id LIMIT ${startingLimit}, ${resPerPage}`,
 
-        (err, result) => {
-          if (err) reject(err);
-          let iterator = page - 5 < 1 ? 1 : page - 5;
-          let endingLink =
-            iterator + 9 <= numberOfPages
-              ? iterator + 9
-              : page + (numberOfPages - page);
-          if (endingLink < page + 4) {
-            iterator -= page + 4 - numberOfPages;
-          }
-          let resArr = Object.values(JSON.parse(JSON.stringify(result)));
-          let pagesArr = [
-            {
-              page: page,
-              numberOfPages: numberOfPages,
-            },
-          ];
-          resolve([resArr, pagesArr]);
-          console.log([resArr, pagesArr]);
-        }
-      );
-    });
-  });
+//         (err, result) => {
+//           if (err) reject(err);
+//           let iterator = page - 5 < 1 ? 1 : page - 5;
+//           let endingLink =
+//             iterator + 9 <= numberOfPages
+//               ? iterator + 9
+//               : page + (numberOfPages - page);
+//           if (endingLink < page + 4) {
+//             iterator -= page + 4 - numberOfPages;
+//           }
+//           let resArr = Object.values(JSON.parse(JSON.stringify(result)));
+//           let pagesArr = [
+//             {
+//               page: page,
+//               numberOfPages: numberOfPages,
+//             },
+//           ];
+//           resolve([resArr, pagesArr]);
+//           console.log([resArr, pagesArr]);
+//         }
+//       );
+//     });
+//   });
 
-  let types = new Promise((resolve, reject) => {
-    conn.query(
-      `SELECT DISTINCT goods_type FROM goods ORDER BY id`,
-      (err, result) => {
-        if (err) reject(err);
-        resolve(result);
-      }
-    );
-  });
+//   let types = new Promise((resolve, reject) => {
+//     conn.query(
+//       `SELECT DISTINCT goods_type FROM goods ORDER BY id`,
+//       (err, result) => {
+//         if (err) reject(err);
+//         resolve(result);
+//       }
+//     );
+//   });
 
-  Promise.all([allGoods, types]).then((value) => {
-    res.render("catalogPage", {
-      goods: value[0],
-      types: value[1],
-    });
-  });
-});
+//   Promise.all([allGoods, types]).then((value) => {
+//     res.render("catalogPage", {
+//       goods: value[0],
+//       types: value[1],
+//     });
+//   });
+// });
 
 // PRODUCT PAGE
 
-app.get("/productPage/:id", (req, res) => {
-  let goodsId = req.params.id;
-  let goodsData = new Promise((resolve, reject) => {
-    conn.query(`SELECT * FROM goods WHERE id=` + goodsId, (err, result) => {
-      if (err) reject(err);
-      resolve(result);
-    });
-  });
-  Promise.all([goodsData]).then((value) => {
-    console.log(value);
-    res.render("productPage", {
-      goods: value[0],
-    });
-  });
-});
+// app.get("/productPage/:id", (req, res) => {
+//   let goodsId = req.params.id;
+//   let goodsData = new Promise((resolve, reject) => {
+//     conn.query(`SELECT * FROM goods WHERE id=` + goodsId, (err, result) => {
+//       if (err) reject(err);
+//       resolve(result);
+//     });
+//   });
+//   Promise.all([goodsData]).then((value) => {
+//     console.log(value);
+//     res.render("productPage", {
+//       goods: value[0],
+//     });
+//   });
+// });
 
 // ADMIN PANEL
 
-app.get("/admin", (req, res) => {
-  res.render("adminStartPage");
-});
+// app.get("/admin", (req, res) => {
+//   res.render("adminStartPage");
+// });
 
 app.get("/admin/adminProducts", (req, res) => {
   res.render("adminProducts");
@@ -173,65 +168,66 @@ app.get("/admin/adminProducts", (req, res) => {
 
 // login
 
-app.get("/login", (req, res) => {
-  res.render("adminLoginPage");
-});
+// app.get("/login", (req, res) => {
+//   res.render("adminLoginPage");
+// });
 
-function generateHash(length) {
-  let res = "";
-  let char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let charLength = char.length;
-  for (let i = 0; i < length; i++) {
-    res += char.charAt(Math.floor(Math.random() * charLength));
-  }
-  return res;
-}
+// function generateHash(length) {
+//   let res = "";
+//   let char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+//   let charLength = char.length;
+//   for (let i = 0; i < length; i++) {
+//     res += char.charAt(Math.floor(Math.random() * charLength));
+//   }
+//   return res;
+// }
 
-function hashValidation(req, res, next) {
-  if (req.cookies.id === undefined || req.cookies.hash === undefined) {
-    res.redirect("/login");
-    return;
-  }
-  conn.query(
-    `SELECT * FROM admin WHERE id=${req.cookies.id} and hash='${req.cookies.hash}'`,
-    (err, result) => {
-      if (err) throw err;
-      if (result.length === 0) {
-        res.redirect("/login");
-      } else {
-        next();
-      }
-    }
-  );
-}
+// function hashValidation(req, res, next) {
+//   if (req.cookies.id === undefined || req.cookies.hash === undefined) {
+//     res.redirect("/login");
+//     return;
+//   }
+//   conn.query(
+//     `SELECT * FROM admin WHERE id=${req.cookies.id} and hash='${req.cookies.hash}'`,
+//     (err, result) => {
+//       if (err) throw err;
+//       if (result.length === 0) {
+//         res.redirect("/login");
+//       } else {
+//         next();
+//       }
+//     }
+//   );
+// }
 
-function updateLoginHash(req, res) {
-  conn.query(
-    `SELECT * FROM admin WHERE login = '${req.body.login}' and password = '${req.body.password}'`,
-    (err, result) => {
-      if (err) throw err;
-      if (result.length == 0 || result == null) {
-        res.redirect("/login");
-      } else {
-        result = JSON.parse(JSON.stringify(result));
-        let hash = generateHash(32);
-        let id = result[0]["id"];
-        res.cookie("hash", hash);
-        res.cookie("id", id);
-        let sqlReq = `UPDATE admin SET hash = '${hash}' WHERE id = '${id}'`;
+// function updateLoginHash(req, res) {
+//   conn.query(
+//     `SELECT * FROM admin WHERE login = '${req.body.login}' and password = '${req.body.password}'`,
+//     (err, result) => {
+//       if (err) throw err;
+//       if (result.length == 0 || result == null) {
+//         res.redirect("/login");
+//       } else {
+//         result = JSON.parse(JSON.stringify(result));
+//         let hash = generateHash(32);
+//         let id = result[0]["id"];
+//         res.cookie("hash", hash);
+//         res.cookie("id", id);
+//         let sqlReq = `UPDATE admin SET hash = '${hash}' WHERE id = '${id}'`;
 
-        conn.query(sqlReq, (err, result) => {
-          if (err) throw err;
-          res.redirect("/admin");
-        });
-      }
-    }
-  );
-}
+//         conn.query(sqlReq, (err, result) => {
+//           if (err) throw err;
+//           console.log(result);
+//           res.redirect("/admin");
+//         });
+//       }
+//     }
+//   );
+// }
 
-app.post("/login", (req, res) => {
-  updateLoginHash(req, res);
-});
+// app.post("/login", (req, res) => {
+//   updateLoginHash(req, res);
+// });
 
 // edit product
 
@@ -423,7 +419,7 @@ app.get("/admin/orderPage", (req, res) => {
 
 // showin data from db in cart
 
-// app.post("/cartTest", (req, res) => {
+// app.post("/showCart", (req, res) => {
 //   if (req.body.key != "undefined" && req.body.key.length != 0) {
 //     conn.query(
 //       "SELECT id, goods_name, goods_cost, goods_article, goods_image FROM goods WHERE id IN (" +
@@ -443,59 +439,58 @@ app.get("/admin/orderPage", (req, res) => {
 //   }
 // });
 
-// saving order to db
 
-function saveOrder(data, res) {
-  let sqlReq;
 
-  sqlReq = `INSERT INTO users ( user_name, user_email, user_phone, adress) VALUES ('${data.userName}','${data.email}','${data.phoneNumber}','${data.adress}')`;
+// function saveOrder(data, res) {
+//   let sqlReq;
 
-  conn.query(sqlReq, (err, result) => {
-    if (err) throw err;
-    let userId = result.insertId;
-    let nowDate = Math.trunc(Date.now() / 1000);
-    for (let i = 0; i < res.length; i++) {
-      sqlReq = `INSERT INTO orders (date,user_id, goods_id, goods_article, goods_cost,goods_amount,total) 
-     VALUES (${nowDate}, ${userId}, '${res[i]["id"]}', '${
-        res[i]["goods_article"]
-      }', '${res[i]["goods_cost"]}', ${data.key[res[i]["id"]]}, ${
-        data.key[res[i]["id"]] * res[i]["goods_cost"]
-      })`;
-      conn.query(sqlReq, (err, result) => {
-        if (err) throw err;
-      });
-    }
-  });
-}
+//   sqlReq = `INSERT INTO users ( user_name, user_email, user_phone, adress) VALUES ('${data.userName}','${data.email}','${data.phoneNumber}','${data.adress}')`;
+
+//   conn.query(sqlReq, (err, result) => {
+//     if (err) throw err;
+//     let userId = result.insertId;
+//     let nowDate = Math.trunc(Date.now() / 1000);
+//     for (let i = 0; i < res.length; i++) {
+//       sqlReq = `INSERT INTO orders (date,user_id, goods_id, goods_article, goods_cost,goods_amount,total) 
+//      VALUES (${nowDate}, ${userId}, '${res[i]["id"]}', '${
+//         res[i]["goods_article"]
+//       }', '${res[i]["goods_cost"]}', ${data.key[res[i]["id"]]}, ${
+//         data.key[res[i]["id"]] * res[i]["goods_cost"]
+//       })`;
+//       conn.query(sqlReq, (err, result) => {
+//         if (err) throw err;
+//         console.log(result);
+//       });
+//     }
+//   });
+// }
 
 // save data from cart
 
-function saveDataFromOrder(req, res) {
-  let keys;
-  if (req.body.key != null) {
-    keys = Object.keys(req.body.key);
-  } else {
-    keys = {};
-  }
+// function saveDataFromOrder(req, res) {
+//   let keys;
+//   if (req.body.key != null) {
+//     keys = Object.keys(req.body.key);
+//   } else {
+//     keys = {};
+//   }
 
-  if (keys.length > 0) {
-    conn.query(
-      "SELECT id, goods_name, goods_cost, goods_article FROM goods WHERE id IN (" +
-        keys.join(",") +
-        ")",
-      (err, result, fields) => {
-        if (err) throw err;
-        saveOrder(req.body, result);
-        res.respond(200);
-      }
-    );
-  } else if (keys.length == 0 || keys.length == undefined) {
-    res.fail();
-  }
-}
+//   if (keys.length > 0) {
+//     conn.query(
+//       "SELECT id, goods_name, goods_cost, goods_article FROM goods WHERE id IN (" +
+//         keys.join(",") +
+//         ")",
+//       (err, result, fields) => {
+//         if (err) throw err;
+//         saveOrder(req.body, result);
+//         res.respond(200);
+//       }
+//     );
+//   } else if (keys.length == 0 || keys.length == undefined) {
+//     res.fail();
+//   }
+// }
 
-app.post("/endOfOrder", (req, res) => {
-  saveDataFromOrder(req, res);
-});
-
-// pagination
+// app.post("/endOfOrder", (req, res) => {
+//   saveDataFromOrder(req, res);
+// });
