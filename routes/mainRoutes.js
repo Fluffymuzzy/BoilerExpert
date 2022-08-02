@@ -1,27 +1,19 @@
 const express = require("express");
-const mainPageProducts = require("../server/get/mainPageFiles");
-const catalog = require("../server/get/catalogPage");
-const product = require("../server/get/productPage");
-const showCart = require("../server/post/showCart");
+const mainController = require("../controllers/mainController");
 const router = express.Router();
 
-router.route("/").get((req, res) => {
-  mainPageProducts(req, res, "main");
-});
+router.get("/", mainController.mainPageGoods);
 
-router.route("/catalog").get((req, res) => {
-  catalog(req, res, "catalogPage");
-});
+router.get("/catalog", mainController.catalogPage);
 
-router.route("/catalog/product/:id").get((req, res) => {
-  product(req, res, "productPage");
-});
+router.get("/catalog/product/:id", mainController.productPage);
 
-router.route("/cart").post((req, res) => {
-  showCart(req, res);
-});
+router.get("/basket", (req, res) => {
+  res.render("shoppingCart")
+})
 
-router.route("/endOfOrder").post((req, res) => {
-    
-  });
+router.post("/cart", mainController.showCart);
+
+router.post("/endOfOrder", mainController.saveDataFromCart);
+
 module.exports = router;

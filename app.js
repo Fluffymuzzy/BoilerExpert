@@ -17,7 +17,6 @@ const { log } = require("console");
 const port = 3000;
 const hostname = "127.0.0.1";
 
-
 app.listen(port, (err) => {
   if (err) {
     console.log("there was a problem", err);
@@ -25,6 +24,7 @@ app.listen(port, (err) => {
   }
   console.log(`Server started on http://${hostname}:${port}`);
 });
+
 
 
 app
@@ -35,25 +35,11 @@ app
   .use(cookieParser())
   .use(express.static(__dirname + "/src"))
   .use("/login", require("./routes/adminRoutes"))
-  .use((req, res, next) => {
-    if (
-      req.originalUrl === "/admin" ||
-      req.originalUrl === "/admin/orderPage" ||
-      req.originalUrl === "/admin/admin-callbacks" ||
-      req.originalUrl === "/admin/adminProducts" ||
-      req.originalUrl === "/admin/adminProducts/addingProducts" ||
-      req.originalUrl === "/admin/adminProducts/editProducts/" ||
-      req.originalUrl === "/admin/adminProducts/editProducts/:id"
-    ) {
-      hashValidation(req, res, next);
-    } else {
-      next();
-    }
-  })
   .use("/", main)
   .use("/", admin)
   .set("view engine", "pug");
-  module.exports = router;
+
+module.exports = router;
 // MAIN PAGE
 
 // app.get("/", (req, res) => {
@@ -161,10 +147,10 @@ app
 //   res.render("adminStartPage");
 // });
 
-app.get("/admin/adminProducts", (req, res) => {
-  res.render("adminProducts");
-  pageOfCategories(req, res);
-});
+// app.get("/admin/adminProducts", (req, res) => {
+//   res.render("adminProducts");
+//   pageOfCategories(req, res);
+// });
 
 // login
 
@@ -231,191 +217,191 @@ app.get("/admin/adminProducts", (req, res) => {
 
 // edit product
 
-app.get("/admin/adminProducts/editProducts", (req, res) => {
-  let allGoods = new Promise((resolve, reject) => {
-    conn.query(`SELECT * FROM goods ORDER BY id`, (err, result) => {
-      if (err) reject(err);
-      resolve(result);
-    });
-  });
-  Promise.all([allGoods]).then((value) => {
-    res.render("adminEditProductsPage", {
-      goods: value[0],
-    });
-  });
-});
+// app.get("/admin/adminProducts/editProducts", (req, res) => {
+//   let allGoods = new Promise((resolve, reject) => {
+//     conn.query(`SELECT * FROM goods ORDER BY id`, (err, result) => {
+//       if (err) reject(err);
+//       resolve(result);
+//     });
+//   });
+//   Promise.all([allGoods]).then((value) => {
+//     res.render("adminEditProductsPage", {
+//       goods: value[0],
+//     });
+//   });
+// });
 
-app.get("/admin/adminProducts/editProducts/:id", (req, res) => {
-  let goodsId = req.params.id;
-  let goodsData = new Promise((resolve, reject) => {
-    conn.query(`SELECT * FROM goods WHERE id=` + goodsId, function (
-      err,
-      result
-    ) {
-      if (err) reject(err);
-      resolve(result);
-    });
-  });
-  Promise.all([goodsData]).then((value) => {
-    res.render("adminEditProduct", {
-      goods: value[0],
-    });
-  });
-});
+// app.get("/admin/adminProducts/editProducts/:id", (req, res) => {
+//   let goodsId = req.params.id;
+//   let goodsData = new Promise((resolve, reject) => {
+//     conn.query(`SELECT * FROM goods WHERE id=` + goodsId, function (
+//       err,
+//       result
+//     ) {
+//       if (err) reject(err);
+//       resolve(result);
+//     });
+//   });
+//   Promise.all([goodsData]).then((value) => {
+//     res.render("adminEditProduct", {
+//       goods: value[0],
+//     });
+//   });
+// });
 
-app.get("/deleteProduct/:id", (req, res) => {
-  let Id = req.params.id;
-  conn.query(
-    `
-    DELETE FROM goods WHERE id=` + Id,
-    (err, result) => {
-      if (err) throw err;
-      res.redirect("/admin/adminProducts/editProducts");
-    }
-  );
-});
+// app.get("/deleteProduct/:id", (req, res) => {
+//   let Id = req.params.id;
+//   conn.query(
+//     `
+//     DELETE FROM goods WHERE id=` + Id,
+//     (err, result) => {
+//       if (err) throw err;
+//       res.redirect("/admin/adminProducts/editProducts");
+//     }
+//   );
+// });
 
-app.post("/admin/adminProducts/editProducts/editThisProduct", (req, res) => {
-  conn.query(
-    `
-    UPDATE goods
-    SET goods_name = '${req.body.name}',
-        goods_image = '${req.body.image}',
-        goods_image2 = '${req.body.image2}',
-        goods_image3 = '${req.body.image3}',
-        goods_cost = '${req.body.cost}',
-        goods_article = '${req.body.article}',
-        goods_type = '${req.body.type}',
-        goods_liter = '${req.body.liter}',
-        goods_warranty = '${req.body.warranty}',
-        goods_dimensions = '${req.body.dimensions}',
-        goods_heatingPower = '${req.body.heatingPower}',
-        goods_heatingType = '${req.body.heatingType}'
-    WHERE id = ${req.body.id}
-    `,
-    (err, result) => {
-      if (err) throw err;
-      res.status(201);
-    }
-  );
-});
+// app.post("/editThisProduct", (req, res) => {
+//   conn.query(
+//     `
+//     UPDATE goods
+//     SET goods_name = '${req.body.name}',
+//         goods_image = '${req.body.image}',
+//         goods_image2 = '${req.body.image2}',
+//         goods_image3 = '${req.body.image3}',
+//         goods_cost = '${req.body.cost}',
+//         goods_article = '${req.body.article}',
+//         goods_type = '${req.body.type}',
+//         goods_liter = '${req.body.liter}',
+//         goods_warranty = '${req.body.warranty}',
+//         goods_dimensions = '${req.body.dimensions}',
+//         goods_heatingPower = '${req.body.heatingPower}',
+//         goods_heatingType = '${req.body.heatingType}'
+//     WHERE id = ${req.body.id}
+//     `,
+//     (err, result) => {
+//       if (err) throw err;
+//       res.status(201);
+//     }
+//   );
+// });
 
 // сreate product
 
-app.get("/admin/adminProducts/addingProducts", (req, res) => {
-  res.render("adminAddingProductsPage");
-});
+// app.get("/admin/adminProducts/addingProducts", (req, res) => {
+//   res.render("adminAddingProductsPage");
+// });
 
-app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
-  console.log(req.body);
-  conn.query(
-    `
-    INSERT into goods (goods_name, goods_cost, goods_article, goods_type, goods_liter, goods_image, goods_image2, goods_image3, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
-    VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.type}', '${req.body.liter}', '${req.body.image}', '${req.body.image2}', '${req.body.image3}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
-    `,
-    (err, result) => {
-      if (err) throw err;
-      res.status(201);
-      res.redirect("/admin");
-    }
-  );
-});
+// app.post("/admin/adminProducts/addingProducts/addNewProduct", (req, res) => {
+//   console.log(req.body);
+//   conn.query(
+//     `
+//     INSERT into goods (goods_name, goods_cost, goods_article, goods_type, goods_liter, goods_image, goods_image2, goods_image3, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
+//     VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.type}', '${req.body.liter}', '${req.body.image}', '${req.body.image2}', '${req.body.image3}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
+//     `,
+//     (err, result) => {
+//       if (err) throw err;
+//       res.status(201);
+//       res.redirect("/admin");
+//     }
+//   );
+// });
 
 // rendering callback page
 
-app.get("/admin/admin-callbacks", (req, res) => {
-  conn.query(
-    `
-    SELECT id,username,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
-    FROM callback
-    ORDER BY id DESC
-    `,
-    function (err, result) {
-      if (err) throw err;
-      res.render("adminTable", {
-        callbacks: JSON.parse(JSON.stringify(result)),
-      });
-    }
-  );
-});
+// app.get("/admin/admin-callbacks", (req, res) => {
+//   conn.query(
+//     `
+//     SELECT id,username,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
+//     FROM callback
+//     ORDER BY id DESC
+//     `,
+//     function (err, result) {
+//       if (err) throw err;
+//       res.render("adminTable", {
+//         callbacks: JSON.parse(JSON.stringify(result)),
+//       });
+//     }
+//   );
+// });
 
 // saving callback from client to db
 
-app.post("/finish-callback", (req, res) => {
-  let data = req.body;
-  let nowDate = Math.trunc(Date.now() / 1000);
-  conn.query(
-    `
-    INSERT INTO callback (username, number, date) VALUES ("${data.name}", ${data.number}, ${nowDate})
-  `,
-    function (err, result) {
-      if (err) throw err;
-    }
-  );
-});
+// app.post("/finish-callback", (req, res) => {
+//   let data = req.body;
+//   let nowDate = Math.trunc(Date.now() / 1000);
+//   conn.query(
+//     `
+//     INSERT INTO callback (username, number, date) VALUES ("${data.name}", ${data.number}, ${nowDate})
+//   `,
+//     function (err, result) {
+//       if (err) throw err;
+//     }
+//   );
+// });
 
 // BTNS admin
 
-app.get("/btn-reset", (req, res) => {
-  conn.query(
-    `
-  TRUNCATE TABLE callback
-  `,
-    function (err, result) {
-      if (err) throw err;
-      res.redirect("/admin/admin-callbacks");
-    }
-  );
-});
+// app.get("/btn-reset", (req, res) => {
+//   conn.query(
+//     `
+//   TRUNCATE TABLE callback
+//   `,
+//     function (err, result) {
+//       if (err) throw err;
+//       res.redirect("/admin/admin-callbacks");
+//     }
+//   );
+// });
 
-app.get("/btn-reset-orders", (req, res) => {
-  conn.query(
-    `
-  TRUNCATE TABLE orders
-  `,
-    function (err, result) {
-      if (err) throw err;
-      res.redirect("/admin/orderPage");
-    }
-  );
-});
+// app.get("/resetOrders", (req, res) => {
+//   conn.query(
+//     `
+//   TRUNCATE TABLE orders
+//   `,
+//     function (err, result) {
+//       if (err) throw err;
+//       res.redirect("/admin/orders");
+//     }
+//   );
+// });
 
 // SHOPPIN CART
 
-app.get("/shoppingCart", (req, res) => {
-  res.render("shoppingCart");
-});
+// app.get("/shoppingCart", (req, res) => {
+//   res.render("shoppingCart");
+// });
 
 // rendering order table
 
-app.get("/admin/orderPage", (req, res) => {
-  conn.query(
-    `SELECT
-          orders.id as id,
-          orders.user_id as user_id,
-          orders.goods_id as goods_id,
-          orders.goods_article as goods_article,
-          orders.goods_cost as goods_cost,
-          orders.goods_amount as goods_amount,
-          orders.total as total,
-          from_unixtime(date, '%D %M %Y %H:%i:%s') as unix_timestapm,
-          users.user_name as user,
-          users.user_phone as phone,
-          users.adress as adress
-          FROM 
-            orders
-          LEFT JOIN	
-            users
-            ON orders.user_id = users.id ORDER BY id DESC
-    `,
-    function (err, result, fields) {
-      if (err) throw err;
-      res.render("adminOrderPage", {
-        orders: JSON.parse(JSON.stringify(result)),
-      });
-    }
-  );
-});
+// app.get("/admin/orders", (req, res) => {
+//   conn.query(
+//     `SELECT
+//           orders.id as id,
+//           orders.user_id as user_id,
+//           orders.goods_id as goods_id,
+//           orders.goods_article as goods_article,
+//           orders.goods_cost as goods_cost,
+//           orders.goods_amount as goods_amount,
+//           orders.total as total,
+//           from_unixtime(date, '%D %M %Y %H:%i:%s') as unix_timestapm,
+//           users.user_name as user,
+//           users.user_phone as phone,
+//           users.adress as adress
+//           FROM 
+//             orders
+//           LEFT JOIN	
+//             users
+//             ON orders.user_id = users.id ORDER BY id DESC
+//     `,
+//     function (err, result, fields) {
+//       if (err) throw err;
+//       res.render("adminOrderPage", {
+//         orders: JSON.parse(JSON.stringify(result)),
+//       });
+//     }
+//   );
+// });
 
 // showin data from db in cart
 
@@ -439,8 +425,6 @@ app.get("/admin/orderPage", (req, res) => {
 //   }
 // });
 
-
-
 // function saveOrder(data, res) {
 //   let sqlReq;
 
@@ -451,7 +435,7 @@ app.get("/admin/orderPage", (req, res) => {
 //     let userId = result.insertId;
 //     let nowDate = Math.trunc(Date.now() / 1000);
 //     for (let i = 0; i < res.length; i++) {
-//       sqlReq = `INSERT INTO orders (date,user_id, goods_id, goods_article, goods_cost,goods_amount,total) 
+//       sqlReq = `INSERT INTO orders (date,user_id, goods_id, goods_article, goods_cost,goods_amount,total)
 //      VALUES (${nowDate}, ${userId}, '${res[i]["id"]}', '${
 //         res[i]["goods_article"]
 //       }', '${res[i]["goods_cost"]}', ${data.key[res[i]["id"]]}, ${
