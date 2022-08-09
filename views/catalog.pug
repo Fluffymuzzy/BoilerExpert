@@ -1,9 +1,43 @@
-div(class="catalog_title")
-    h2(class="title_custom") Случайные товары
+//- div(class="catalog_title")
+//-     h2(class="title_custom") Случайные товары
+//-     each value, index in goods
+//-         div(class="catalog_item")
+//-             div(class="item_name")= value["goods_name"]
+//-             div(class="item_content")
+//-                 img(class="item_img" src= value["goods_image"])
+//-                 h5(class="item_price")= value["goods_cost"]
+//-                 p(class="item_desc")= value["goods_description"]
+//- div(class="row title_main_catalog")
+//-     h2 Товари
+//- div(class="row")
+//-     div(class="col-md-3")
+//-         each value, index in goods
+//-             div(class="product-box")
+//-                 div(class="product-inner-box position-relative") 
+//-                     div(class="icons") 
+//-                         a(href="" class="text-decoration-none text-dark eye")
+//-                             i(class="fas fa-eye") 
+//-                     div(class="onsale position-absolute top-0 start-0")
+//-                         span(class="badge rounded-0")
+//-                             i(class="fal fa-long-arrow-down") 
+//-                     img(src= value["goods_image"] class="img-fluid product_main_image")
+//-                     div(class="products_btns") 
+//-                         i(class="bi bi-plus-lg add-to-cart" data-id= value["id"]) 
+//-                 div(class="product-info")
+//-                     div(class="product-name")
+//-                         h3= value["goods_name"] 
+//-                     div(class="product-price") UAH  
+//-                         span= value["goods_cost"]   
+div(class="row title_main_catalog")
+    h2 Товари
+div(class="container product-container")
     each value, index in goods
-        div(class="catalog_item")
-            div(class="item_name")= value["goods_name"]
-            div(class="item_content")
-                img(class="item_img" src= value["goods_image"])
-                h5(class="item_price")= value["goods_cost"]
-                p(class="item_desc")= value["goods_description"]
+        div(class="product-box")
+            div(class="product-main-img")   
+                img(src= value["goods_image"], alt="" class="product-img img-fluid")  
+            div(class="product-info") 
+                h1(class="product-title")= value["goods_name"]  
+                div(class="product-price") UAH  
+                    span= value["goods_cost"]  
+                i(class="fa-solid fa-cart-shopping " data-id= value["id"])      
+
