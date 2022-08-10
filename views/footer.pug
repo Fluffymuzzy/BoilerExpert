@@ -1,15 +1,19 @@
-footer(class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top")
-    div(class="col-md-4 d-flex align-items-center")
-        a(href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1")
-            span(class="text-muted") © 2022 BoilerExpert!
-    ul(class="nav col-md-4 justify-content-end list-unstyled d-flex") 
-        li(class="ms-3")
-            a(href="#" class="text-muted")
-                img(src="/img/social/inst.png")
-        li(class="ms-3")
-            a(href="#" class="text-muted")
-                img(src="/img/social/tg.png")        
-        
+footer(class="footer")
+    div(class="social")
+        a(href="")
+            i(class="fab fa-instagram")
+        a(href="")
+            i(class="fab fa-telegram")    
+    ul(class="nav-list")   
+        li 
+            a(href="/") Головна 
+        li 
+            a(href="#servicesPage") Послуги 
+        li 
+            a(href="#catalog") Каталог  
+        li 
+            a(href="#footer") Контакти  
+    p(class="copyright") BoilerExpert! 2022                     
     
     
     script(src="//cdn.jsdelivr.net/npm/sweetalert2@11")
@@ -17,4 +21,5 @@ footer(class="d-flex flex-wrap justify-content-between align-items-center py-3 m
     script(src="/js/callbackForm.js") 
     script(type="module" src="/js/shoppingCartFormation.js")
     script(type="module" src="/js/shoppingForm.js")
+    script(type="module" src="js/sendMail.js")
     script(src="/js/main.js")
