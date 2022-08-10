@@ -29,15 +29,29 @@
 //-                     div(class="product-price") UAH  
 //-                         span= value["goods_cost"]   
 div(class="row title_main_catalog")
-    h2 Товари
+    h2 Нові товари
+//- div(class="container product-container")
+//-     each value, index in goods
+//-         div(class="product-box")
+//-             div(class="product-main-img")   
+//-                 img(src= value["goods_image"], alt="" class="product-img img-fluid")  
+//-             div(class="product-info") 
+//-                 h1(class="product-title")= value["goods_name"]  
+//-                 div(class="product-price") UAH  
+//-                     span= value["goods_cost"]  
+//-                 i(class="fa-solid fa-cart-shopping " data-id= value["id"]) 
 div(class="container product-container")
     each value, index in goods
-        div(class="product-box")
-            div(class="product-main-img")   
-                img(src= value["goods_image"], alt="" class="product-img img-fluid")  
-            div(class="product-info") 
-                h1(class="product-title")= value["goods_name"]  
-                div(class="product-price") UAH  
-                    span= value["goods_cost"]  
-                i(class="fa-solid fa-cart-shopping " data-id= value["id"])      
+        div(class="product-card") 
+            div(class="product-img")
+                img(src= value["goods_image"], alt="")
+            div(class="product-detail")
+                span= value["goods_name"]
+                div(class="article")
+                    span= value["goods_article"] 
+                div(class="product-info")
+                    div(class="product-price") UAH
+                        span= value["goods_cost"]     
+                    a(href="/catalog/product/"+ value["id"] class="product-info-btn") Більше інфи
+
 
