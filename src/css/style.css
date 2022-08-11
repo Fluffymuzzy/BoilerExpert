@@ -29,24 +29,24 @@ body {
 /* Header */
 
 .header {
+  transition: 0.6s;
+  display: flex;
   position: fixed;
   width: 100%;
-  padding: 10px 40px;
+  padding: 40px 100px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header.sticky {
-  /* border: 1px solid #000; */
   background-color: #212529;
   z-index: 1;
+  padding: 5px 100px;
 }
 
 .header.sticky .navigation_link {
   color: #70a8cb;
 }
-
-/* .header.sticky .logo:hover {
-  color: #fff;
-} */
 
 .header.sticky .navigation_link:hover {
   border: none;
@@ -60,14 +60,15 @@ body {
 /* Nav */
 
 .header_nav {
-  position: relative;
-  transition: 0.6s;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  /* position: relative; */
+  /* transition: 0.6s;
+  display: flex; */
+  /* justify-content: space-between;
+  align-items: flex-end; */
 }
 
 .logo {
+  position: relative;
   transition: 0.6s;
   color: #212529;
   font-weight: 700;
@@ -100,26 +101,34 @@ body {
   }
 }
 
-.logo:hover {
+/* .logo:hover {
   color: #70a8cb;
-}
+} */
 
 .navigation_list {
-  position: relatitve;
+  position: relative;
   display: flex;
-  column-gap: 50px;
+  justify-content: center;
+  align-items: center;
   font-weight: 500;
   font-size: 16px;
   list-style: none;
 }
 
+.navigation_item {
+  position: relative;
+  list-style: none;
+}
+
 .navigation_link {
+  position: relative;
   text-decoration: none;
   color: #fafbfc;
   font-weight: 700;
+  /* margin: 0 15px; */
   padding: 2px 15px;
   border-radius: 30px;
-  transition: 0.3s;
+  transition: 0.5s;
   transition-property: background;
 }
 
@@ -172,40 +181,14 @@ body {
 }
 
 .main_title {
-  /* opacity: 1; */
   margin-bottom: 20px;
   font-weight: 600;
   font-size: 44px;
-  /* color: rgba(255, 255, 255, 0); */
   letter-spacing: 3px;
   color: #fff;
-
   text-shadow: 1px 3px 0 #70a8cb, 1px 13px 5px #70a8cb,
     19px 7px 7px rgba(112, 168, 203, 0.97);
-  /* background-image: url(https://e7.pngegg.com/pngimages/650/338/png-clipart-body-of-water-water-drop-bubble-fresh-water-drops-watermark-blue-cloud.png);
-  background-size: 250px 150px;
-  background-position: 0 bottom;
-  background-repeat: repeat-x;
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
-  animation: water 5s linear alternate, wave 1s linear infinite; */
 }
-/* @keyframes wave {
-  0% {
-    background-position: 0 bottom;
-  }
-  100% {
-    background-position: 250 bottom;
-  }
-}
-@keyframes water {
-  0% {
-    background-size: 250px 0px;
-  }
-  100% {
-    background-size: 250px 150px;
-  }
-} */
 
 .main_img {
 }
@@ -260,7 +243,7 @@ body {
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
-  width: 1100px;
+  /* width: 1100px; */
 }
 
 .card_service {
@@ -469,7 +452,6 @@ body {
 
 .footer ul li a:hover {
   opacity: 1;
-  
 }
 
 .footer .copyright {
