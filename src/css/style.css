@@ -36,6 +36,7 @@ p {
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 9;
 }
 
 .navigation-wrap {
@@ -103,6 +104,83 @@ p {
   background-position: bottom center;
 }
 
+.main-main .shape {
+  position: absolute;
+}
+
+.shape-one {
+  position: relative;
+  width: 75px;
+  height: 75px;
+  left: 230px;
+  top: 10%;
+  border-radius: 50%;
+  background: #637ae4;
+  animation: animation-1 2s linear infinite;
+}
+
+.shape-two {
+  width: 39px;
+  height: 39px;
+  left: 150px;
+  bottom: 40px;
+  border-radius: 50%;
+  background: #0898e7;
+  animation: animation-1 2s linear infinite;
+}
+
+.shape-three {
+  width: 19px;
+  height: 19px;
+  left: 26px;
+  bottom: 25%;
+  border-radius: 50%;
+  background: #70a8cb;
+  animation: animation-1 2s linear infinite;
+}
+
+.shape-four {
+  width: 39px;
+  height: 39px;
+  left: 40%;
+  top: 175px;
+  border-radius: 50%;
+  background: #4ebaf5;
+  animation: animation-1 2s linear infinite;
+}
+
+.shape-five {
+  width: 19px;
+  height: 19px;
+  left: 50%;
+  bottom: 20%;
+  border-radius: 50%;
+  background: #3d7dbc;
+  animation: animation-1 2s linear infinite;
+}
+
+.shape-six {
+  width: 14px;
+  height: 14px;
+  left: 45%;
+  bottom: 70%;
+  border-radius: 50%;
+  background: #4ebaf5;
+  animation: animation-1 2s linear infinite;
+}
+
+@keyframes animation-1 {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 .main-content {
   position: relative;
 }
@@ -162,7 +240,7 @@ p {
   display: inline-block;
   border: none;
   color: #3d7dbc;
-  font-weight: 500;
+  font-weight: 700;
   padding: 10px 30px;
   text-decoration: none;
   letter-spacing: 1px;
@@ -170,8 +248,8 @@ p {
   font-size: 16px;
   width: 150px;
   margin: 10px;
-  box-shadow: -2px -2px 8px rgba(212, 219, 234),
-    -2px -2px 12px rgba(169, 175, 187);
+  box-shadow: -2px -2px 8px rgba(212, 219, 234);
+    
 }
 
 .main-btn:hover {
