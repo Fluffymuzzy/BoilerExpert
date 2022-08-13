@@ -1,22 +1,39 @@
 include header
-include header-nav-panel 
-section(class="main" id="home")   
-    div(class="container main")
-        div(class="main_row")
-            div(class="main_content")
-                h1(class="main_title") BoilerExpert! 
-                p Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                div(class="btns")    
-                    a(class="btn btn-danger" href="/catalogPage") Купить!
-                    button(class="callback_btn") Брякни           
-            div(class="main_img")
-                img(class="main_title_img" src="https://res.cloudinary.com/df3brtd4v/image/upload/v1658741616/boilerexpert_imgs/photo_2022-07-25_12-28-14_edtrre.jpg" alt="Product")     
-section(class="services" id="servicesPage")
-    div(class="container service") 
-        include services
-section(class="catalog" id="catalog")
+  
+header(class="header-area")
+    div(class="nav-area")
+        nav(class="navbar navbar-expand-lg navigation-wrap")
+            div(class="container")
+                a(href="/" class="logo navbar-brand") BoilerExpert!
+                button(class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+                aria-label="Toggle navigation")
+                    i(class="fa-solid fa-bars")  
+                div(class="collapse navbar-collapse" id="navbarNav") 
+                    ul(class="navbar-nav ms-auto mb-2 mb-lg-0") 
+                        li(class="nav-item")
+                            a(class="nav-link active" href="/") Головна
+                        li(class="nav-item")   
+                            a(class="nav-link" href="#servicesPage") Послуги
+                        li(class="nav-item")
+                            a(class="nav-link" href="#catalog") Каталог   
+                        li(class="nav-item") 
+                            a(class="nav-link" href="#footer") Контакти   
+div(class="main-main")
     div(class="container")
-        include catalog	
-section(class="footer" id="footer")
-    div(class="container")
-        include footer         
+        div(class="row align-items-center justify-content-center justify-content-lg-between")
+            div(class="col-lg-6 col-md-10")
+                div(class="main-content")
+                    h1(class="main-title") BoilerExpert!
+                    p(class="main-text") Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    ul(class="d-flex")
+                        a(class="btn buy main-btn" href="/catalog") Каталог
+                        button(class="btn fix main-btn callback_btn") Ремонт  
+            div(class="col-lg-3 col-md-6")
+                div(class="main-img")
+                    img(src="https://res.cloudinary.com/df3brtd4v/image/upload/v1660385874/boilerexpert_imgs/waterheater1_mic3uc.png" alt="BoilerExpert!" class="cover") 
+
+          
+            
+
+include footer         
