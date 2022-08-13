@@ -31,20 +31,84 @@ header(class="header-area")
             div(class="row align-items-center justify-content-center justify-content-lg-between")
                 div(class="col-lg-6 col-md-10")
                     div(class="main-content")
-                        h1(class="main-title wow fadeInLeftBig") BoilerExpert!
-                        p(class="main-text wow fadeInLeftBig") Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        h1(class="main-title wow fadeInLeftBig" data-wow-duration="2s" data-wow-delay="0.2s" ) BoilerExpert!
+                        p(class="main-text wow fadeInLeftBig" data-wow-duration="2s" data-wow-delay="0.4s") Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                         ul(class="d-flex")
-                            a(class="btn buy main-btn wow fadeInLeftBig" href="/catalog") Каталог
-                            button(class="btn fix main-btn callback_btn wow fadeInLeftBig") Ремонт  
+                            a(class="btn buy main-btn wow fadeInLeftBig" data-wow-duration="2s" data-wow-delay="0.8s"  href="/catalog") Каталог
+                            button(class="btn fix main-btn callback_btn wow fadeInLeftBig" data-wow-duration="2s" data-wow-delay="1.2s") Ремонт  
                 div(class="col-lg-3 col-md-6")
                     div(class="main-img")
-                        img(src="https://res.cloudinary.com/df3brtd4v/image/upload/v1660385874/boilerexpert_imgs/waterheater1_mic3uc.png" alt="BoilerExpert!" class="cover wow fadeInRightBig") 
+                        img(src="https://res.cloudinary.com/df3brtd4v/image/upload/v1660385874/boilerexpert_imgs/waterheater1_mic3uc.png" alt="BoilerExpert!" class="cover wow fadeInRightBig" data-wow-duration="2s" data-wow-delay="0.5s") 
     div(class="container")
         div(class="shape-1")
         div(class="shape-2")
             img(src="https://res.cloudinary.com/df3brtd4v/image/upload/v1660387546/boilerexpert_imgs/header-shape-2_okhm1m.svg")
 
-          
-            
+section(class="feature-section pt-80 services" data-scroll-index="1")
+    div(class="container")          
+        div(class="row justify-content-center")        
+            div(class="col-xl-6 col-lg-7")
+                div(class="section-title text-center service-title mb-30")
+                    h1(class="mb-25 wow fadeInUp" data-wow-delay=".2s") Чому клієнти обирають саме нас?
+        div(class="row justify-content-center")
+            div(class="col-lg-4") 
+                div(class="single-feature wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s")           
+                    div(class="icon color-1")  
+                        i(class="fa-solid fa-screwdriver-wrench")
+                    div(class="content") 
+                        h3 Ремонт
+                        p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus sequi pariatur qui ut dolore excepturi!
+            div(class="col-lg-4") 
+                div(class="single-feature wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s")           
+                    div(class="icon color-1")  
+                        i(class="fa-solid fa-toolbox")
+                    div(class="content") 
+                        h3 Обслуговування
+                        p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus sequi pariatur qui ut dolore excepturi!
+            div(class="col-lg-4") 
+                div(class="single-feature wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s")           
+                    div(class="icon color-1")  
+                       i(class="fa-solid fa-shop")
+                    div(class="content") 
+                        h3 Продаж
+                        p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus sequi pariatur qui ut dolore excepturi!
 
-include footer         
+section(class="about-area pt-70 pb-120") 
+    div(class="container")
+        div(class="row align-items-center")
+            div(class="col-lg-6")
+                div(class="about-image wow fadeInLeftBig" data-wow-duration="2s" data-wow-delay="0.5s")
+                    div(class="about-shape")
+                    img(src="https://res.cloudinary.com/df3brtd4v/image/upload/v1660398092/boilerexpert_imgs/betonus_fxj2vn.png", alt="")
+            div(class="col-lg-6")
+                div(class="about-content mt-50 wow fadeInRightBig" data-wow-duration="2s" data-wow-delay="0.5s")
+                    div(class="section-title")
+                        h1(class="about-title") Vladislav Pavlenko!
+                        p(class="text") Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo nobis aperiam tenetur aspernatur. Dolor nostrum hic impedit cupiditate iure beatae doloribus, obcaecati deleniti dignissimos in?
+div(class="pricing-area pt-110")
+    div(class="container")
+        div(class="row justify-content-center")    
+            div(class="col-xl-6 col-lg-7")
+                div(class="section-title text-center pb-30")
+                    h1(class="") Нові надходження
+            div(class="row justify-content-center") 
+                each value, index in goods
+                    div(class="col-lg-4 col-md-7 col-sm-9")
+                        div(class="product-box text-center")
+                            div(class="image-product")
+                                img(src= value["goods_image"] class="img-product")
+                            div(class="product-detail")
+                                div(class="product-model")
+                                    span= value["goods_name"]
+                                    p(class="article")= value["goods_article"]
+                                div(class="product-price") UAH
+                                    span(class="price")= value["goods_cost"]
+                            div(class="product-links")        
+                                a(href="/catalog/product/"+ value["id"] class="main-btn main-btn-link") Більше інфи
+
+
+
+
+
+
+include footer  
