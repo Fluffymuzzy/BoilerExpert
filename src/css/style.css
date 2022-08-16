@@ -65,33 +65,27 @@ p {
 
 /* SERVICES */
 @media only screen and (min-width: 359px) and (max-width: 991px),
-(max-width: 767px) {
+  (max-width: 767px) {
   /* .about-image {
     margin-right: 120px;
   } */
   .about-image-box {
     text-align: center;
   }
-
 }
 
-
 @media only screen and (min-width: 768px) and (max-width: 991px),
-(max-width: 767px) {
-    .services {
-        padding-top: 20px;
-    }
+  (max-width: 767px) {
+  .services {
+    padding-top: 20px;
+  }
 }
 
 /* FOOTER */
 
 @media only screen and (min-width: 768px) and (max-width: 991px),
-(max-width: 767px) {
-
-
- 
+  (max-width: 767px) {
 }
-
 
 /* RESPONSIVE =====*/
 
@@ -263,8 +257,6 @@ p {
 .main-content {
   position: relative;
 }
-
-
 
 .main-title {
   letter-spacing: 3px;
@@ -473,6 +465,11 @@ p {
   max-height: 100%;
 }
 
+.product-model a {
+  text-decoration: none;
+  color: #212529;
+}
+
 .product-model span {
   font-size: 21px;
   font-weight: 500;
@@ -502,7 +499,6 @@ p {
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
-
 
 .social {
   margin-top: 25px;
@@ -554,14 +550,31 @@ p {
 }
 
 .filtration-li {
+  font-weight: 600;
+  font-size: 30px;
   display: inline-block;
   padding: 10px 40px 10px 0;
   cursor: pointer;
+  /* border-radius: 30%; */
+
+  text-align: center;
+}
+
+.filtration-li:hover {
+  color: #0898ef;
 }
 
 /* Catalog Page */
 
-.product-card {
+.product-box-row {
+  margin-bottom: 20px;
+}
+
+.catalog-pagination {
+  margin-bottom: 25px;
+}
+
+/* .product-card {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.06);
 }
 
@@ -596,7 +609,7 @@ p {
   flex-wrap: wrap;
   flex-direction: row;
   padding: 10px 0;
-}
+} */
 
 /* Product Page */
 
@@ -664,33 +677,27 @@ p {
 }
 
 .add-to-cart {
+  margin: 0 auto;
+  font-size: 30px;
+  position: relative;
   padding: 15px 20px;
-  background: #212529;
-  color: white;
-  border-radius: 0;
+  border-radius: 30px;
+
 }
+
 
 /* Nav Shoppin Cart */
 
-/* .navbar {
+.navbar-amount {
   background-color: #212529;
-  color: #fff;
-} */
-
-.logo_shopping_cart {
   color: #fff;
 }
 
-.cart {
-  position: relative;
-  font-size: 20px;
-  padding: 5px;
+.fa-cart-shopping {
 }
 
 .amount_cart {
-  position: absolute;
-  top: -10px;
-  right: -8px;
+  /* position: absolute; */
   color: red;
   padding: 3px;
 }
