@@ -87,6 +87,22 @@ p {
   (max-width: 767px) {
 }
 
+/* CATALOG PAGE  */
+
+@media only screen and (min-width: 768px) and (max-width: 991px),
+  (max-width: 767px) {
+  .product-box-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .filtration-nav {
+    display: flex;
+    justify-content: center;
+    
+  }
+}
+
 /* RESPONSIVE =====*/
 
 /* STICKY HEADER */
@@ -682,9 +698,7 @@ p {
   position: relative;
   padding: 15px 20px;
   border-radius: 30px;
-
 }
-
 
 /* Nav Shoppin Cart */
 
@@ -693,13 +707,23 @@ p {
   color: #fff;
 }
 
+.cart {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: 700;
+}
+
+.cart:hover {
+  border: 2px solid #0898ef;
+}
+
 .fa-cart-shopping {
 }
 
 .amount_cart {
-  /* position: absolute; */
   color: red;
-  padding: 3px;
 }
 
 i {

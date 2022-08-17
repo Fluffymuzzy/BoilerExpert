@@ -2,7 +2,7 @@ include navShoppingCart
 section(class="catalogPage_content")
     div(class="container")
         include productFilter
-        div(class="row product-box-row")
+        div(class="row product-box-row text-center")
             each value, index in goods[0]
                 div(class="col-lg-4 col-md-7 col-sm-9 card-box " + value["goods_type"])
                     div(class="product-box text-center")
