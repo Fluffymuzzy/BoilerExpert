@@ -22,7 +22,7 @@ const mainPageGoods = (req, res) => {
 // render catalog page and
 // i'm trying to paginate the results of a query.
 
-const resPerPage = 4;
+const resPerPage = 6;
 const catalogPage = (req, res) => {
   let allGoods = new Promise((resolve, reject) => {
     conn.query(`SELECT * FROM goods ORDER BY id `, (err, result) => {

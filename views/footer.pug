@@ -1,25 +1,50 @@
-footer(class="footer")
-    div(class="social")
-        a(href="")
-            i(class="fab fa-instagram")
-        a(href="")
-            i(class="fab fa-telegram")    
-    ul(class="nav-list")   
-        li 
-            a(href="/") Головна 
-        li 
-            a(href="#servicesPage") Послуги 
-        li 
-            a(href="#catalog") Каталог  
-        li 
-            a(href="#footer") Контакти  
-    p(class="copyright") BoilerExpert! 2022                     
-    
-    
+footer(class="footer-area" id="footer")
+    div(class="footer-widget pt-30 pb-80")
+        div(class="container")
+            div(class="row")
+                div(class="col-lg-6 col-md-6 text-center")
+                    div(class="footer-about mt-50")
+                        a(href="/" class="logo navbar-brand") BoilerExpert!
+                        ul(class="social")
+                            li 
+                                a(href="")
+                                    i(class="fab fa-instagram")
+                            li 
+                                a(href="")
+                                    i(class="fab fa-telegram")         
+                div(class="col-lg-6 col-md-6 text-center")
+                    div(class="footer-contact mt-50")
+                        ul(class="contact-list") 
+                            li 
+                                div(class="contact-info")
+                                    div(class="info-content media-body")
+                                        p(class="text") +3809999999999
+                                            a(href="")
+                                                i(class="fas fa-phone-alt") 
+                            li 
+                                div(class="contact-info")
+                                    div(class="info-content media-body") 
+                                        p(class="text") boilerexpert@gmail.com  
+                                            a(href="") 
+                                                i(class="far fa-envelope")                               
+                            li 
+                                div(class="contact-info")
+                                    div(class="info-content media-body") 
+                                        p(class="text") Kharkiv 
+                                            a(href="") 
+                                                i(class="fas fa-map-marker-alt")  
+            div(class="footer-copyright")
+                div(class="container")
+                    div(class="row justify-content-center")
+                        div(class="lo-lg-12")
+                            div(class="copyright")
+                                div(class="copyright-text text-center")
+                                    p(class="text") BoilerExpert! @ 2022                     
     script(src="//cdn.jsdelivr.net/npm/sweetalert2@11")
     script(src="/libs/bootstrap.js")
+    script(src="/libs/all.js")
+    script(src="/libs/wow.min.js")
     script(src="/js/callbackForm.js") 
     script(type="module" src="/js/shoppingCartFormation.js")
     script(type="module" src="/js/shoppingForm.js")
-    script(type="module" src="js/sendMail.js")
     script(src="/js/main.js")

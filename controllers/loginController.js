@@ -1,59 +1,64 @@
 const conn = require("../sqlConfig");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 // login
-function generateHash(length) {
-  let res = "";
-  let char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let charLength = char.length;
-  for (let i = 0; i < length; i++) {
-    res += char.charAt(Math.floor(Math.random() * charLength));
-  }
-  return res;
-}
+// const login = async (req, res) => {
+//   const { login, password } = req.body;
+//   let getPassword = [];
 
-const hashValidation = (req, res, next) => {
-  if (req.cookies.id === undefined || req.cookies.hash === undefined) {
-    res.redirect("/login");
-    return;
-  }
-  conn.query(
-    `SELECT * FROM admin WHERE id=${req.cookies.id} and hash='${req.cookies.hash}'`,
-    (err, result) => {
-      if (err) throw err;
-      if (result.length === 0) {
-        res.redirect("/login");
-      } else {
-        next();
-      }
-    }
-  );
-};
+//   conn.query(`SELECT * FROM admin WHERE login = '${login}'`, (err, result) => {
+//     if (err) throw err;
+//     getPassword.push(JSON.parse(JSON.stringify(result))[0].password);
+//   });
+//   console.log(getPassword);
+//   const hash = await bcrypt.hash(password, 8);
+//   //   conn.query(
+//   //     `INSERT `
+//   //   )
+// };
 
-const updateLoginHash = (req, res) => {
-  conn.query(
-    `SELECT * FROM admin WHERE login = '${req.body.login}' and password = '${req.body.password}'`,
-    (err, result) => {
-      if (err) throw err;
-      if (result.length == 0 || result == null) {
-        res.redirect("/login");
-      } else {
-        result = JSON.parse(JSON.stringify(result));
-        let hash = generateHash(32);
-        let id = result[0]["id"];
-        res.cookie("hash", hash);
-        res.cookie("id", id);
-        let sqlReq = `UPDATE admin SET hash = '${hash}' WHERE id = '${id}'`;
+const login = async (req, res) => {
+  let { login, password } = req.body;
+  // console.log(password);
 
-        conn.query(sqlReq, (err, result) => {
-          if (err) throw err;
-          console.log(result);
-          res.redirect("/admin");
+  let getPassword = new Promise((resolve, reject) => {
+    conn.query(
+      `SELECT * FROM admin WHERE login = '${login}'`,
+      (err, result) => {
+        if (err) reject(err);
+        result = JSON.parse(JSON.stringify(result[0].password));
+        // console.log(result);
+        // console.log(password);
+
+        bcrypt.hash(result, 8).then((hash) => {
+          conn.query(
+            `UPDATE admin SET password = '${hash}' WHERE login = '${login}'`,
+            (err, result) => {
+              if (err) throw err;
+              res.status(200);
+            }
+          );
+        });
+
+       
+        
+
+        bcrypt.compare(password, dbPassword).then((match) => {
+          if (!match) {
+            res.status(400).json({ error: "wrong !" });
+          } else {
+            res.status(200).json("vse ok");
+          }
         });
       }
-    }
-  );
+    );
+  });
+  // Promise.all([getPassword]).then((value) => {
+  //   console.log(value);
+  // });
 };
 
-// login
-
-module.exports = { hashValidation, updateLoginHash };
+module.exports = {
+  login,
+};

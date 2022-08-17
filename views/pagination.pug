@@ -4,13 +4,13 @@ nav
     ul(class="pagination")
         if page > 1
             li(class="page-item")
-                a(class="page-link" href=`/catalogPage?page=${page}` aria-label="Previous")
+                a(class="page-link" href=`/catalog?page=${page}` aria-label="Previous")
                     span(aria-hidden="true") &laquo;
         - let n = 1 
         while n <= numberOfPages
             li(class="page-item")
-                a(class="page-link" href=`/catalogPage?page=${n}`)= n++ 
+                a(class="page-link" href=`/catalog?page=${n}`)= n++ 
         if page < numberOfPages 
             li(class="page-item")  
-                a(class="page-link" href=`/catalogPage?page=${page+1}` aria-label="Next")
+                a(class="page-link" href=`/catalog?page=${page+1}` aria-label="Next")
                     span(aria-hidden="true") &raquo;                

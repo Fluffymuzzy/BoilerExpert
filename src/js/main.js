@@ -1,8 +1,14 @@
 // Sticky Navbar
-// window.addEventListener("scroll", function () {
-//   let header = document.querySelector(".header");
-//   header.classList.toggle("sticky", window.scrollY > 0);
-// });
+
+window.addEventListener("scroll", () => {
+  let header = document.querySelector(".navbar-area");
+  let scroll = window.scrollY;
+  if (scroll > 20) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+});
 
 // WOW Animation
 

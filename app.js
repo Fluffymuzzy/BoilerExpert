@@ -25,18 +25,15 @@ app.listen(port, (err) => {
   console.log(`Server started on http://${hostname}:${port}`);
 });
 
-
-
 app
   .use("/app", router)
   .use(responseHelper)
-  .use(express.urlencoded())
   .use(express.json())
-  .use(cookieParser())
-  .use(express.static(__dirname + "/src"))
-  .use("/login", require("./routes/adminRoutes"))
+  .use(express.urlencoded())
   .use("/", main)
   .use("/", admin)
+  .use(cookieParser())
+  .use(express.static(__dirname + "/src"))
   .set("view engine", "pug");
 
 module.exports = router;
@@ -296,8 +293,8 @@ module.exports = router;
 //   console.log(req.body);
 //   conn.query(
 //     `
-//     INSERT into goods (goods_name, goods_cost, goods_article, goods_type, goods_liter, goods_image, goods_image2, goods_image3, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType ) 
-//     VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.type}', '${req.body.liter}', '${req.body.image}', '${req.body.image2}', '${req.body.image3}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}') 
+//     INSERT into goods (goods_name, goods_cost, goods_article, goods_type, goods_liter, goods_image, goods_image2, goods_image3, goods_warranty, goods_dimensions, goods_heatingPower, goods_heatingType )
+//     VALUES ('${req.body.name}','${req.body.cost}','${req.body.article}', '${req.body.type}', '${req.body.liter}', '${req.body.image}', '${req.body.image2}', '${req.body.image3}', '${req.body.warranty}', '${req.body.dimensions}', '${req.body.heatingPower}', '${req.body.heatingType}')
 //     `,
 //     (err, result) => {
 //       if (err) throw err;
@@ -312,7 +309,7 @@ module.exports = router;
 // app.get("/admin/admin-callbacks", (req, res) => {
 //   conn.query(
 //     `
-//     SELECT id,username,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp 
+//     SELECT id,username,number,FROM_UNIXTIME(date, '%D %M %Y %H:%i:%s') as unix_timestamp
 //     FROM callback
 //     ORDER BY id DESC
 //     `,
@@ -388,9 +385,9 @@ module.exports = router;
 //           users.user_name as user,
 //           users.user_phone as phone,
 //           users.adress as adress
-//           FROM 
+//           FROM
 //             orders
-//           LEFT JOIN	
+//           LEFT JOIN
 //             users
 //             ON orders.user_id = users.id ORDER BY id DESC
 //     `,

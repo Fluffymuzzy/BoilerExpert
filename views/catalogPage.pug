@@ -2,19 +2,25 @@ include navShoppingCart
 section(class="catalogPage_content")
     div(class="container")
         include productFilter
-        div(class="catalog_row")
+        div(class="row product-box-row")
             each value, index in goods[0]
-                div(class="col-lg-3 col-sm-6 card-box " + value["goods_type"]  ) 
-                    a(href="/productPage/"+ value["id"])        
-                        div(class="product-card")
-                            div(class="product-thumb")
-                                img(src= value["goods_image"] class="card-img-top")
-                                h1= value["goods_name"] 
-                                h3(class="product-price")= value["goods_cost"] 
-                    div(class="product-links")
-                        i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
+                div(class="col-lg-4 col-md-7 col-sm-9 card-box " + value["goods_type"])
+                    div(class="product-box text-center")
+                        div(class="image-product")
+                            a(href="/catalog/product/"+ value["id"]) 
+                                img(src= value["goods_image"] class="img-product")
+                        div(class="product-detail")
+                            div(class="product-model")
+                                a(href="/catalog/product/"+ value["id"]) 
+                                    span= value["goods_name"]
+                                p(class="article")= value["goods_article"]
+                            div(class="product-price") UAH &nbsp;
+                                span(class="price")= value["goods_cost"]
+                        div(class="product-links" ) 
+                            i(class="fa-solid fa-cart-plus add-to-cart main-btn" data-id= value["id"])   
         div(class="catalog-pagination")
             each value,index in goods[1]
-                include pagination                
-    script(src="/js/productFilter.js")
-    include footer                             
+                include pagination  
+    script(src="/js/productFilter.js")     
+            
+    include footer                                  

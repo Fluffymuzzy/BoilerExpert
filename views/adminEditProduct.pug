@@ -36,10 +36,14 @@ div(class="container")
                                 label(for='item_warranty') Warranty
                                 br
                                 input(name='item_warranty' id='upd_item_warranty' type="number" value=value["goods_warranty"] required)
-                              div
+                            div
                                 label(for='item_liter') Liter
                                 br
-                                input(name='item_liter' id='upd_item_liter' type="number" value=value["goods_liter"] required)    
+                                input(name='item_liter' id='upd_item_liter' type="number" value=value["goods_liter"] required) 
+                            div
+                                label(for='item_type') Type
+                                br
+                                input(name='item_type' id='upd_item_type' type="text" value=value["goods_type"] required)       
                             div
                                 label(for='item_dimensions') Dimensions
                                 br
@@ -57,4 +61,4 @@ div(class="container")
 
     script(type="module" src="/js/editProducts.js")
 
-    include footer                
+include footer                

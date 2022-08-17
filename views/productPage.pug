@@ -1,37 +1,6 @@
-include header
-include navShoppingCart
-//- section(class="product_page_detail")
-//-     each value, index in goods
-//-         div(class="container prod_page")
-//-             div(class="imagery container")    
-//-                 img(src= value["goods_image"] alt="" class="product_page_img")
-//-                 div(class='profile-img')
-//-                     a(data-fancybox="gallery" href= value["goods_image2"])
-//-                         img(class="rounded float-start" src= value["goods_image2"])
-//-                     a(data-fancybox="gallery" href= value["goods_image3"])    
-//-                         img(class="rounded float-end" src= value["goods_image3"])        
-//-             div(class="detail")    
-//-                 h1= value["goods_name"]
-//-                 h2= value["goods_article"]
-//-                 h2= value["goods_cost"] 
-//-                 h2 Характеристики  
-//-                 div(class="product_page_options")    
-//-                     div(class="options_wrap")
-//-                         div Гарантия
-//-                             h3= value["goods_warranty"]
-//-                         div Мощность нагревательного елемента    
-//-                             h3= value["goods_heatingPower"]
-//-                         div Тип нагревательного елемента    
-//-                             h3= value["goods_heatingType"]
-//-                         div Габариты
-//-                             h3= value["goods_dimensions"]    
-//-                 div(class="product-links")
-//-                     i(class="bi bi-dash-lg remove-from-cart"  data-id= value["id"])
-//-                     i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
-    
-//-     script(src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js")
-//- include footer      
 
+include navShoppingCart
+     
 div(class="container-fluid product-container")
     div(class="row no-gutters")
         each value, index in goods
@@ -53,8 +22,8 @@ div(class="container-fluid product-container")
                 div(class="product-price")
                     span= value["goods_cost"]                                            
                     div(class="product-links")
-                    i(class="bi bi-dash-lg remove-from-cart"  data-id= value["id"])
-                    i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])     
+                    i(class="fa-regular fa-minus remove-from-cart"  data-id= value["id"])
+                    i(class="fa-regular fa-plus add-to-cart" data-id= value["id"])     
                 div(class="product-characteristics") 
                     h5 Об'єм
                     span= value["goods_liter"]
@@ -73,5 +42,5 @@ div(class="container-fluid product-container")
                 //-     i(class="bi bi-plus-lg add-to-cart" data-id= value["id"])
 
 
-script(src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js")
+    script(src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js")
 include footer 

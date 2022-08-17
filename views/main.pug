@@ -1,25 +1,7 @@
 include header
   
 header(class="header-area")
-    div(class="navbar-area")
-        div(class="container")
-            nav(class="navbar navbar-expand-lg navigation-wrap")
-                div(class="container-fluid")
-                    a(href="/" class="logo navbar-brand") BoilerExpert!
-                    button(class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
-                    aria-label="Toggle navigation")
-                        i(class="fa-solid fa-bars")  
-                    div(class="collapse navbar-collapse" id="navbarNav") 
-                        ul(class="navbar-nav ms-auto mb-2 mb-lg-0") 
-                            li(class="nav-item")
-                                a(class="nav-link" data-scroll-nav="0"  href="/") Головна
-                            li(class="nav-item")   
-                                a(class="nav-link" href="#services") Послуги
-                            li(class="nav-item")
-                                a(class="nav-link" href="#catalog") Каталог   
-                            li(class="nav-item") 
-                                a(class="nav-link" href="#footer") Контакти   
+    include header-nav-panel  
     div(class="main-main")
         div(class="shape shape-one")
         div(class="shape shape-two")
@@ -44,109 +26,6 @@ header(class="header-area")
         div(class="shape-2")
             img(src="https://res.cloudinary.com/df3brtd4v/image/upload/v1660387546/boilerexpert_imgs/header-shape-2_okhm1m.svg")
 
-section(class="feature-section pt-80 services" id="services")
-    div(class="container")          
-        div(class="row justify-content-center")        
-            div(class="col-xl-6 col-lg-7")
-                div(class="section-title text-center service-title mb-30")
-                    h1(class="mb-25 wow fadeInUp" data-wow-delay=".2s") Чому клієнти обирають саме нас?
-        div(class="row justify-content-center")
-            div(class="col-lg-4") 
-                div(class="single-feature wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s")           
-                    div(class="icon color-1")  
-                        i(class="fa-solid fa-screwdriver-wrench")
-                    div(class="content") 
-                        h3 Ремонт
-                        p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus sequi pariatur qui ut dolore excepturi!
-            div(class="col-lg-4") 
-                div(class="single-feature wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s")           
-                    div(class="icon color-1")  
-                        i(class="fa-solid fa-toolbox")
-                    div(class="content") 
-                        h3 Обслуговування
-                        p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus sequi pariatur qui ut dolore excepturi!
-            div(class="col-lg-4") 
-                div(class="single-feature wow fadeInUp" data-wow-duration="2s" data-wow-delay="0.2s")           
-                    div(class="icon color-1")  
-                       i(class="fa-solid fa-shop")
-                    div(class="content") 
-                        h3 Продаж
-                        p Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus sequi pariatur qui ut dolore excepturi!
-
-section(class="about-area pt-70 pb-120") 
-    div(class="container")
-        div(class="row align-items-center")
-            div(class="col-lg-6 about-image-box")
-                div(class="about-image wow fadeInLeftBig" data-wow-duration="2s" data-wow-delay="0.5s")
-                    div(class="about-shape")
-                    img(src="https://res.cloudinary.com/df3brtd4v/image/upload/v1660398092/boilerexpert_imgs/betonus_fxj2vn.png", alt="")
-            div(class="col-lg-6")
-                div(class="about-content mt-50 wow fadeInRightBig" data-wow-duration="2s" data-wow-delay="0.5s")
-                    div(class="section-title")
-                        h1(class="about-title") Vladislav Pavlenko!
-                        p(class="text") Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo nobis aperiam tenetur aspernatur. Dolor nostrum hic impedit cupiditate iure beatae doloribus, obcaecati deleniti dignissimos in?
-
-div(class="pricing-area pt-110" id="catalog")
-    div(class="container")
-        div(class="row justify-content-center")    
-            div(class="col-xl-6 col-lg-7")
-                div(class="section-title text-center pb-30")
-                    h1(class="") Нові надходження
-            div(class="row justify-content-center wow bounceIn") 
-                each value, index in goods
-                    div(class="col-lg-4 col-md-7 col-sm-9")
-                        div(class="product-box text-center")
-                            div(class="image-product")
-                                img(src= value["goods_image"] class="img-product")
-                            div(class="product-detail")
-                                div(class="product-model")
-                                    span= value["goods_name"]
-                                    p(class="article")= value["goods_article"]
-                                div(class="product-price") UAH &nbsp;
-                                    span(class="price")= value["goods_cost"]
-                            div(class="product-links")        
-                                a(href="/catalog/product/"+ value["id"] class="main-btn main-btn-link") Більше інфи
-
-footer(class="footer-area" id="footer")
-    div(class="footer-widget pt-30 pb-80")
-        div(class="container")
-            div(class="row")
-                div(class="col-lg-6 col-md-6 text-center")
-                    div(class="footer-about mt-50")
-                        a(href="/" class="logo navbar-brand") BoilerExpert!
-                        ul(class="social")
-                            li 
-                                a(href="")
-                                    i(class="fab fa-instagram")
-                            li 
-                                a(href="")
-                                    i(class="fab fa-telegram")         
-                div(class="col-lg-6 col-md-6 text-center")
-                    div(class="footer-contact mt-50")
-                        ul(class="contact-list") 
-                            li 
-                                div(class="contact-info")
-                                    div(class="info-content media-body")
-                                        p(class="text") +3809999999999
-                                            a(href="")
-                                                i(class="fas fa-phone-alt") 
-                            li 
-                                div(class="contact-info")
-                                    div(class="info-content media-body") 
-                                        p(class="text") boilerexpert@gmail.com  
-                                            a(href="") 
-                                                i(class="far fa-envelope")                               
-                            li 
-                                div(class="contact-info")
-                                    div(class="info-content media-body") 
-                                        p(class="text") Kharkiv 
-                                            a(href="") 
-                                                i(class="fas fa-map-marker-alt")  
-            div(class="footer-copyright")
-                div(class="container")
-                    div(class="row justify-content-center")
-                        div(class="lo-lg-12")
-                            div(class="copyright")
-                                div(class="copyright-text text-center")
-                                    p(class="text") BoilerExpert! @ 2022
+include services
+include catalog
 include footer  

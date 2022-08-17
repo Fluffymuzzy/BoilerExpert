@@ -1,12 +1,21 @@
-include header
-header(class="header")
-    a(href="/" class="logo") BoilerExpert!
-    ul(class="navigation_list")
-        li(class="navigation_item")
-            a(href="/" class="navigation_link") Головна
-        li(class="navigation_item")
-            a(href="#servicesPage" class="navigation_link") Послуги
-        li(class="navigation_item")
-            a(href="#catalog" class="navigation_link") Каталог
-        li(class="navigation_item")
-            a(href="#footer" class="navigation_link") Контакти     
+div(class="navbar-area")
+        div(class="container")
+            nav(class="navbar navbar-expand-lg navigation-wrap")
+                div(class="container-fluid")
+                    a(href="/" class="logo navbar-brand") BoilerExpert!
+                    button(class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+                    aria-label="Toggle navigation")
+                        i(class="fa-solid fa-bars")  
+                    div(class="collapse navbar-collapse" id="navbarNav") 
+                        ul(class="navbar-nav ms-auto mb-2 mb-lg-0") 
+                            li(class="nav-item")
+                                a(class="nav-link" data-scroll-nav="0"  href="/") Головна
+                            li(class="nav-item")   
+                                a(class="nav-link" href="#services") Послуги
+                            li(class="nav-item")
+                                a(class="nav-link" href="#catalog") Каталог   
+                            li(class="nav-item") 
+                                a(class="nav-link" href="#footer") Контакти     
+                    
+                        

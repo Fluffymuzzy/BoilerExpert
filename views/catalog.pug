@@ -1,18 +1,23 @@
-div(class="row title_main_catalog")
-    h2 Нові товари
-div(class="container product-container")
-    each value, index in goods
-        div(class="product-card") 
-            div(class="product-img")
-                img(src= value["goods_image"], alt="")
-            div(class="product-detail")
-                span= value["goods_name"]
-                div(class="article")
-                    span= value["goods_article"] 
-                div(class="product-info")
-                    div(class="product-price") UAH
-                        span= value["goods_cost"]     
-                    a(href="/catalog/product/"+ value["id"] class="product-info-btn") Більше інфи
+div(class="pricing-area pt-110" id="catalog")
+    div(class="container")
+        div(class="row justify-content-center")    
+            div(class="col-xl-6 col-lg-7")
+                div(class="section-title text-center pb-30")
+                    h1(class="") Нові надходження
+            div(class="row justify-content-center wow bounceIn") 
+                each value, index in goods
+                    div(class="col-lg-4 col-md-7 col-sm-9")
+                        div(class="product-box text-center")
+                            div(class="image-product")
+                                img(src= value["goods_image"] class="img-product")
+                            div(class="product-detail")
+                                div(class="product-model")
+                                    span= value["goods_name"]
+                                    p(class="article")= value["goods_article"]
+                                div(class="product-price") UAH &nbsp;
+                                    span(class="price")= value["goods_cost"]
+                            div(class="product-links")        
+                                a(href="/catalog/product/"+ value["id"] class="main-btn main-btn-link") Більше інфи
 
 
 
