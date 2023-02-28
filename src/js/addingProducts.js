@@ -11,36 +11,42 @@ const productDimensions = document.querySelector("#item_dimensions");
 const productPower = document.querySelector("#item_heatingPower");
 const productType = document.querySelector("#item_heatingType");
 const productLiter = document.querySelector("#item_liter");
-const productManufacter = document.querySelector("#item_type")
+const productManufacturer = document.querySelector("#item_type");
 
+addForm.addEventListener("submit", (event) => {
+  event.preventDefault();
 
-addForm.addEventListener("submit", () => {
+  const formData = {
+    name: productName.value.trim(),
+    cost: productPrice.value.trim(),
+    image: addImg.value.trim(),
+    image2: addSecImg.value.trim(),
+    image3: addThirdImg.value.trim(),
+    article: productArticle.value.trim(),
+    type: productManufacturer.value.trim(),
+    liter: productLiter.value.trim(),
+    warranty: productWarranty.value.trim(),
+    dimensions: productDimensions.value.trim(),
+    heatingPower: productPower.value.trim(),
+    heatingType: productType.value.trim(),
+  };
+
   fetch("/adding", {
     method: "POST",
-    body: JSON.stringify({
-      name: productName.value.trim(),
-      cost: productPrice.value.trim(),
-      image: addImg.value.trim(),
-      image2: addSecImg.value.trim(),
-      image3: addThirdImg.value.trim(),
-      article: productArticle.value.trim(),
-      type: productManufacter.value.trim(),
-      liter: productLiter.value.trim(),
-      warranty: productWarranty.value.trim(),
-      dimensions: productDimensions.value.trim(),
-      heatingPower: productPower.value.trim(),
-      heatingType: productType.value.trim(),
-    }),
+    body: JSON.stringify(formData),
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
   })
+    .then((response) => response.text())
     .then((body) => {
       if (body === "1") {
-        alert("product is added");
+        alert("Product is added");
       } else if (body === "0") {
-        alert("some error");
+        alert("An error occurred");
       }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
     });
 });

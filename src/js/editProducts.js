@@ -1,4 +1,4 @@
-import {fetchData} from "./fetch.js";
+import { fetchData } from "./fetch.js";
 
 const updateForm = document.querySelector(".update-form");
 const updateImg = document.querySelector(".upd_img_input");
@@ -11,25 +11,28 @@ const updProductPower = document.querySelector("#upd_item_heatingPower");
 const updProductType = document.querySelector("#upd_item_heatingType");
 const updProductLiter = document.querySelector("#upd_item_liter");
 const idOfProduct = document.querySelector(".id").innerHTML;
-const updProductManufacter = document.querySelector("#upd_item_type")
+const updProductManufacter = document.querySelector("#upd_item_type");
 
-updateForm.addEventListener("submit", (event) => {
+updateForm.addEventListener("submit", async (event) => {
   event.preventDefault();
-  fetchData("/editThisProduct", {
+
+  const requestBody = {
+    name: updProductName.value.trim(),
+    image: updateImg.value.trim(),
+    cost: updProductPrice.value.trim(),
+    article: updProductArticle.value.trim(),
+    liter: updProductLiter.value.trim(),
+    warranty: updProductWarranty.value.trim(),
+    dimensions: updProductDimensions.value.trim(),
+    heatingPower: updProductPower.value.trim(),
+    heatingType: updProductType.value.trim(),
+    type: updProductManufacter.value.trim(),
+    id: Number(idOfProduct),
+  };
+
+  await fetchData("/editThisProduct", {
     method: "POST",
-    body: JSON.stringify({
-      name: updProductName.value.trim(),
-      image: updateImg.value.trim(),
-      cost: updProductPrice.value.trim(),
-      article: updProductArticle.value.trim(),
-      liter: updProductLiter.value.trim(),
-      warranty: updProductWarranty.value.trim(),
-      dimensions: updProductDimensions.value.trim(),
-      heatingPower: updProductPower.value.trim(),
-      heatingType: updProductType.value.trim(),
-      type: updProductManufacter.value.trim(),
-      id: Number(idOfProduct),
-    }),
+    body: JSON.stringify(requestBody),
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
